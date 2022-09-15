@@ -17,7 +17,7 @@ NOTE: sqlite3_exec is used to perform these operation because
 only test data - NOT user-entered data - is inserted during
 app initiation. Hence, no SQL injection opportunities exist.
 */
-int initTableOperation(std::string operation, std::string tableName, const char *sql, bool verbose)
+int initTableOperation(std::string tableName, const char *sql, bool verbose)
 {
     sqlite3 *db;
     char *zErrMsg = 0;
@@ -52,10 +52,15 @@ int initTableOperation(std::string operation, std::string tableName, const char 
     {
         if (verbose)
         {
-            std::cout << operation << " operation on " << tableName << " table OK\n\n"
+            std::cout << " operation on " << tableName << " table OK\n\n"
                       << std::endl;
         }
     }
     sqlite3_close(db);
     return 0;
+}
+
+const char *getSqlStatement(const char *sql)
+{
+    return sql;
 }
