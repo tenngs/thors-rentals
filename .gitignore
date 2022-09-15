@@ -38,3 +38,5 @@ sqlite*
 mingw*.*
 .*.*
 /ASCIIArt/*
+.vscode/
+.gitignore
