@@ -24,6 +24,11 @@ std::string Sql::getCreateStmnt(std::string tableName)
     {
         return this->staffCreateStmnt;
     }
+
+    if (tableName == "system_access")
+    {
+        return this->systemAccessCreateStmnt;
+    }
 }
 
 std::string Sql::getDropStmnt(std::string tableName)
@@ -41,6 +46,11 @@ std::string Sql::getDropStmnt(std::string tableName)
     {
         return this->staffDropStmnt;
     }
+
+    if (tableName == "system_access")
+    {
+        return this->system_accessDropStmnt;
+    }
 }
 
 std::string Sql::getInsertStmnt(std::string tableName)
@@ -53,9 +63,8 @@ std::string Sql::getInsertStmnt(std::string tableName)
     {
         return this->customersInsertStmnt;
     }
+    if (tableName == "system_access")
+    {
+        return this->systemAccessInsertStmnt;
+    }
 }
-
-// std::string Sql::getcustomersInitInsert()
-// {
-//     return this->customersInitInsert;
-// }
