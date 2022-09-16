@@ -13,7 +13,7 @@ private:
     std::string sqlStmnt;
 
 public:
-    Table(std::string nameVal, std::string opTypeVal, std::string stmntVal);
+    Table(std::string nameVal, std::string opTypeVal);
     int tableOperation(std::string operationType, std::string tableName, std::string sql, bool verbose = false);
     std::string getSqlStatement();
     std::string getTableName();

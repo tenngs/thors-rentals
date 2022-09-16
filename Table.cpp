@@ -12,8 +12,8 @@ only test data - NOT user-entered data - is inserted during
 app initiation. Hence, no SQL injection opportunities exist.
 */
 
-Table::Table(std::string nameVal, std::string opTypeVal, std::string stmntVal)
-    : name{nameVal}, operationType{opTypeVal}, sqlStmnt{stmntVal}
+Table::Table(std::string nameVal, std::string opTypeVal)
+    : name{nameVal}, operationType{opTypeVal}
 {
 }
 
