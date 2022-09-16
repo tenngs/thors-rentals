@@ -2,18 +2,37 @@
 #include "Sql.h"
 
 // constructor
-// Sql::Sql(std::customersCreate)
+// Sql::Sql(std::customersInitCreate)
 //     : name{name_val}
 // {
 // }
 
 // SQL getters
-std::string Sql::getCustomersCreate()
+std::string Sql::getCreateStmnt(std::string tableName)
 {
-    return this->customersCreate;
+    if (tableName == "customers")
+    {
+        return this->customersCreateStmnt;
+    }
 }
 
-std::string Sql::getCustomersInsert()
+std::string Sql::getDropStmnt(std::string tableName)
 {
-    return this->customersInsert;
+    if (tableName == "customers")
+    {
+        return this->customersDropStmnt;
+    }
 }
+
+std::string Sql::getInsertStmnt(std::string tableName)
+{
+    if (tableName == "customers")
+    {
+        return this->customersInsertStmnt;
+    }
+}
+
+// std::string Sql::getcustomersInitInsert()
+// {
+//     return this->customersInitInsert;
+// }
