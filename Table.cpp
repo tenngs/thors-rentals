@@ -1,22 +1,52 @@
 #include <string>
+#include <iostream>
 #include "sqlite3.h"
 #include "Table.h"
 
 /*
-Performs data operations on tables in thors_rentals DB.
-Takes as arguments an operation name (drop, create, insert),
-tablename that the operation is conserned with and sqlite3 command
-for the operation, respectively.
-NOTE: sqlite3_exec is used to perform these operation because
-only test data - NOT user-entered data - is inserted during
-app initiation. Hence, no SQL injection opportunities exist.
+    Constructor
 */
-
 Table::Table(std::string nameVal, std::string opTypeVal)
     : name{nameVal}, operationType{opTypeVal}
 {
 }
 
+/*
+    Sqlite statement getter
+*/
+std::string Table::getSqlStatement()
+{
+    return this->sqlStmnt;
+}
+
+/*
+    Table name getter
+*/
+std::string Table::getTableName()
+{
+    return this->name;
+}
+
+/*
+    Table operation type getter
+    "DROP", "CREATE", "INSERT INTO"
+*/
+std::string Table::getOperationType()
+{
+    return this->operationType;
+}
+
+/*
+    Performs data operations on tables in thors_rentals DB.
+    Takes as arguments an operation type ("DROP", "CREATE", "INSERT INTO"),
+    tablename that the operation is conserned with and sqlite3 command
+    for the operation, respectively. Boolean verbose is utilised
+    to determine whether error/success message should be printed
+    on screen.
+    NOTE: sqlite3_exec is used to perform these operation because
+    only test data - NOT user-entered data - is inserted during
+    app initiation. Hence, no SQL injection opportunities exist.
+*/
 int Table::tableOperation(std::string operationType, std::string tableName, std::string sql, bool verbose)
 {
     sqlite3 *db;
@@ -58,19 +88,4 @@ int Table::tableOperation(std::string operationType, std::string tableName, std:
     }
     sqlite3_close(db);
     return 0;
-}
-
-std::string Table::getSqlStatement()
-{
-    return this->sqlStmnt;
-}
-
-std::string Table::getTableName()
-{
-    return this->name;
-}
-
-std::string Table::getOperationType()
-{
-    return this->operationType;
 }

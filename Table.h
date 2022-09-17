@@ -1,9 +1,5 @@
 #pragma once
 
-#include <string>
-#include <iostream>
-#include "Table.h"
-
 class Table
 {
 private:
