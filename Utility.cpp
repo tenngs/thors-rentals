@@ -6,6 +6,7 @@
 #include <set>
 #include <algorithm>
 #include "mingw.thread.h"
+#include "Display.h"
 
 #include "Utility.h"
 
@@ -93,4 +94,50 @@ std::string Utility::getCurrentTime()
     std::string strMins(minBuffer);
 
     return strHours + ":" + strMins;
+}
+
+/*
+    Reads a (text) file line-by-line and returns
+    it as a string
+*/
+std::string Utility::getContents(std::ifstream &file)
+{
+    std::string lines = "";
+    if (file)
+    {
+        while (file.good())
+        {
+            std::string temp;
+            std::getline(file, temp);
+            temp += "\n";
+
+            lines += temp;
+        }
+        return lines;
+    }
+    else
+    {
+        return "File does not exist - check maybe?";
+    }
+}
+
+/*
+    Displays "old school SHUTTING DOWN...." message and
+    ASCII art informing a user that their session is
+    terminated
+*/
+void Utility::shutdown()
+{
+    Display disp;
+    Utility utils;
+    disp.displayBreakText("SHUTTING DOWN... PLEASE WAIT...", true);
+    disp.displayASCIIFromFile("ASCIIArt/session_terminated.txt");
+    // wait
+    utils.pause(2);
+    // clear screen
+    system("cls");
+    // display goodbye.txt
+    disp.displayASCIIFromFile("goodbye.txt");
+    // wait
+    utils.pause(2);
 }
