@@ -39,4 +39,4 @@ mingw*.*
 .*.*
 /ASCIIArt/*
 .vscode/
-.gitignore
+start_here.txt
