@@ -85,8 +85,25 @@ private:
 
     std::string system_accessDropStmnt = "DROP TABLE IF EXISTS system_access;";
 
+    std::string customerAddStmnt = "INSERT INTO customers (FIRST_NAME, SURNAME, ADDRESS_FIRST_LINE, POSTCODE, CITY, EMAIL) "
+                                   "VALUES (?,?,?,?,?,?);";
+
+    std::string accessStaffStmnt = "INSERT INTO system_access (USERNAME, PASSWORD, LOGGED_ON)"
+                                   "VALUES (?,?,?);";
+
+    std::string staffAddStmnt = "INSERT INTO inventory_skis_snowboards (MAKE, MODEL, PRICE_HOUR, PRICE_DAY, AVAILABLE)"
+                                "VALUES (?,?,?,?,?);";
+
+    std::string staffAddStmnt = "INSERT INTO inventory_atvs (MAKE, MODEL, REG, FUEL_TYPE, PRICE_HOUR, PRICE_DAY, AVAILABLE)"
+                                "VALUES (?,?,?,?,?,?,?);";
+
+    // TO DO: change to getTableCreateStmnt
 public:
     std::string getCreateStmnt(std::string tableName);
     std::string getDropStmnt(std::string tableName);
     std::string getInsertStmnt(std::string tableName);
+    std::string getAddCustomerStmnt();
+    std::string getAddStaffStmnt();
+    std::string getAddSkiSnowboardStmnt();
+    std::string getAddAtvStmnt();
 };

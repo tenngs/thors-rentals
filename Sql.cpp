@@ -1,13 +1,9 @@
 #include <string>
 #include "Sql.h"
 
-// constructor
-// Sql::Sql(std::customersInitCreate)
-//     : name{name_val}
-// {
-// }
-
-// SQL getters
+// ---Sqlite statement getters
+// returns a Sqlite statement depending on tableName attribute
+// create statement getters
 std::string Sql::getCreateStmnt(std::string tableName)
 {
     if (tableName == "customers")
@@ -31,6 +27,7 @@ std::string Sql::getCreateStmnt(std::string tableName)
     }
 }
 
+// drop statement getters
 std::string Sql::getDropStmnt(std::string tableName)
 {
     if (tableName == "customers")
@@ -53,6 +50,7 @@ std::string Sql::getDropStmnt(std::string tableName)
     }
 }
 
+// insert statement getters
 std::string Sql::getInsertStmnt(std::string tableName)
 {
     if (tableName == "customers")
@@ -67,4 +65,28 @@ std::string Sql::getInsertStmnt(std::string tableName)
     {
         return this->systemAccessInsertStmnt;
     }
+}
+
+// add customer to table getter
+std::string Sql::getAddCustomerStmnt()
+{
+    return this->customerAddStmnt;
+}
+
+// add staff to table getter
+std::string Sql::getAddStaffStmnt()
+{
+    return this->accessStaffStmnt;
+}
+
+// add skis / snowboard to table getter
+std::string Sql::getAddSkiSnowboardStmnt()
+{
+    return this->staffAddStmnt;
+}
+
+// add ATV to table getter
+std::string Sql::getAddAtvStmnt()
+{
+    return this->staffAddStmnt;
 }
