@@ -47,7 +47,7 @@ std::string Table::getOperationType()
     only test data - NOT user-entered data - is inserted during
     app initiation. Hence, no SQL injection opportunities exist.
 */
-int Table::tableOperation(std::string operationType, std::string tableName, std::string sql, bool verbose)
+int Table::execTableOperation(std::string operationType, std::string tableName, std::string sql, bool verbose)
 {
     sqlite3 *db;
     char *zErrMsg = 0;
