@@ -2,14 +2,28 @@
 #include <iostream>
 #include "Table.h"
 #include "Sql.h"
+#include "Display.h"
 #include "InitApplication.h"
 
+/*
+    Constuctor that initialises app's name
+    and calls another function to drop, initialise
+    and populate system's tables and to display
+    a "loading" text and login ASCII art banner.
+
+*/
 InitApplication::InitApplication(std::string name_val)
     : name{name_val} { initApp(); };
 
+/*
+    Function to drop, initialise
+    and populate system's tables and to display
+    a "loading" text and login ASCII art banner.
+*/
 void InitApplication::initApp()
 {
     Sql sql;
+    Display disp;
 
     // drop all existing tables
     Table customersDrop{"customers", "DROP"};
@@ -46,4 +60,7 @@ void InitApplication::initApp()
 
     Table staffInsert{"staff", "INSERT INTO"};
     staffInsert.execTableOperation(staffInsert.getOperationType(), staffInsert.getTableName(), sql.getInsertStmnt(staffInsert.getTableName()), true);
+
+    disp.displayBreakText("LOADING... PLEASE WAIT...", true);
+    disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_login.txt");
 }
