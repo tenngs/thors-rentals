@@ -2,12 +2,14 @@
 #include <set>
 #include <vector>
 #include <string>
-
 #include "Display.h"
 #include "Utility.h"
+#include "Table.h"
 #include "Sql.h"
 #include "Menu.h"
-
+/*
+    Displays Main Menu options banner.
+*/
 void Menu::showMainMenuBanner()
 {
     std::cout << "                     *********************************************************************\n";
@@ -25,7 +27,8 @@ void Menu::showMainMenuBanner()
 }
 
 /*
-    Displays a main menu
+    Displays and facilitates Main menu options
+    for a user.
 */
 
 void Menu::mainMenu()
@@ -42,7 +45,7 @@ void Menu::mainMenu()
 
     while (true)
     {
-        disp.displayASCIIFromFile("thors_rentals_mainmenu.txt");
+        disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_mainmenu.txt");
         mainMenu.showMainMenuBanner();
 
         if ((!(std::cin >> choice)) || (!(utils.validateDigits(choice, validDigits))))
@@ -65,26 +68,33 @@ void Menu::mainMenu()
                 mainMenu.addStaffMenu();
                 break;
             case 3:
-                Mainmenu::showAddItemMenu();
+                mainMenu.addItemMenu();
                 break;
             case 4:
-                Mainmenu::showInitRentalMenu();
+                // Mainmenu::showInitRentalMenu();
                 break;
             case 5:
                 std::cout << "This is case 5" << std::endl;
                 break;
             case 6:
-                Mainmenu::showStatisticsMenu();
+                // Mainmenu::showStatisticsMenu();
                 // std::cout << "This is case 6" << std::endl;
                 break;
             case 7:
-                Utility::shutdown();
+                // Utility::shutdown();
                 break;
             }
         }
     }
 }
 
+/*
+    Displays and facilitates Add Customer menu options
+    for a user. Utilises a std::vector<std::string>
+    to collect pieces of user-entered information that
+    will be upon confirmation from a user utilised to
+    add a customer to customers table.
+*/
 void Menu::addCustomerMenu()
 {
     // initialise variables to be used in capturing user
@@ -97,14 +107,15 @@ void Menu::addCustomerMenu()
     Display disp;
     Utility utils;
     Sql sql;
+    Table customers;
 
     while (true)
     {
         // clear screen, display location banners
         // and ask for customer information
         system("cls");
-        disp.displayASCIIFromFile("thors_rentals.txt");
-        disp.displayASCIIFromFile("add_customer.txt");
+        disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals.txt");
+        disp.displayASCIIArtFromFile("ASCIIArt/add_customer.txt");
 
         std::cout << "|---Please enter customer's first name" << std::endl;
         std::cout << "|---TR~Add Customer~$: ";
@@ -140,8 +151,8 @@ void Menu::addCustomerMenu()
         // clear screen
         system("cls");
         // show banners
-        disp.displayASCIIFromFile("ASCIIArt/thors_rentals.txt");
-        disp.displayASCIIFromFile("ASCIIArt/add_customer.txt");
+        disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals.txt");
+        disp.displayASCIIArtFromFile("ASCIIArt/add_customer.txt");
         // display user info they have entered
         std::cout << "\tYou entered: \n\n";
         std::cout << "\tFirst name: "
@@ -182,10 +193,18 @@ void Menu::addCustomerMenu()
     // and call it at the end
     // if user confirms that their input is correct
     // then insert information to a table in DB
-    Utility::appInsertTableOperation(successMsg, customerInfo, customerInfo.size(), sql.getAddCustomerStmnt());
+    customers.appInsertTableOperation(successMsg, customerInfo, customerInfo.size(), sql.getAddCustomerStmnt());
 }
 
-void menu::addStaffMenu()
+/*
+    Displays and facilitates Add Staff menu options
+    for a user. Utilises a std::vector<std::string>
+    to collect pieces of user-entered information that
+    will be upon confirmation from a user utilised to
+    add a staff member to system_access table thereby
+    granting that staff member access to this application.
+*/
+void Menu::addStaffMenu()
 {
 
     std::vector<std::string> staffInfo{};
@@ -196,13 +215,14 @@ void menu::addStaffMenu()
     Display disp;
     Utility utils;
     Sql sql;
+    Table staff;
 
     while (true)
     {
         // clear screen, display location banners
         // and ask for customer information
         system("cls");
-        utils.displayASCIIFromFile("thors_rentals_add_staff.txt");
+        disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_add_staff.txt");
 
         std::cout << "|---Please enter staff member's username" << std::endl;
         std::cout << "|---TR~Add Staffr~$: ";
@@ -221,7 +241,7 @@ void menu::addStaffMenu()
         // clear screen
         system("cls");
         // show banners
-        disp.displayASCIIFromFile("ASCIIArt/thors_rentals_add_staff.txt");
+        disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_add_staff.txt");
 
         // display user info they have entered
         std::cout << "\tYou entered: \n\n";
@@ -256,7 +276,8 @@ void menu::addStaffMenu()
     // and call it at the end
     // if user confirms that their input is correct
     // then insert information to a table in DB
-    Utility::appInsertTableOperation(successMsg, staffInfo, staffInfo.size(), sql.getAddStaffStmnt());
+
+    staff.appInsertTableOperation(successMsg, staffInfo, staffInfo.size(), sql.getAddStaffStmnt());
 }
 
 void Menu::addItemMenu()
@@ -273,11 +294,12 @@ void Menu::addItemMenu()
     Display disp;
     Utility utils;
     Sql sql;
+    Table inventory;
 
     do
     {
         system("cls");
-        disp.displayASCIIFromFile("thors_rentals_add_item.txt");
+        disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_add_item.txt");
         std::cout << "|---Please enter [1] to add skis / snowboard or [2] to add ATV" << std::endl;
         std::cout << "|---TR~Add Item~$: ";
 
@@ -295,7 +317,7 @@ void Menu::addItemMenu()
             {
             case 1:
                 system("cls");
-                disp.displayASCIIFromFile("ASCIIArt/thors_rentals_add_item.txt");
+                disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_add_item.txt");
                 std::cout << "|---Please enter make" << std::endl;
                 std::cout << "|---TR~Add Skis & Snowboards~$: ";
                 std::cin >> infoPiece;
@@ -336,7 +358,7 @@ void Menu::addItemMenu()
                 // clear screen
                 system("cls");
                 // show banners
-                disp.displayASCIIFromFile("ASCIIArt/thors_rentals_add_item.txt");
+                disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_add_item.txt");
                 std::cout << "\tYou entered: \n\n";
                 std::cout << "\tMake: "
                           << "\t\t\t" << equipmentInfo[0] << std::endl;
@@ -369,7 +391,7 @@ void Menu::addItemMenu()
                 else
                 {
                     successMsg = "Skis or snowboards added to rental inventory successfully";
-                    sqlStmnt = sql.getAddSkiSnowboardStmnt();
+                    sqlStmnt = sql.getAddSkisSnowboardStmnt();
                     run = false;
                     break;
                 }
@@ -377,7 +399,7 @@ void Menu::addItemMenu()
 
             case 2:
                 system("cls");
-                disp.displayASCIIFromFile("ASCIIArt/thors_rentals_add_item.txt");
+                disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_add_item.txt");
                 std::cout << "|---Please enter make" << std::endl;
                 std::cout << "|---TR~Add ATV~$: ";
                 std::cin >> infoPiece;
@@ -418,7 +440,7 @@ void Menu::addItemMenu()
                 equipmentInfo.push_back(infoPiece);
 
                 system("cls");
-                disp.displayASCIIFromFile("ASCIIArt/thors_rentals_add_item.txt");
+                disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_add_item.txt");
 
                 std::cout << "\tYou entered: \n\n";
                 std::cout << "\tMake: "
@@ -453,8 +475,7 @@ void Menu::addItemMenu()
                 else
                 {
                     successMsg = "ATV added to rental inventory successfully";
-                    sql = "INSERT INTO inventory_atvs (MAKE, MODEL, REG, FUEL_TYPE, PRICE_HOUR, PRICE_DAY, AVAILABLE)"
-                          "VALUES (?,?,?,?,?,?,?);";
+                    sqlStmnt = sql.getAddAtvStmnt();
                     run = false;
                     break;
                 }
@@ -463,5 +484,5 @@ void Menu::addItemMenu()
         }
     } while (run == true);
 
-    Utility::appInsertTableOperation(successMsg, equipmentInfo, equipmentInfo.size(), sqlStmnt);
+    inventory.appInsertTableOperation(successMsg, equipmentInfo, equipmentInfo.size(), sqlStmnt);
 }
