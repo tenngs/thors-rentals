@@ -1,6 +1,9 @@
 #include <string>
 #include <iostream>
+#include <vector>
 #include "sqlite3.h"
+#include "Utility.h"
+#include "Menu.h"
 #include "Table.h"
 
 /*
@@ -8,6 +11,9 @@
 */
 Table::Table(std::string nameVal, std::string opTypeVal)
     : name{nameVal}, operationType{opTypeVal}
+{
+}
+Table::Table()
 {
 }
 
@@ -88,4 +94,146 @@ int Table::execTableOperation(std::string operationType, std::string tableName, 
     }
     sqlite3_close(db);
     return 0;
+}
+
+/*
+    Overloaded DB function that returns a Boolean
+    depending on whether an argument std::string
+    val1 is found in the DB in relation to the argument
+    SQL statement. Utilised in whether a username
+    or password exist in the DB matching the argument.
+    Uses sqlite3_bind_text to bind user-entered data
+    to prepared statements.
+
+*/
+bool Table::searchTextValuesFromDB(std::string val1, std::string sqlStmnt)
+{
+    sqlite3 *db;
+    char *zErrMsg = 0;
+    int rc;
+
+    rc = sqlite3_open("thors_rentals.db", &db);
+
+    if (rc)
+    {
+        std::cout << "DB Error: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_close(db);
+    }
+
+    // use and construct prepared statement
+    // because of user-entered data
+    sqlite3_stmt *stmt;
+    sqlite3_prepare_v2(db, sqlStmnt.c_str(), sqlStmnt.length(), &stmt, nullptr);
+
+    // bind user-specified values to SQL statement
+    sqlite3_bind_text(stmt, 1, val1.c_str(), val1.length(), SQLITE_STATIC);
+
+    // if query has result-rows and thefore a match is found
+    if (sqlite3_step(stmt) == SQLITE_ROW)
+    {
+        sqlite3_finalize(stmt);
+        sqlite3_close(db);
+        return true;
+    }
+    else
+    {
+        sqlite3_finalize(stmt);
+        sqlite3_close(db);
+        return false;
+    }
+}
+
+/*
+    Overloaded DB function that returns a Boolean
+    depending on whether std::string arguments
+    val1, val2 are found in the DB in relation to the argument
+    SQL statement. Utilised in determining whether
+    a username or password exist in the DB matching
+    the arguments. Uses sqlite3_bind_text to bind user-entered data
+    to prepared statements.
+
+*/
+bool Table::searchTextValuesFromDB(std::string val1, std::string val2, std::string sqlStmnt)
+{
+    sqlite3 *db;
+    char *zErrMsg = 0;
+    int rc;
+
+    rc = sqlite3_open("thors_rentals.db", &db);
+
+    if (rc)
+    {
+        std::cout << "DB Error: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_close(db);
+    }
+
+    // use and construct prepared statement
+    // because of user-entered data
+    sqlite3_stmt *stmt;
+    sqlite3_prepare_v2(db, sqlStmnt.c_str(), sqlStmnt.length(), &stmt, nullptr);
+
+    // bind user-specified values to SQL statement
+    sqlite3_bind_text(stmt, 1, val1.c_str(), val1.length(), SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 2, val2.c_str(), val2.length(), SQLITE_STATIC);
+
+    // if query has result-rows and thefore a match is found
+    if (sqlite3_step(stmt) == SQLITE_ROW)
+    {
+        sqlite3_finalize(stmt);
+        sqlite3_close(db);
+        return true;
+    }
+    else
+    {
+        sqlite3_finalize(stmt);
+        sqlite3_close(db);
+        return false;
+    }
+}
+
+void Table::appInsertTableOperation(std::string successMsg, std::vector<std::string> infoCollection, int numberOfQuestions, std::string sql)
+{
+    sqlite3 *db;
+    char *zErrMsg = 0;
+    int rc{};
+    Utility utils;
+    Menu mainMenu;
+
+    rc = sqlite3_open("thors_rentals.db", &db);
+
+    if (rc)
+    {
+        std::cout << "DB Error: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_close(db);
+    }
+
+    // Construct prepared statement
+    sqlite3_stmt *stmt;
+    sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, nullptr);
+
+    // Bind user specified customer information
+    // to SQL statement by iterating over infoCollection
+    // string vector
+    for (int index = 0; index < numberOfQuestions; ++index)
+    {
+        sqlite3_bind_text(stmt, index + 1, infoCollection[index].c_str(), infoCollection[index].length(), SQLITE_STATIC);
+    }
+
+    if (sqlite3_step(stmt) != SQLITE_DONE)
+    {
+        std::cout << "Something went wrong: " << sqlite3_errmsg(db) << std::endl;
+        std::cout << "Please try again" << std::endl;
+        utils.pause(3);
+    }
+    else
+    {
+        std::cout << "\n\t" << successMsg << std::endl;
+        utils.pause(3);
+    }
+
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+    // clear screen & return to main menu
+    system("cls");
+    mainMenu.mainMenu();
 }
