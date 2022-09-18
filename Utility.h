@@ -1,3 +1,11 @@
+/*
+    This class contains general utility functions in relation
+    to various system requirements. It is a "catch all"
+    class whereas functions that do not distinctly belong
+    to any class or if it is considered that it is
+    inefficient to form a class just for a specific function
+    or a small number of functions.
+*/
 #pragma once
 
 #include <set>
