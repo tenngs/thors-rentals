@@ -5,10 +5,10 @@
 #include "Utility.h"
 #include "Display.h"
 /*
-    Displays "old school'loading'" type of text banner
+    Displays "old school'loading'" type of text banner.
     Takes in message that will be displayed as an
     argument and prints characters one after the
-    other under the message
+    other under the message.
 */
 void Display::displayBreakText(std::string text, bool clearScreen = false)
 {
@@ -18,7 +18,7 @@ void Display::displayBreakText(std::string text, bool clearScreen = false)
     }
 
     int numChars = text.length();
-    int c{};
+    int c;
     Utility utils;
     utils.gotoXY(50, 25);
     std::cout << text;
@@ -30,18 +30,17 @@ void Display::displayBreakText(std::string text, bool clearScreen = false)
         // faster / slower
         // dev env: 2 0s removed
         for (int j = 0; j <= 10000; j++)
-        {
-            printf("%c", 177);
-        }
+            ;
+        printf("%c", 177);
     }
     Sleep(500);
     system("cls");
 }
 
 /*
-    Displays ASCII art from .txt file
+    Displays ASCII art from .txt file.
 */
-void Display::displayASCIIFromFile(std::string filename)
+void Display::displayASCIIArtFromFile(std::string filename)
 {
     Utility utils;
     std::ifstream Reader(filename);
@@ -51,7 +50,7 @@ void Display::displayASCIIFromFile(std::string filename)
 }
 
 /*
-    Displays columns for ATV equipment
+    Displays columns for ATV equipment.
 */
 void Display::displayATVTableColumns()
 {
@@ -68,7 +67,7 @@ void Display::displayATVTableColumns()
 }
 
 /*
-    Displays columns for Snowboard equipment
+    Displays columns for Snowboard equipment.
 */
 void Display::displaySnowboardTableColumns()
 {
@@ -83,7 +82,7 @@ void Display::displaySnowboardTableColumns()
 }
 
 /*
-    Displays columns for ski equipment
+    Displays columns for ski equipment.
 */
 void Display::displaySkiTableColumns()
 {
