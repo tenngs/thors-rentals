@@ -40,3 +40,5 @@ mingw*.*
 /ASCIIArt/*
 .vscode/
 start_here.txt
+Application.h
+Application.cpp
