@@ -9,114 +9,129 @@
 class Sql
 {
 
-    // create table statements
+    /*
+        Create table statements.
+    */
 private:
-    std::string customersCreateStmnt = "CREATE TABLE customers("
-                                       "ID                       INTEGER PRIMARY KEY AUTOINCREMENT,"
-                                       "FIRST_NAME               VARCHAR(50)         NOT NULL,"
-                                       "SURNAME                  VARCHAR(50)         NOT NULL,"
-                                       "ADDRESS_FIRST_LINE       VARCHAR(150)        NOT NULL,"
-                                       "POSTCODE                 VARCHAR(7)          NOT NULL,"
-                                       "CITY                     VARCHAR(70)         NOT NULL,"
-                                       "EMAIL                    VARCHAR(60)         NOT NULL);";
+    const std::string customersCreateStmnt = "CREATE TABLE customers("
+                                             "ID                       INTEGER PRIMARY KEY AUTOINCREMENT,"
+                                             "FIRST_NAME               VARCHAR(50)         NOT NULL,"
+                                             "SURNAME                  VARCHAR(50)         NOT NULL,"
+                                             "ADDRESS_FIRST_LINE       VARCHAR(150)        NOT NULL,"
+                                             "POSTCODE                 VARCHAR(7)          NOT NULL,"
+                                             "CITY                     VARCHAR(70)         NOT NULL,"
+                                             "EMAIL                    VARCHAR(60)         NOT NULL);";
 
-    std::string ordersCreateStmnt = "CREATE TABLE orders("
-                                    "ID                    INTEGER PRIMARY KEY AUTOINCREMENT,"
-                                    "SALES_REP_ID          INTEGER         NOT NULL,"
-                                    "CUSTOMER_ID           INTEGER         NOT NULL,"
-                                    "EQUIPMENT_TYPE        INTEGER         NOT NULL,"
-                                    "EQUIPMENT_ID          INTEGER         NOT NULL,"
-                                    "RENTAL_HOURS          INTEGER         NOT NULL,"
-                                    "RENTAL_DAYS           INTEGER         NOT NULL,"
-                                    "COST                  DECIMAL(3,2)    NOT NULL,"
-                                    "RETURN_DATETIME       TEXT            NOT NULL);";
+    const std::string ordersCreateStmnt = "CREATE TABLE orders("
+                                          "ID                    INTEGER PRIMARY KEY AUTOINCREMENT,"
+                                          "SALES_REP_ID          INTEGER         NOT NULL,"
+                                          "CUSTOMER_ID           INTEGER         NOT NULL,"
+                                          "EQUIPMENT_TYPE        INTEGER         NOT NULL,"
+                                          "EQUIPMENT_ID          INTEGER         NOT NULL,"
+                                          "RENTAL_HOURS          INTEGER         NOT NULL,"
+                                          "RENTAL_DAYS           INTEGER         NOT NULL,"
+                                          "COST                  DECIMAL(3,2)    NOT NULL,"
+                                          "RETURN_DATETIME       TEXT            NOT NULL);";
 
-    std::string staffCreateStmnt = "CREATE TABLE staff("
-                                   "ID                       INTEGER PRIMARY KEY AUTOINCREMENT,"
-                                   "FIRST_NAME               VARCHAR(50)         NOT NULL,"
-                                   "SURNAME                  VARCHAR(50)         NOT NULL,"
-                                   "ADDRESS_FIRST_LINE       VARCHAR(150)        NOT NULL,"
-                                   "POSTCODE                 VARCHAR(7)          NOT NULL,"
-                                   "CITY                     VARCHAR(40)         NOT NULL,"
-                                   "EMAIL                    VARCHAR(60)         NOT NULL,"
-                                   "ROLE                     VARCHAR(30)         NOT NULL,"
-                                   "EMPLOYMENT_TYPE          CHAR(1)             NOT NULL,"
-                                   "APP_ACCESS               CHAR(1)             NOT NULL,"
-                                   "COVID_VACCINATED         CHAR(1)             NOT NULL);";
+    const std::string staffCreateStmnt = "CREATE TABLE staff("
+                                         "ID                       INTEGER PRIMARY KEY AUTOINCREMENT,"
+                                         "FIRST_NAME               VARCHAR(50)         NOT NULL,"
+                                         "SURNAME                  VARCHAR(50)         NOT NULL,"
+                                         "ADDRESS_FIRST_LINE       VARCHAR(150)        NOT NULL,"
+                                         "POSTCODE                 VARCHAR(7)          NOT NULL,"
+                                         "CITY                     VARCHAR(40)         NOT NULL,"
+                                         "EMAIL                    VARCHAR(60)         NOT NULL,"
+                                         "ROLE                     VARCHAR(30)         NOT NULL,"
+                                         "EMPLOYMENT_TYPE          CHAR(1)             NOT NULL,"
+                                         "APP_ACCESS               CHAR(1)             NOT NULL,"
+                                         "COVID_VACCINATED         CHAR(1)             NOT NULL);";
 
-    std::string systemAccessCreateStmnt = "CREATE TABLE  system_access("
-                                          "ID               INTEGER PRIMARY KEY     AUTOINCREMENT,"
-                                          "USERNAME         VACHAR(50)              NOT NULL UNIQUE,"
+    const std::string systemAccessCreateStmnt = "CREATE TABLE  system_access("
+                                                "ID               INTEGER PRIMARY KEY     AUTOINCREMENT,"
+                                                "USERNAME         VACHAR(50)              NOT NULL UNIQUE,"
 
-                                          "PASSWORD         VACHAR(50)              NOT NULL,"
-                                          "LOGGED_ON        CHAR(1)                 NOT NULL,"
-                                          "STAFF_ID         CHAR(100)               NOT NULL,"
-                                          "FOREIGN KEY (staff_id) REFERENCES staff (id) ON UPDATE CASCADE ON DELETE CASCADE);";
+                                                "PASSWORD         VACHAR(50)              NOT NULL,"
+                                                "LOGGED_ON        CHAR(1)                 NOT NULL,"
+                                                "STAFF_ID         CHAR(100)               NOT NULL,"
+                                                "FOREIGN KEY (staff_id) REFERENCES staff (id) ON UPDATE CASCADE ON DELETE CASCADE);";
 
-    // insert test data into table statements
-    std::string customersInsertStmnt = "INSERT INTO customers (FIRST_NAME, SURNAME, ADDRESS_FIRST_LINE, POSTCODE, CITY, EMAIL)"
-                                       "VALUES ('t', 't', '123 Main Street', '29650', 'UKTown1', 'test@test.com');"
+    /*
+        Insert test data into table statements.
+    */
+    const std::string customersInsertStmnt = "INSERT INTO customers (FIRST_NAME, SURNAME, ADDRESS_FIRST_LINE, POSTCODE, CITY, EMAIL)"
+                                             "VALUES ('t', 't', '123 Main Street', '29650', 'UKTown1', 'test@test.com');"
 
-                                       "INSERT INTO customers (FIRST_NAME, SURNAME, ADDRESS_FIRST_LINE, POSTCODE, CITY, EMAIL)"
-                                       "VALUES ('Rocko', 'Rocdanovic', '123 Main Street', '29650', 'UKTown1', 'rocko@rocs.com');"
+                                             "INSERT INTO customers (FIRST_NAME, SURNAME, ADDRESS_FIRST_LINE, POSTCODE, CITY, EMAIL)"
+                                             "VALUES ('Rocko', 'Rocdanovic', '123 Main Street', '29650', 'UKTown1', 'rocko@rocs.com');"
 
-                                       "INSERT INTO customers (FIRST_NAME, SURNAME, ADDRESS_FIRST_LINE, POSTCODE, CITY, EMAIL)"
-                                       "VALUES ('Jenny', 'Jemstein', '456 Side Street', '39650', 'UKTown2', 'jens@jemstein.com');";
+                                             "INSERT INTO customers (FIRST_NAME, SURNAME, ADDRESS_FIRST_LINE, POSTCODE, CITY, EMAIL)"
+                                             "VALUES ('Jenny', 'Jemstein', '456 Side Street', '39650', 'UKTown2', 'jens@jemstein.com');";
 
-    std::string staffInsertStmnt = "INSERT INTO staff (FIRST_NAME, SURNAME, ADDRESS_FIRST_LINE, POSTCODE, CITY, EMAIL, ROLE, EMPLOYMENT_TYPE, APP_ACCESS, COVID_VACCINATED)"
-                                   "VALUES ('t', 't', '123 Main Street', '29650', 'UKTown1', 'test@test.com', 'tester', '9', '0', '1');"
+    const std::string staffInsertStmnt = "INSERT INTO staff (FIRST_NAME, SURNAME, ADDRESS_FIRST_LINE, POSTCODE, CITY, EMAIL, ROLE, EMPLOYMENT_TYPE, APP_ACCESS, COVID_VACCINATED)"
+                                         "VALUES ('t', 't', '123 Main Street', '29650', 'UKTown1', 'test@test.com', 'tester', '9', '0', '1');"
 
-                                   "INSERT INTO staff (FIRST_NAME, SURNAME, ADDRESS_FIRST_LINE, POSTCODE, CITY, EMAIL, ROLE, EMPLOYMENT_TYPE, APP_ACCESS, COVID_VACCINATED)"
-                                   "VALUES ('Sally', 'Silverstrom', '123 Main Street', '29650', 'UKTown1', 'salls@salberger.com', 'tester', '9', '1', '1');"
+                                         "INSERT INTO staff (FIRST_NAME, SURNAME, ADDRESS_FIRST_LINE, POSTCODE, CITY, EMAIL, ROLE, EMPLOYMENT_TYPE, APP_ACCESS, COVID_VACCINATED)"
+                                         "VALUES ('Sally', 'Silverstrom', '123 Main Street', '29650', 'UKTown1', 'salls@salberger.com', 'tester', '9', '1', '1');"
 
-                                   "INSERT INTO staff (FIRST_NAME, SURNAME, ADDRESS_FIRST_LINE, POSTCODE, CITY, EMAIL, ROLE, EMPLOYMENT_TYPE, APP_ACCESS, COVID_VACCINATED)"
-                                   "VALUES ('Johnny', 'Jordanovic', '907 Cube Street', '29612', 'UKTown19', 'johnmeister@jonslair.com', 'dev', '9', '1', '1');"
+                                         "INSERT INTO staff (FIRST_NAME, SURNAME, ADDRESS_FIRST_LINE, POSTCODE, CITY, EMAIL, ROLE, EMPLOYMENT_TYPE, APP_ACCESS, COVID_VACCINATED)"
+                                         "VALUES ('Johnny', 'Jordanovic', '907 Cube Street', '29612', 'UKTown19', 'johnmeister@jonslair.com', 'dev', '9', '1', '1');"
 
-                                   "INSERT INTO staff (FIRST_NAME, SURNAME, ADDRESS_FIRST_LINE, POSTCODE, CITY, EMAIL, ROLE, EMPLOYMENT_TYPE, APP_ACCESS, COVID_VACCINATED)"
-                                   "VALUES ('Rocko', 'Rocdanovic', '123 Main Street', '29650', 'UKTown1', 'rocko@rocs.com', 'rocker', '1', '1', '1');"
+                                         "INSERT INTO staff (FIRST_NAME, SURNAME, ADDRESS_FIRST_LINE, POSTCODE, CITY, EMAIL, ROLE, EMPLOYMENT_TYPE, APP_ACCESS, COVID_VACCINATED)"
+                                         "VALUES ('Rocko', 'Rocdanovic', '123 Main Street', '29650', 'UKTown1', 'rocko@rocs.com', 'rocker', '1', '1', '1');"
 
-                                   "INSERT INTO staff (FIRST_NAME, SURNAME, ADDRESS_FIRST_LINE, POSTCODE, CITY, EMAIL, ROLE, EMPLOYMENT_TYPE, APP_ACCESS, COVID_VACCINATED)"
-                                   "VALUES ('Jenny', 'Jemstein', '456 Side Street', '39650', 'UKTown2', 'jens@jemstein.com', 'jenmeister', '2', '0', 0');";
+                                         "INSERT INTO staff (FIRST_NAME, SURNAME, ADDRESS_FIRST_LINE, POSTCODE, CITY, EMAIL, ROLE, EMPLOYMENT_TYPE, APP_ACCESS, COVID_VACCINATED)"
+                                         "VALUES ('Jenny', 'Jemstein', '456 Side Street', '39650', 'UKTown2', 'jens@jemstein.com', 'jenmeister', '2', '0', 0');";
 
-    std::string systemAccessInsertStmnt = "INSERT INTO system_access (USERNAME, PASSWORD, LOGGED_ON, STAFF_ID)"
-                                          "VALUES ('t', 't', '0', '1');"
+    const std::string systemAccessInsertStmnt = "INSERT INTO system_access (USERNAME, PASSWORD, LOGGED_ON, STAFF_ID)"
+                                                "VALUES ('t', 't', '0', '1');"
 
-                                          "INSERT INTO system_access (USERNAME, PASSWORD, LOGGED_ON, STAFF_ID)"
-                                          "VALUES ('sally.silverstrom', 'sally_rocks', '0', '2');"
+                                                "INSERT INTO system_access (USERNAME, PASSWORD, LOGGED_ON, STAFF_ID)"
+                                                "VALUES ('sally.silverstrom', 'sally_rocks', '0', '2');"
 
-                                          "INSERT INTO system_access (USERNAME, PASSWORD, LOGGED_ON, STAFF_ID)"
-                                          "VALUES ('johnny.jordanovic', 'johnny_also_rocks', '0', '3');";
+                                                "INSERT INTO system_access (USERNAME, PASSWORD, LOGGED_ON, STAFF_ID)"
+                                                "VALUES ('johnny.jordanovic', 'johnny_also_rocks', '0', '3');";
+    /*
+        Drop table statements.
+    */
+    const std::string customersDropStmnt = "DROP TABLE IF EXISTS customers;";
 
-    // drop table statements
-    std::string customersDropStmnt = "DROP TABLE IF EXISTS customers;";
+    const std::string ordersDropStmnt = "DROP TABLE IF EXISTS orders;";
 
-    std::string ordersDropStmnt = "DROP TABLE IF EXISTS orders;";
+    const std::string staffDropStmnt = "DROP TABLE IF EXISTS staff;";
 
-    std::string staffDropStmnt = "DROP TABLE IF EXISTS staff;";
+    const std::string system_accessDropStmnt = "DROP TABLE IF EXISTS system_access;";
 
-    std::string system_accessDropStmnt = "DROP TABLE IF EXISTS system_access;";
+    /*
+        Statements utilised by functions to interact with the
+        application database.
+    */
+    const std::string addCustomerStmnt = "INSERT INTO customers (FIRST_NAME, SURNAME, ADDRESS_FIRST_LINE, POSTCODE, CITY, EMAIL) "
+                                         "VALUES (?,?,?,?,?,?);";
 
-    // statements utilised by functions to interact with the
-    // application database
-    std::string addCustomerStmnt = "INSERT INTO customers (FIRST_NAME, SURNAME, ADDRESS_FIRST_LINE, POSTCODE, CITY, EMAIL) "
-                                   "VALUES (?,?,?,?,?,?);";
+    const std::string addSystemAccessStaffStmnt = "INSERT INTO system_access (USERNAME, PASSWORD, LOGGED_ON)"
+                                                  "VALUES (?,?,?);";
 
-    std::string addSystemAccessStaffStmnt = "INSERT INTO system_access (USERNAME, PASSWORD, LOGGED_ON)"
-                                            "VALUES (?,?,?);";
+    const std::string addSkisSnowboarsStmnt = "INSERT INTO inventory_skis_snowboards (MAKE, MODEL, PRICE_HOUR, PRICE_DAY, AVAILABLE)"
+                                              "VALUES (?,?,?,?,?);";
 
-    std::string addSkisSnowboarsStmnt = "INSERT INTO inventory_skis_snowboards (MAKE, MODEL, PRICE_HOUR, PRICE_DAY, AVAILABLE)"
-                                        "VALUES (?,?,?,?,?);";
+    const std::string addAtvStmnt = "INSERT INTO inventory_atvs (MAKE, MODEL, REG, FUEL_TYPE, PRICE_HOUR, PRICE_DAY, AVAILABLE)"
+                                    "VALUES (?,?,?,?,?,?,?);";
 
-    std::string addAtvStmnt = "INSERT INTO inventory_atvs (MAKE, MODEL, REG, FUEL_TYPE, PRICE_HOUR, PRICE_DAY, AVAILABLE)"
-                              "VALUES (?,?,?,?,?,?,?);";
+    const std::string validateUsernameStmnt = "SELECT username FROM system_access WHERE username = ?";
 
-    // TO DO: change to getTableCreateStmnt
+    const std::string validateUnamePasswordStmnt = "SELECT password FROM system_access WHERE password = ? AND username = ?";
+
+    const std::string updateSystemAccessStaffStmnt = "UPDATE system_access SET LOGGED_ON = 1 WHERE USERNAME = \'";
+
 public:
-    std::string getCreateStmnt(std::string tableName);
-    std::string getDropStmnt(std::string tableName);
-    std::string getInsertStmnt(std::string tableName);
-    std::string getAddCustomerStmnt();
-    std::string getAddStaffStmnt();
-    std::string getAddSkisSnowboardStmnt();
-    std::string getAddAtvStmnt();
+    const std::string getCreateStmnt(std::string tableName);
+    const std::string getDropStmnt(std::string tableName);
+    const std::string getInsertStmnt(std::string tableName);
+    const std::string getAddCustomerStmnt();
+    const std::string getAddStaffStmnt();
+    const std::string getAddSkisSnowboardStmnt();
+    const std::string getAddAtvStmnt();
+    const std::string getValidateUsernameStmnt();
+    const std::string getValidateUnamePasswordStmnt();
+    const std::string getUpdateSystemAccessStaffStmnt();
 };

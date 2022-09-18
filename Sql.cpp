@@ -1,10 +1,12 @@
 #include <string>
 #include "Sql.h"
 
-// ---Sqlite statement getters
-// returns a Sqlite statement depending on tableName attribute
-// create statement getters
-std::string Sql::getCreateStmnt(std::string tableName)
+/*
+    Sqlite create statement getters.
+    Returns a Sqlite statement depending on
+    tableName attribute.
+*/
+const std::string Sql::getCreateStmnt(std::string tableName)
 {
     if (tableName == "customers")
     {
@@ -27,8 +29,12 @@ std::string Sql::getCreateStmnt(std::string tableName)
     }
 }
 
-// drop statement getters
-std::string Sql::getDropStmnt(std::string tableName)
+/*
+    Sqlite drop statement getters.
+    Returns a Sqlite statement depending on
+    tableName attribute.
+*/
+const std::string Sql::getDropStmnt(std::string tableName)
 {
     if (tableName == "customers")
     {
@@ -50,8 +56,12 @@ std::string Sql::getDropStmnt(std::string tableName)
     }
 }
 
-// insert statement getters
-std::string Sql::getInsertStmnt(std::string tableName)
+/*
+    Sqlite insert statement getters.
+    Returns a Sqlite statement depending on
+    tableName attribute.
+*/
+const std::string Sql::getInsertStmnt(std::string tableName)
 {
     if (tableName == "customers")
     {
@@ -67,26 +77,60 @@ std::string Sql::getInsertStmnt(std::string tableName)
     }
 }
 
-// add customer to table getter
-std::string Sql::getAddCustomerStmnt()
+/*
+    Add customer to table getter.
+*/
+const std::string Sql::getAddCustomerStmnt()
 {
     return this->addCustomerStmnt;
 }
 
-// add staff to table getter
-std::string Sql::getAddStaffStmnt()
+/*
+    Add staff to table getter.
+*/
+const std::string Sql::getAddStaffStmnt()
 {
     return this->addSystemAccessStaffStmnt;
 }
 
-// add skis / snowboard to table getter
-std::string Sql::getAddSkisSnowboardStmnt()
+/*
+    Add skis / snowboard to table getter.
+*/
+const std::string Sql::getAddSkisSnowboardStmnt()
 {
     return this->addSkisSnowboarsStmnt;
 }
 
-// add ATV to table getter
-std::string Sql::getAddAtvStmnt()
+/*
+    Add ATV to table getter.
+*/
+const std::string Sql::getAddAtvStmnt()
 {
     return this->addAtvStmnt;
+}
+
+/*
+    Validate username from DB getter.
+*/
+const std::string Sql::getValidateUsernameStmnt()
+{
+    return this->validateUsernameStmnt;
+}
+
+/*
+    Validate username and password from DB getter.
+*/
+const std::string Sql::getValidateUnamePasswordStmnt()
+{
+    return this->validateUnamePasswordStmnt;
+}
+
+/*
+    Update system access staff getter.
+    Utilised to set the status of person who is
+    logged on/
+*/
+const std::string Sql::getUpdateSystemAccessStaffStmnt()
+{
+    return this->updateSystemAccessStaffStmnt;
 }
