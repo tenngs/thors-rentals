@@ -70,23 +70,23 @@ std::string Sql::getInsertStmnt(std::string tableName)
 // add customer to table getter
 std::string Sql::getAddCustomerStmnt()
 {
-    return this->customerAddStmnt;
+    return this->addCustomerStmnt;
 }
 
 // add staff to table getter
 std::string Sql::getAddStaffStmnt()
 {
-    return this->accessStaffStmnt;
+    return this->addSystemAccessStaffStmnt;
 }
 
 // add skis / snowboard to table getter
-std::string Sql::getAddSkiSnowboardStmnt()
+std::string Sql::getAddSkisSnowboardStmnt()
 {
-    return this->staffAddStmnt;
+    return this->addSkisSnowboarsStmnt;
 }
 
 // add ATV to table getter
 std::string Sql::getAddAtvStmnt()
 {
-    return this->staffAddStmnt;
+    return this->addAtvStmnt;
 }

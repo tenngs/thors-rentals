@@ -1,7 +1,15 @@
 #pragma once
+/*
+    This class contains all Sqlite statements
+    required to operate the system.
+    Getters are utilised to retrieve values from
+    private variables.
+*/
 
 class Sql
 {
+
+    // create table statements
 private:
     std::string customersCreateStmnt = "CREATE TABLE customers("
                                        "ID                       INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -39,11 +47,13 @@ private:
     std::string systemAccessCreateStmnt = "CREATE TABLE  system_access("
                                           "ID               INTEGER PRIMARY KEY     AUTOINCREMENT,"
                                           "USERNAME         VACHAR(50)              NOT NULL UNIQUE,"
+
                                           "PASSWORD         VACHAR(50)              NOT NULL,"
                                           "LOGGED_ON        CHAR(1)                 NOT NULL,"
                                           "STAFF_ID         CHAR(100)               NOT NULL,"
                                           "FOREIGN KEY (staff_id) REFERENCES staff (id) ON UPDATE CASCADE ON DELETE CASCADE);";
 
+    // insert test data into table statements
     std::string customersInsertStmnt = "INSERT INTO customers (FIRST_NAME, SURNAME, ADDRESS_FIRST_LINE, POSTCODE, CITY, EMAIL)"
                                        "VALUES ('t', 't', '123 Main Street', '29650', 'UKTown1', 'test@test.com');"
 
@@ -77,6 +87,7 @@ private:
                                           "INSERT INTO system_access (USERNAME, PASSWORD, LOGGED_ON, STAFF_ID)"
                                           "VALUES ('johnny.jordanovic', 'johnny_also_rocks', '0', '3');";
 
+    // drop table statements
     std::string customersDropStmnt = "DROP TABLE IF EXISTS customers;";
 
     std::string ordersDropStmnt = "DROP TABLE IF EXISTS orders;";
@@ -85,17 +96,19 @@ private:
 
     std::string system_accessDropStmnt = "DROP TABLE IF EXISTS system_access;";
 
-    std::string customerAddStmnt = "INSERT INTO customers (FIRST_NAME, SURNAME, ADDRESS_FIRST_LINE, POSTCODE, CITY, EMAIL) "
+    // statements utilised by functions to interact with the
+    // application database
+    std::string addCustomerStmnt = "INSERT INTO customers (FIRST_NAME, SURNAME, ADDRESS_FIRST_LINE, POSTCODE, CITY, EMAIL) "
                                    "VALUES (?,?,?,?,?,?);";
 
-    std::string accessStaffStmnt = "INSERT INTO system_access (USERNAME, PASSWORD, LOGGED_ON)"
-                                   "VALUES (?,?,?);";
+    std::string addSystemAccessStaffStmnt = "INSERT INTO system_access (USERNAME, PASSWORD, LOGGED_ON)"
+                                            "VALUES (?,?,?);";
 
-    std::string staffAddStmnt = "INSERT INTO inventory_skis_snowboards (MAKE, MODEL, PRICE_HOUR, PRICE_DAY, AVAILABLE)"
-                                "VALUES (?,?,?,?,?);";
+    std::string addSkisSnowboarsStmnt = "INSERT INTO inventory_skis_snowboards (MAKE, MODEL, PRICE_HOUR, PRICE_DAY, AVAILABLE)"
+                                        "VALUES (?,?,?,?,?);";
 
-    std::string staffAddStmnt = "INSERT INTO inventory_atvs (MAKE, MODEL, REG, FUEL_TYPE, PRICE_HOUR, PRICE_DAY, AVAILABLE)"
-                                "VALUES (?,?,?,?,?,?,?);";
+    std::string addAtvStmnt = "INSERT INTO inventory_atvs (MAKE, MODEL, REG, FUEL_TYPE, PRICE_HOUR, PRICE_DAY, AVAILABLE)"
+                              "VALUES (?,?,?,?,?,?,?);";
 
     // TO DO: change to getTableCreateStmnt
 public:
@@ -104,6 +117,6 @@ public:
     std::string getInsertStmnt(std::string tableName);
     std::string getAddCustomerStmnt();
     std::string getAddStaffStmnt();
-    std::string getAddSkiSnowboardStmnt();
+    std::string getAddSkisSnowboardStmnt();
     std::string getAddAtvStmnt();
 };
