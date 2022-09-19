@@ -16,7 +16,7 @@
 /*
     Sets cursor position on screen to xPos and yPos.
 */
-void Utility::gotoXY(int xPos, int yPos)
+void Utility::goToXY(int xPos, int yPos)
 {
     COORD coord;
     coord.X = xPos;

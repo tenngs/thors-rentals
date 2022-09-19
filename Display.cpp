@@ -20,10 +20,10 @@ void Display::displayBreakText(std::string text, bool clearScreen = false)
     int numChars = text.length();
     int c;
     Utility utils;
-    utils.gotoXY(50, 25);
+    utils.goToXY(50, 25);
     std::cout << text;
 
-    utils.gotoXY(50, 27);
+    utils.goToXY(50, 27);
     for (int i = 1; i <= numChars; i++)
     {
         // adjust 100000000 value to display character
