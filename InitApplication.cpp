@@ -38,6 +38,12 @@ void InitApplication::initApp()
     Table staffDrop{"staff", "DROP"};
     staffDrop.execTableOperation(staffDrop.getOperationType(), staffDrop.getTableName(), sql.getDropStmnt(staffDrop.getTableName()), true);
 
+    Table inventorySkisSBs{"inventory_skis_snowboards", "DROP"};
+    inventorySkisSBs.execTableOperation(inventorySkisSBs.getOperationType(), inventorySkisSBs.getTableName(), sql.getDropStmnt(inventorySkisSBs.getTableName()), true);
+
+    Table inventoryAtvs{"inventory_atvs", "DROP"};
+    inventoryAtvs.execTableOperation(inventoryAtvs.getOperationType(), inventoryAtvs.getTableName(), sql.getDropStmnt(inventoryAtvs.getTableName()), true);
+
     // create tables
     Table customersCreate{"customers", "CREATE"};
     customersCreate.execTableOperation(customersCreate.getOperationType(), customersCreate.getTableName(), sql.getCreateStmnt(customersCreate.getTableName()), true);
@@ -51,6 +57,12 @@ void InitApplication::initApp()
     Table staffCreate{"staff", "CREATE"};
     staffCreate.execTableOperation(staffCreate.getOperationType(), staffCreate.getTableName(), sql.getCreateStmnt(staffCreate.getTableName()), true);
 
+    Table inventorySkisSBsCreate{"inventory_skis_snowboards", "CREATE"};
+    inventorySkisSBsCreate.execTableOperation(inventorySkisSBsCreate.getOperationType(), inventorySkisSBsCreate.getTableName(), sql.getCreateStmnt(inventorySkisSBsCreate.getTableName()), true);
+
+    Table inventoryAtvsCreate{"inventory_atvs", "CREATE"};
+    inventoryAtvsCreate.execTableOperation(inventoryAtvsCreate.getOperationType(), inventoryAtvsCreate.getTableName(), sql.getCreateStmnt(inventoryAtvsCreate.getTableName()), true);
+
     // insert test data to tables
     Table customersInsert{"customers", "INSERT INTO"};
     customersInsert.execTableOperation(customersInsert.getOperationType(), customersInsert.getTableName(), sql.getInsertStmnt(customersInsert.getTableName()), true);
@@ -60,6 +72,14 @@ void InitApplication::initApp()
 
     Table staffInsert{"staff", "INSERT INTO"};
     staffInsert.execTableOperation(staffInsert.getOperationType(), staffInsert.getTableName(), sql.getInsertStmnt(staffInsert.getTableName()), true);
+
+    Table inventorySkisSBsInsert{"inventory_skis_snowboards", "INSERT INTO"};
+    inventorySkisSBsInsert.execTableOperation(inventorySkisSBsInsert.getOperationType(), inventorySkisSBsInsert.getTableName(), sql.getInsertStmnt(inventorySkisSBsInsert.getTableName()), true);
+
+    Table inventoryAtvsInsert{"inventory_atvs", "INSERT INTO"};
+    inventoryAtvsInsert.execTableOperation(inventoryAtvsInsert.getOperationType(), inventoryAtvsInsert.getTableName(), sql.getInsertStmnt(inventoryAtvsInsert.getTableName()), true);
+
+    system("pause");
 
     disp.displayBreakText("LOADING... PLEASE WAIT...", true);
     disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_login.txt");
