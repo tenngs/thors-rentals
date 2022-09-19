@@ -220,7 +220,7 @@ void Menu::addStaffMenu()
     while (true)
     {
         // clear screen, display location banners
-        // and ask for customer information
+        // and ask for staff member's information
         system("cls");
         disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_add_staff.txt");
 
@@ -238,6 +238,12 @@ void Menu::addStaffMenu()
         // push back a string zero to indicate that the staff
         // member is not currently logged on
         staffInfo.push_back(std::to_string(0));
+
+        std::cout << "|---Please enter staff member's staff ID" << std::endl;
+        std::cout << "|---TR~Add Staff~$: ";
+        std::getline(std::cin, infoPiece);
+        staffInfo.push_back(infoPiece);
+
         // clear screen
         system("cls");
         // show banners
@@ -248,6 +254,8 @@ void Menu::addStaffMenu()
         std::cout << "\tUsername: "
                   << "\t" << staffInfo[0] << std::endl;
         std::cout << "\tPassword: "
+                  << "\t" << staffInfo[1] << std::endl;
+        std::cout << "\tStaff ID: "
                   << "\t" << staffInfo[1] << std::endl;
 
         // if not correct --> ask and display customer info agin
