@@ -9,7 +9,7 @@
 #include "Table.h"
 /*
    Driver from where the app is initialised
-   and operated.s
+   and operated.
 */
 int main()
 {
@@ -18,15 +18,15 @@ int main()
     InitApplication app{"Thor's Tantalising Arctic Equipment Rental AKA Thor's Rentals"};
     Login appLogin;
     Menu appMenu;
+    Utility utils;
+
     if (appLogin.loginPrompt())
     {
         appMenu.mainMenu();
     }
     else
     {
-        std::cout << "No dice for login" << std::endl;
-        // exit program
-        // Utility::shutdown();
+        utils.shutdown();
         return 0;
     }
 }
