@@ -32,6 +32,11 @@ const std::string Sql::getCreateStmnt(std::string tableName)
     {
         return this->inventorySkisSBsCreateStmnt;
     }
+
+    if (tableName == "inventory_atvs")
+    {
+        return this->inventoryAtvsCreateStmnt;
+    }
 }
 
 /*
@@ -59,6 +64,16 @@ const std::string Sql::getDropStmnt(std::string tableName)
     {
         return this->system_accessDropStmnt;
     }
+
+    if (tableName == "inventory_skis_snowboards")
+    {
+        return this->inventorySkisSBsDropStmnt;
+    }
+
+    if (tableName == "inventory_atvs")
+    {
+        return this->inventoryAtvsDropStmnt;
+    }
 }
 
 /*
@@ -83,6 +98,10 @@ const std::string Sql::getInsertStmnt(std::string tableName)
     if (tableName == "inventory_skis_snowboards")
     {
         return this->inventorySkisSBsInsertStmnt;
+    }
+    if (tableName == "inventory_atvs")
+    {
+        return this->inventoryAtvsInsertStmnt;
     }
 }
 

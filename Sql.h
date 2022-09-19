@@ -63,6 +63,16 @@ private:
                                                     "EQUIPMENT_TYPE    CHAR(1)                     ,"
                                                     "AVAILABLE         CHAR(1)             NOT NULL);";
 
+    const std::string inventoryAtvsCreateStmnt = "CREATE TABLE inventory_atvs("
+                                                 "ID                INTEGER PRIMARY KEY AUTOINCREMENT,"
+                                                 "MAKE              VARCHAR(50)         NOT NULL,"
+                                                 "MODEL             VARCHAR(50)         NOT NULL,"
+                                                 "REG               VARCHAR(7)          NOT NULL,"
+                                                 "FUEL_TYPE         CHAR(1)             NOT NULL,"
+                                                 "PRICE_HOUR        DECIMAL(2,2)        NOT NULL,"
+                                                 "PRICE_DAY         DECIMAL(3,2)        NOT NULL,"
+                                                 "EQUIPMENT_TYPE    CHAR(1)                     ,"
+                                                 "AVAILABLE         CHAR(1)                    );";
     /*
         Insert test data into table statements.
     */
@@ -108,6 +118,15 @@ private:
                                                     "INSERT INTO inventory_skis_snowboards (MAKE, MODEL, PRICE_HOUR, PRICE_DAY, EQUIPMENT_TYPE, AVAILABLE) "
                                                     "VALUES ('Switchback', 'ultra cool', '11.50', '69.00', '2', '1');";
 
+    const std::string inventoryAtvsInsertStmnt = "INSERT INTO inventory_atvs (MAKE, MODEL, REG, FUEL_TYPE, PRICE_HOUR, PRICE_DAY, EQUIPMENT_TYPE, AVAILABLE) "
+                                                 "VALUES ('Honda', 'all terrain', 'X21 2153', 'diesel', '33.50', '220.00', '3', '1');"
+                                                 "INSERT INTO inventory_atvs (MAKE, MODEL, REG, FUEL_TYPE, PRICE_HOUR, PRICE_DAY, EQUIPMENT_TYPE, AVAILABLE) "
+                                                 "VALUES ('Polaris', 'arctic', 'Y13 9848', 'petrol', '21.00', '160.00', '3', '0');"
+                                                 "INSERT INTO inventory_atvs (MAKE, MODEL, REG, FUEL_TYPE, PRICE_HOUR, PRICE_DAY, EQUIPMENT_TYPE, AVAILABLE) "
+                                                 "VALUES ('Yamaha', 'yammaster', 'M67 8302', 'petrol', '48.50', '350.00', '3', '1');"
+                                                 "INSERT INTO inventory_atvs (MAKE, MODEL, REG, FUEL_TYPE, PRICE_HOUR, PRICE_DAY, EQUIPMENT_TYPE, AVAILABLE) "
+                                                 "VALUES ('Can-Am', 'camberstein', 'K23 3492', 'diesel', '37.00', '270.00', '3', '1');";
+
     /*
         Drop table statements.
     */
@@ -118,6 +137,10 @@ private:
     const std::string staffDropStmnt = "DROP TABLE IF EXISTS staff;";
 
     const std::string system_accessDropStmnt = "DROP TABLE IF EXISTS system_access;";
+
+    const std::string inventorySkisSBsDropStmnt = "DROP TABLE IF EXISTS inventory_skis_snowboards;";
+
+    const std::string inventoryAtvsDropStmnt = "DROP TABLE IF EXISTS inventory_atvs;";
 
     /*
         Statements utilised by functions to interact with the
