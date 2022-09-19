@@ -17,7 +17,7 @@ void Menu::showMainMenuBanner()
     std::cout << "                     |                        Please Choose:                             |" << std::endl;
     std::cout << "                     |-------------------------------------------------------------------|" << std::endl;
     std::cout << "                     |1. Add Customer                         4. Initiate Rental         |" << std::endl;
-    std::cout << "                     |2. Add App Access Staff                 5. Receive Rental Item     |" << std::endl;
+    std::cout << "                     |2. Add System Access Staff              5. Receive Rental Item     |" << std::endl;
     std::cout << "                     |3. Add Rental Item                      6. Statistics              |" << std::endl;
     std::cout << "                     |-------------------------------------------------------------------|" << std::endl;
     std::cout << "                     |------------------ Press 7 to Exit the Program---------------------|" << std::endl;
