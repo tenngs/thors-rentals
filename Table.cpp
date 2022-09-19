@@ -191,6 +191,12 @@ bool Table::searchTextValuesFromDB(std::string val1, std::string val2, std::stri
     }
 }
 
+/*
+    Utilises std::vector<std::string> which should be filled with
+    details to be inserted to a table. Loops over that
+    collection, binds text to SQL statement and inserts data
+    to a table in DB.
+*/
 void Table::appInsertTableOperation(std::string successMsg, std::vector<std::string> infoCollection, int numberOfQuestions, std::string sql)
 {
     sqlite3 *db;
@@ -233,7 +239,45 @@ void Table::appInsertTableOperation(std::string successMsg, std::vector<std::str
 
     sqlite3_finalize(stmt);
     sqlite3_close(db);
-    // clear screen & return to main menu
+
     system("cls");
     mainMenu.mainMenu();
+}
+
+int Table::searchNumericValuesFromDB(std::string sqlStmnt)
+
+{
+    int stat{};
+    sqlite3 *db;
+    char *zErrMsg = 0;
+    int rc{};
+    sqlite3_stmt *stmt;
+
+    Utility utils;
+
+    rc = sqlite3_open("thors_rentals.db", &db);
+    rc = sqlite3_prepare_v2(db, sqlStmnt.c_str(), -1, &stmt, NULL);
+    if (rc != SQLITE_OK)
+    {
+        std::cout << "Something went wrong: " << sqlite3_errmsg(db) << std::endl;
+        std::cout << "Please try again" << std::endl;
+        utils.pause(3);
+        return 1;
+    }
+    sqlite3_bind_int(stmt, 1, 1);
+    while ((rc = sqlite3_step(stmt)) == SQLITE_ROW)
+    {
+        stat = sqlite3_column_int(stmt, 0);
+    }
+    if (rc != SQLITE_DONE)
+    {
+        std::cout << "Something went wrong: " << sqlite3_errmsg(db) << std::endl;
+        std::cout << "Please try again" << std::endl;
+        utils.pause(3);
+        return 1;
+    }
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+
+    return stat;
 }
