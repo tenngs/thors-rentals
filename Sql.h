@@ -49,11 +49,19 @@ private:
     const std::string systemAccessCreateStmnt = "CREATE TABLE  system_access("
                                                 "ID               INTEGER PRIMARY KEY     AUTOINCREMENT,"
                                                 "USERNAME         VACHAR(50)              NOT NULL UNIQUE,"
-
                                                 "PASSWORD         VACHAR(50)              NOT NULL,"
                                                 "LOGGED_ON        CHAR(1)                 NOT NULL,"
                                                 "STAFF_ID         CHAR(100)               NOT NULL,"
                                                 "FOREIGN KEY (staff_id) REFERENCES staff (id) ON UPDATE CASCADE ON DELETE CASCADE);";
+
+    const std::string inventorySkisSBsCreateStmnt = "CREATE TABLE inventory_skis_snowboards("
+                                                    "ID                INTEGER PRIMARY KEY AUTOINCREMENT,"
+                                                    "MAKE              VARCHAR(50)         NOT NULL,"
+                                                    "MODEL             VARCHAR(50)         NOT NULL,"
+                                                    "PRICE_HOUR        DECIMAL(2,2)        NOT NULL,"
+                                                    "PRICE_DAY         DECIMAL(3,2)        NOT NULL,"
+                                                    "EQUIPMENT_TYPE    CHAR(1)                     ,"
+                                                    "AVAILABLE         CHAR(1)             NOT NULL);";
 
     /*
         Insert test data into table statements.
@@ -90,6 +98,16 @@ private:
 
                                                 "INSERT INTO system_access (USERNAME, PASSWORD, LOGGED_ON, STAFF_ID)"
                                                 "VALUES ('johnny.jordanovic', 'johnny_also_rocks', '0', '3');";
+
+    const std::string inventorySkisSBsInsertStmnt = "INSERT INTO inventory_skis_snowboards (MAKE, MODEL, PRICE_HOUR, PRICE_DAY, EQUIPMENT_TYPE, AVAILABLE) "
+                                                    "VALUES ('Burton', 'rad air', '19.00', '99.00', '2', '0');"
+                                                    "INSERT INTO inventory_skis_snowboards (MAKE, MODEL, PRICE_HOUR, PRICE_DAY, EQUIPMENT_TYPE, AVAILABLE) "
+                                                    "VALUES ('Voelgel', 'racing', '31.00', '190.50', '1', '1');"
+                                                    "INSERT INTO inventory_skis_snowboards (MAKE, MODEL, PRICE_HOUR, PRICE_DAY, EQUIPMENT_TYPE, AVAILABLE) "
+                                                    "VALUES ('Salomon', 'nordic star', '27.00', '170.00', '1', '0');"
+                                                    "INSERT INTO inventory_skis_snowboards (MAKE, MODEL, PRICE_HOUR, PRICE_DAY, EQUIPMENT_TYPE, AVAILABLE) "
+                                                    "VALUES ('Switchback', 'ultra cool', '11.50', '69.00', '2', '1');";
+
     /*
         Drop table statements.
     */

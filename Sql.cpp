@@ -27,6 +27,11 @@ const std::string Sql::getCreateStmnt(std::string tableName)
     {
         return this->systemAccessCreateStmnt;
     }
+
+    if (tableName == "inventory_skis_snowboards")
+    {
+        return this->inventorySkisSBsCreateStmnt;
+    }
 }
 
 /*
@@ -74,6 +79,10 @@ const std::string Sql::getInsertStmnt(std::string tableName)
     if (tableName == "system_access")
     {
         return this->systemAccessInsertStmnt;
+    }
+    if (tableName == "inventory_skis_snowboards")
+    {
+        return this->inventorySkisSBsInsertStmnt;
     }
 }
 
