@@ -15,4 +15,5 @@ public:
     void addCustomerMenu();
     void addStaffMenu();
     void addItemMenu();
+    void InitRentalMenu();
 };

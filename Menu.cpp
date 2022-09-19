@@ -1,10 +1,13 @@
 #include <iostream>
 #include <set>
 #include <vector>
+#include <map>
 #include <string>
 #include "Display.h"
 #include "Utility.h"
+#include "Display.h"
 #include "Table.h"
+#include "Order.h"
 #include "Sql.h"
 #include "Menu.h"
 /*
@@ -71,7 +74,7 @@ void Menu::mainMenu()
                 mainMenu.addItemMenu();
                 break;
             case 4:
-                // Mainmenu::showInitRentalMenu();
+                mainMenu.InitRentalMenu();
                 break;
             case 5:
                 std::cout << "This is case 5" << std::endl;
@@ -493,4 +496,140 @@ void Menu::addItemMenu()
     } while (run == true);
 
     inventory.appInsertTableOperation(successMsg, equipmentInfo, equipmentInfo.size(), sqlStmnt);
+}
+
+void Menu::InitRentalMenu()
+{
+    // TO DO: create new instance of Order;
+    // TO DO: keep inserting info to Order
+    // that was previously inserted to orderTableInfo
+    std::map<std::string, int> orderTableInfo;
+    std::string firstName{};
+    std::string surname{};
+    std::string sqlInit{};
+    int userSuppliedID{};
+    int choice{};
+    int resultID{};
+    std::set<int> validDigits({1, 2, 9});
+    bool run = true;
+
+    Display disp;
+    Utility utils;
+    Sql sql;
+    Table customers;
+    Menu mainMenu;
+    Order initOrder;
+
+    do
+    {
+        system("cls");
+        disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_init_rental.txt");
+
+        std::cout << "|---Select customer or press [9] for Main Menu" << std::endl;
+        std::cout << "|---Search by: " << std::endl;
+        std::cout << "|---" << std::endl;
+        std::cout << "|---[1]: First name, Surname" << std::endl;
+        std::cout << "|---[2]: ID\n"
+                  << std::endl;
+        std::cout << "|---" << std::endl;
+        std::cout << "|---TR~Init Rental: ";
+
+        if ((!(std::cin >> choice)) || (!(utils.validateDigits(choice, validDigits))))
+        {
+            std::cout << "|---Thor is not happy - Please enter numbers 1, 2 or 9 only";
+            utils.pause(3);
+            std::cin.clear();
+            std::cin.ignore(10000, '\n');
+        }
+        else if (choice == 9)
+        {
+            system("cls");
+            mainMenu.mainMenu();
+        }
+        else
+        {
+            switch (choice)
+            {
+            case 1:
+
+                system("cls");
+                disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_init_rental.txt");
+                std::cout << "|---Please enter customer's first name: " << std::endl;
+                std::cout << "|---TR~Search 4 Customer~$: ";
+                std::cin >> firstName;
+
+                std::cout << "|---Please enter customer's surname: " << std::endl;
+                std::cout << "|---TR~Search 4 Customer~$: ";
+                std::cin >> surname;
+
+                // TO DO: Break SQL statement to 2 pieces
+                // piece1 + firstname + piece2 + surname + piece3 ("\';")
+
+                sqlInit = sql.getSearchForCustomerIDByNameV1() + firstName + sql.getSearchForCustomerIDByNameV2() + surname + "\';";
+                // TO DO: delete the below statements if all works OK!
+                // sqlInit = "SELECT ID FROM customers WHERE FIRST_NAME = \'" + firstName + "\' AND SURNAME = \'" + surname + "\';";
+
+                resultID = customers.searchNumericValuesFromDB(sqlInit);
+
+                if (resultID != 0)
+                {
+                    std::cout << "|---Customer " << firstName << " " << surname << " found - happy days" << std::endl;
+                    utils.pause(3);
+                    run = false;
+                    break;
+                }
+                else
+                {
+                    std::cout << "\n|---No customer records found with:\n|----------------------------------\n|---First name: " << firstName << " \n|---Surname: " << surname << std::endl;
+                    std::cout << "\n|---Please re-enter customer details" << std::endl;
+                    utils.pause(3);
+                    std::cin.clear();
+                    std::cin.ignore(10000, '\n');
+                    break;
+                }
+
+            case 2:
+                system("cls");
+                disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_init_rental.txt");
+                std::cout << "|---Please enter customer's ID: ";
+                std::cin >> userSuppliedID;
+
+                // sqlInit = "SELECT ID FROM customers WHERE ID = \'" + std::to_string(userSuppliedID) + "\';";
+                // piece1 + std::to_string(userSuppliedID) + "\';";
+                sqlInit = sql.getSearchForCustomerIDByID() + std::to_string(userSuppliedID) + "\';";
+                resultID = customers.searchNumericValuesFromDB(sqlInit);
+                if (resultID != 0)
+                {
+                    std::cout << "|---Customer with ID " << resultID << " found - happy days" << std::endl;
+                    utils.pause(3);
+                    run = false;
+                    break;
+                }
+
+                if (resultID == 0)
+                {
+                    std::cout << "Thor is not happy - please enter a number matching customer ID" << std::endl;
+                    utils.pause(3);
+                    std::cin.clear();
+                    std::cin.ignore(10000, '\n');
+                    break;
+                }
+
+                std::cout << "|---No customer records with ID " << userSuppliedID << " were found" << std::endl;
+                std::cout << "|---Please re-enter customer details" << std::endl;
+                utils.pause(3);
+                std::cin.clear();
+                std::cin.ignore(10000, '\n');
+                break;
+            }
+        }
+    } while (run == true);
+
+    initOrder.setID("customer", resultID);
+
+    std::cout << "Customer ID is: " << initOrder.getID("customer") << std::endl;
+    system("pause");
+
+    // orderTableInfo.insert({"Customer ID", resultID});
+    // Mainmenu::showChooseEquipmentMenu(orderTableInfo);
 }
