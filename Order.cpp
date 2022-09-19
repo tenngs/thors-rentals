@@ -59,13 +59,13 @@ double Order::getRental()
     return this->rentalCost;
 }
 
-std::string getReturnDateTime()
+std::string Order::getReturnDateTime()
 {
     return this->returnDateTime;
 }
 
 // SETTERS
-int Order::setID(std::string type, int ID)
+void Order::setID(std::string type, int ID)
 {
     if (type == "order")
     {
@@ -81,7 +81,7 @@ int Order::setID(std::string type, int ID)
     }
 }
 
-Order::setName(std::string type, std::string name)
+void Order::setName(std::string type, std::string name)
 {
     if (name == "first")
     {
@@ -93,7 +93,7 @@ Order::setName(std::string type, std::string name)
     }
 }
 
-Order::setEquipment(std::string type, int value)
+void Order::setEquipment(std::string type, int value)
 {
     if (type == "type")
     {
@@ -105,7 +105,7 @@ Order::setEquipment(std::string type, int value)
     }
 }
 
-Order::setRental(std::string type, int value)
+void Order::setRental(std::string type, int value)
 {
     if (type == "hours")
     {
@@ -113,16 +113,16 @@ Order::setRental(std::string type, int value)
     }
     if (type == "days")
     {
-        return this->rentalDays;
+        this->rentalDays;
     }
 }
 
-Order::setRental(double cost)
+void Order::setRental(double cost)
 {
     this->rentalCost = cost;
 }
 
-Order::setReturnDateTime(std::string time)
+void Order::setReturnDateTime(std::string time)
 {
     this->returnDateTime = time;
 }

@@ -27,10 +27,10 @@ public:
     std::string getReturnDateTime();
 
     // setters for all
-    SetID(std::string type, int ID);
-    setName(std::string type, std::string name);
-    setEquipment(std::string type, int value);
-    setRental(std::string type, int value);
-    setRental(double cost);
-    setReturnDateTime(std::string time);
+    void setID(std::string type, int ID);
+    void setName(std::string type, std::string name);
+    void setEquipment(std::string type, int value);
+    void setRental(std::string type, int value);
+    void setRental(double cost);
+    void setReturnDateTime(std::string time);
 };
