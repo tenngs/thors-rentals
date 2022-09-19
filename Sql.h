@@ -108,8 +108,8 @@ private:
     const std::string addCustomerStmnt = "INSERT INTO customers (FIRST_NAME, SURNAME, ADDRESS_FIRST_LINE, POSTCODE, CITY, EMAIL) "
                                          "VALUES (?,?,?,?,?,?);";
 
-    const std::string addSystemAccessStaffStmnt = "INSERT INTO system_access (USERNAME, PASSWORD, LOGGED_ON)"
-                                                  "VALUES (?,?,?);";
+    const std::string addSystemAccessStaffStmnt = "INSERT INTO system_access (USERNAME, PASSWORD, LOGGED_ON, STAFF_ID)"
+                                                  "VALUES (?,?,?,?);";
 
     const std::string addSkisSnowboarsStmnt = "INSERT INTO inventory_skis_snowboards (MAKE, MODEL, PRICE_HOUR, PRICE_DAY, AVAILABLE)"
                                               "VALUES (?,?,?,?,?);";
