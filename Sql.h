@@ -164,6 +164,14 @@ private:
 
     const std::string updateSystemAccessStaffStmnt = "UPDATE system_access SET LOGGED_ON = 1 WHERE USERNAME = \'";
 
+    const std::string searchForCustomerIDByNameV1 = "SELECT ID FROM customers WHERE FIRST_NAME = \'";
+    const std::string searchForCustomerIDByNameV2 = "\' AND SURNAME = \'";
+
+    const std::string searchForCustomerIDByID = "SELECT ID FROM customers WHERE ID = \'";
+
+    /*
+        Getters for private variables
+    */
 public:
     const std::string getCreateStmnt(std::string tableName);
     const std::string getDropStmnt(std::string tableName);
@@ -175,4 +183,7 @@ public:
     const std::string getValidateUsernameStmnt();
     const std::string getValidateUnamePasswordStmnt();
     const std::string getUpdateSystemAccessStaffStmnt();
+    const std::string getSearchForCustomerIDByNameV1();
+    const std::string getSearchForCustomerIDByNameV2();
+    const std::string getSearchForCustomerIDByID();
 };

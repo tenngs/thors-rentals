@@ -162,3 +162,18 @@ const std::string Sql::getUpdateSystemAccessStaffStmnt()
 {
     return this->updateSystemAccessStaffStmnt;
 }
+
+const std::string Sql::getSearchForCustomerIDByNameV1()
+{
+    return this->searchForCustomerIDByNameV1;
+}
+
+const std::string Sql::getSearchForCustomerIDByNameV2()
+{
+    return this->searchForCustomerIDByNameV2;
+}
+
+const std::string Sql::getSearchForCustomerIDByID()
+{
+    return this->searchForCustomerIDByID;
+}
