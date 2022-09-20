@@ -2,6 +2,8 @@
 #include <iostream>
 #include <fstream>
 #include <Windows.h>
+#include "Sql.h"
+#include "sqlite3.h"
 #include "Utility.h"
 #include "Display.h"
 /*
@@ -94,4 +96,48 @@ void Display::displaySkiTableColumns()
               << "DAILY\t"
               << "TYPE\t"
               << "AVAILABLE\n\n";
+}
+
+void Display::displayAvailableEquipment(std::string tableName, int type)
+{
+    sqlite3 *db;
+    sqlite3_open("thors_rentals.db", &db);
+    sqlite3_stmt *selectStmt;
+
+    std::string sqlStmnt{};
+    std::string strType{};
+    strType = std::to_string(type);
+
+    Sql sql;
+
+    sqlStmnt = sql.getAvailableEquipV1() + tableName + sql.getAvailableEquipV2() + strType;
+
+    if (sqlite3_prepare(db, sqlStmnt.c_str(), -1, &selectStmt, 0) == SQLITE_OK)
+    {
+        int ctotal = sqlite3_column_count(selectStmt);
+        int res = 0;
+
+        while (1)
+        {
+            res = sqlite3_step(selectStmt);
+            if (res == SQLITE_ROW)
+            {
+                for (int i = 0; i < ctotal; i++)
+                {
+
+                    // read each column in row
+                    // display each field and insert tab
+                    std::string s = (char *)sqlite3_column_text(selectStmt, i);
+                    std::cout << s << "\t";
+                }
+                std::cout << "\n";
+
+            } // else - no equipment available
+
+            if (res == SQLITE_DONE || res == SQLITE_ERROR)
+            {
+                break;
+            }
+        }
+    }
 }

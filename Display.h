@@ -10,6 +10,7 @@ class Display
 public:
     void displayBreakText(std::string text, bool clearScreen);
     void displayASCIIArtFromFile(std::string filename);
+    void displayAvailableEquipment(std::string tableName, int type);
     void displayATVTableColumns();
     void displaySnowboardTableColumns();
     void displaySkiTableColumns();
