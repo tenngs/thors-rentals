@@ -6,14 +6,18 @@
     tables in the DB.
 */
 #pragma once
+#include "Order.h"
 
 class Menu
 {
 public:
+    // Order &initOrder;
     void showMainMenuBanner();
     void mainMenu();
     void addCustomerMenu();
     void addStaffMenu();
     void addItemMenu();
-    void InitRentalMenu();
+    void initRentalMenu(Order &initOrder);
+    void chooseEquipmentMenu(Order &initOrder);
+    void rentalDurationMenu(Order &initOrder);
 };
