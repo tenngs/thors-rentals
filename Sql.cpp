@@ -89,7 +89,7 @@ const std::string Sql::getInsertStmnt(std::string tableName)
     }
     if (tableName == "staff")
     {
-        return this->customersInsertStmnt;
+        return this->staffInsertStmnt;
     }
     if (tableName == "system_access")
     {
@@ -176,4 +176,24 @@ const std::string Sql::getSearchForCustomerIDByNameV2()
 const std::string Sql::getSearchForCustomerIDByID()
 {
     return this->searchForCustomerIDByID;
+}
+
+const std::string Sql::getAvailableEquipIDsV1()
+{
+    return this->availableEquipIDsV1;
+}
+
+const std::string Sql::getAvailableEquipIDsV2()
+{
+    return this->availableEquipIDsV2;
+}
+
+const std::string Sql::getAvailableEquipV1()
+{
+    return this->availableEquipV1;
+}
+
+const std::string Sql::getAvailableEquipV2()
+{
+    return this->availableEquipV2;
 }

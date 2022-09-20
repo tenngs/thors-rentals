@@ -169,6 +169,12 @@ private:
 
     const std::string searchForCustomerIDByID = "SELECT ID FROM customers WHERE ID = \'";
 
+    const std::string availableEquipIDsV1 = "SELECT ID from ";
+    const std::string availableEquipIDsV2 = " WHERE AVAILABLE = 1 AND EQUIPMENT_TYPE = ";
+
+    const std::string availableEquipV1 = "SELECT * from ";
+    const std::string availableEquipV2 = " WHERE AVAILABLE = 1 AND EQUIPMENT_TYPE = ";
+
     /*
         Getters for private variables
     */
@@ -185,5 +191,9 @@ public:
     const std::string getUpdateSystemAccessStaffStmnt();
     const std::string getSearchForCustomerIDByNameV1();
     const std::string getSearchForCustomerIDByNameV2();
+    const std::string getAvailableEquipIDsV1();
+    const std::string getAvailableEquipIDsV2();
+    const std::string getAvailableEquipV1();
+    const std::string getAvailableEquipV2();
     const std::string getSearchForCustomerIDByID();
 };
