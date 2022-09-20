@@ -16,8 +16,6 @@ private:
     std::string returnDateTime;
 
 public:
-    // const std::string getCreateStmnt(std::string tableName);
-
     // getters for all
     int getID(std::string type);
     std::string getName(std::string type);
@@ -33,4 +31,5 @@ public:
     void setRental(std::string type, int value);
     void setRental(double cost);
     void setReturnDateTime(std::string time);
+    // TO DO: clear all private variables in destructor?
 };
