@@ -11,6 +11,8 @@
 #pragma once
 
 #include <vector>
+#include <unordered_set>
+#include "Order.h"
 
 class Table
 {
@@ -30,4 +32,6 @@ public:
     bool searchTextValuesFromDB(std::string val1, std::string val2, std::string sqlStmnt);
     int searchNumericValuesFromDB(std::string sqlStmnt);
     void appInsertTableOperation(std::string successMsg, std::vector<std::string> infoCollection, int numberOfQuestions, std::string sql);
+    std::unordered_set<int> getAvailableEquipmentIDs(std::string tableName, int type);
+    double getRentalCost(Order &initOrder);
 };

@@ -1,8 +1,10 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <unordered_set>
 #include "sqlite3.h"
 #include "Utility.h"
+#include "Sql.h"
 #include "Menu.h"
 #include "Table.h"
 
@@ -280,4 +282,99 @@ int Table::searchNumericValuesFromDB(std::string sqlStmnt)
     sqlite3_close(db);
 
     return stat;
+}
+
+std::unordered_set<int> Table::getAvailableEquipmentIDs(std::string tableName, int type)
+{
+    std::string sqlStmnt{};
+    std::string strType{};
+    strType = std::to_string(type);
+    Sql sql;
+
+    sqlStmnt = sql.getAvailableEquipIDsV1() + tableName + sql.getAvailableEquipIDsV2() + strType;
+
+    // sql = "SELECT ID from " + tableName + " WHERE AVAILABLE = 1 AND EQUIPMENT_TYPE = " + strType;
+
+    sqlite3 *db;
+    std::unordered_set<int> validEquipmentIDs{};
+    sqlite3_stmt *selectStmt;
+
+    sqlite3_open("thors_rentals.db", &db);
+    if (sqlite3_prepare(db, sqlStmnt.c_str(), -1, &selectStmt, 0) == SQLITE_OK)
+    {
+        // count number of columns in table
+        int ctotal = sqlite3_column_count(selectStmt);
+        int res = 0;
+
+        while (true)
+        {
+            res = sqlite3_step(selectStmt);
+            if (res == SQLITE_ROW)
+            {
+
+                for (int i = 0; i < ctotal; i++)
+                {
+                    // loop times the number of columns in table
+                    int j = sqlite3_column_int(selectStmt, i);
+                    if (j != 0)
+                    {
+                        validEquipmentIDs.insert(j);
+                    }
+                }
+            }
+
+            if (res == SQLITE_DONE || res == SQLITE_ERROR)
+            {
+                break;
+            }
+        }
+    }
+    return validEquipmentIDs;
+}
+
+double Table::getRentalCost(Order &initOrder)
+{
+    std::string sqlStmnt{};
+    std::string tableName{};
+    std::string duration{};
+    std::string eqID{};
+    double rentalPeriodCost;
+    double totalRentalCost;
+    int rentalDays = initOrder.getRental("days");
+    Table initRental;
+
+    switch (initOrder.getEquipment("type"))
+    {
+    case 3:
+        tableName = "inventory_atvs";
+        break;
+    default:
+        tableName = "inventory_skis_snowboards";
+        break;
+    }
+
+    switch (rentalDays)
+    {
+    case 0:
+        duration = "PRICE_HOUR";
+        break;
+
+    default:
+        duration = "PRICE_DAY";
+        break;
+    }
+
+    sqlStmnt = "SELECT " + duration + " FROM " + tableName + " WHERE id = " + std::to_string(initOrder.getEquipment("id")) + ";";
+    rentalPeriodCost = initRental.searchNumericValuesFromDB(sqlStmnt);
+
+    if (duration == "PRICE_HOUR")
+    {
+        totalRentalCost = rentalPeriodCost * initOrder.getRental("hours");
+    }
+    else
+    {
+        totalRentalCost = rentalPeriodCost * rentalDays;
+    }
+
+    return totalRentalCost;
 }
