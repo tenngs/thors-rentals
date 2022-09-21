@@ -108,7 +108,7 @@ int Table::execTableOperation(std::string operationType, std::string tableName, 
     to prepared statements.
 
 */
-bool Table::searchTextValuesFromDB(std::string val1, std::string sqlStmnt)
+bool Table::determineExistenceTextValuesInDB(std::string val1, std::string sqlStmnt)
 {
     sqlite3 *db;
     char *zErrMsg = 0;
@@ -155,7 +155,7 @@ bool Table::searchTextValuesFromDB(std::string val1, std::string sqlStmnt)
     to prepared statements.
 
 */
-bool Table::searchTextValuesFromDB(std::string val1, std::string val2, std::string sqlStmnt)
+bool Table::determineExistenceTextValuesInDB(std::string val1, std::string val2, std::string sqlStmnt)
 {
     sqlite3 *db;
     char *zErrMsg = 0;
@@ -293,8 +293,6 @@ std::unordered_set<int> Table::getAvailableEquipmentIDs(std::string tableName, i
 
     sqlStmnt = sql.getAvailableEquipIDsV1() + tableName + sql.getAvailableEquipIDsV2() + strType;
 
-    // sql = "SELECT ID from " + tableName + " WHERE AVAILABLE = 1 AND EQUIPMENT_TYPE = " + strType;
-
     sqlite3 *db;
     std::unordered_set<int> validEquipmentIDs{};
     sqlite3_stmt *selectStmt;
@@ -332,7 +330,7 @@ std::unordered_set<int> Table::getAvailableEquipmentIDs(std::string tableName, i
     return validEquipmentIDs;
 }
 
-double Table::getRentalCost(Order &initOrder)
+double Table::calculateRentalCost(Order &initOrder)
 {
     std::string sqlStmnt{};
     std::string tableName{};
@@ -341,6 +339,7 @@ double Table::getRentalCost(Order &initOrder)
     double rentalPeriodCost;
     double totalRentalCost;
     int rentalDays = initOrder.getRental("days");
+    int rentalHours = initOrder.getRental("hours");
     Table initRental;
 
     switch (initOrder.getEquipment("type"))
@@ -369,7 +368,7 @@ double Table::getRentalCost(Order &initOrder)
 
     if (duration == "PRICE_HOUR")
     {
-        totalRentalCost = rentalPeriodCost * initOrder.getRental("hours");
+        totalRentalCost = rentalPeriodCost * rentalHours;
     }
     else
     {
@@ -377,4 +376,51 @@ double Table::getRentalCost(Order &initOrder)
     }
 
     return totalRentalCost;
+}
+
+std::string Table::searchTextValuesFromDB(std::string sqlStmnt)
+
+{
+    sqlite3 *db;
+    char *zErrMsg = 0;
+    int rc{};
+    sqlite3_stmt *stmt;
+
+    size_t len;
+    const unsigned char *uc;
+
+    Utility utils;
+
+    rc = sqlite3_open("thors_rentals.db", &db);
+    rc = sqlite3_prepare_v2(db, sqlStmnt.c_str(), -1, &stmt, NULL);
+    if (rc != SQLITE_OK)
+    {
+        std::cout << "Something went wrong: " << sqlite3_errmsg(db) << std::endl;
+        std::cout << "Please try again" << std::endl;
+        utils.pause(3);
+    }
+    // sqlite3_bind_text(stmt, 1, 1);
+
+    while ((rc = sqlite3_step(stmt)) == SQLITE_ROW)
+    {
+        uc = sqlite3_column_text(stmt, 0);
+    }
+    if (rc != SQLITE_DONE)
+    {
+        std::cout << "Something went wrong: " << sqlite3_errmsg(db) << std::endl;
+        std::cout << "Please try again" << std::endl;
+        utils.pause(3);
+    }
+
+    // std::cout << "I am uc value" << uc << std::endl;
+    // system("pause");
+
+    std::string textValue(reinterpret_cast<char const *>(uc), len);
+    // std::cout << textValue << std::endl;
+    // system("pause");
+
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+
+    return textValue;
 }

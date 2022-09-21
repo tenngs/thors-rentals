@@ -28,10 +28,13 @@ public:
     std::string getTableName();
     std::string getOperationType();
     int execTableOperation(std::string operationType, std::string tableName, std::string sql, bool verbose = false);
-    bool searchTextValuesFromDB(std::string val1, std::string sqlStmnt);
-    bool searchTextValuesFromDB(std::string val1, std::string val2, std::string sqlStmnt);
+    bool determineExistenceTextValuesInDB(std::string val1, std::string sqlStmnt);
+    bool determineExistenceTextValuesInDB(std::string val1, std::string val2, std::string sqlStmnt);
     int searchNumericValuesFromDB(std::string sqlStmnt);
+    std::string searchTextValuesFromDB(std::string sqlStmnt);
+
     void appInsertTableOperation(std::string successMsg, std::vector<std::string> infoCollection, int numberOfQuestions, std::string sql);
     std::unordered_set<int> getAvailableEquipmentIDs(std::string tableName, int type);
-    double getRentalCost(Order &initOrder);
+    double calculateRentalCost(Order &initOrder);
+    std::string calculateReturnDatetime(Order &initOrder);
 };
