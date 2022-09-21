@@ -9,6 +9,7 @@
 #pragma once
 
 #include <set>
+#include "Order.h"
 
 class Utility
 {
@@ -22,4 +23,11 @@ public:
     std::string getCurrentTime();
     std::string getContents(std::ifstream &file);
     void shutdown();
+    std::string calculateReturnDatetime(Order &initOrder);
+    std::string getReturnDatetimeHourly(Order &initOrder);
+    std::string getReturnDatetimeDaily(Order &initOrder);
+    std::string getCurrentTimeDetails(int type);
+    bool isLeap(int);
+    int offsetDays(int d, int m, int y);
+    void revoffsetDays(int offset, int year, int *day, int *month1);
 };
