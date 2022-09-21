@@ -33,7 +33,7 @@ bool Login::loginPrompt()
 
         std::cin >> enteredUsername;
 
-        if (systemAccess.searchTextValuesFromDB(enteredUsername, sql.getValidateUsernameStmnt()))
+        if (systemAccess.determineExistenceTextValuesInDB(enteredUsername, sql.getValidateUsernameStmnt()))
         {
             std::cout << "|---Username found - all good" << std::endl;
             usernameCorrect = true;
@@ -60,7 +60,7 @@ bool Login::loginPrompt()
             std::cout << "|---Please enter password" << std::endl;
             std::string enteredPassword = Login::getPassword("|---TR~Login~$: ");
 
-            if (systemAccess.searchTextValuesFromDB(enteredPassword, enteredUsername, sql.getValidateUnamePasswordStmnt()))
+            if (systemAccess.determineExistenceTextValuesInDB(enteredPassword, enteredUsername, sql.getValidateUnamePasswordStmnt()))
             {
                 std::cout << "|---password bueno - logging in" << std::endl;
                 utils.pause(2);
