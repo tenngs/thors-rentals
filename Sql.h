@@ -98,7 +98,7 @@ private:
                                          "VALUES ('Rocko', 'Rocdanovic', '123 Main Street', '29650', 'UKTown1', 'rocko@rocs.com', 'rocker', '1', '1', '1');"
 
                                          "INSERT INTO staff (FIRST_NAME, SURNAME, ADDRESS_FIRST_LINE, POSTCODE, CITY, EMAIL, ROLE, EMPLOYMENT_TYPE, APP_ACCESS, COVID_VACCINATED)"
-                                         "VALUES ('Jenny', 'Jemstein', '456 Side Street', '39650', 'UKTown2', 'jens@jemstein.com', 'jenmeister', '2', '0', 0');";
+                                         "VALUES ('Jenny', 'Jemstein', '456 Side Street', '39650', 'UKTown2', 'jens@jemstein.com', 'jenmeister', '2', '0', '0');";
 
     const std::string systemAccessInsertStmnt = "INSERT INTO system_access (USERNAME, PASSWORD, LOGGED_ON, STAFF_ID)"
                                                 "VALUES ('t', 't', '0', '1');"
@@ -175,6 +175,8 @@ private:
     const std::string availableEquipV1 = "SELECT * from ";
     const std::string availableEquipV2 = " WHERE AVAILABLE = 1 AND EQUIPMENT_TYPE = ";
 
+    const std::string customerFirstName = "SELECT FIRST_NAME FROM customers WHERE ID = ";
+
     /*
         Getters for private variables
     */
@@ -196,4 +198,5 @@ public:
     const std::string getAvailableEquipV1();
     const std::string getAvailableEquipV2();
     const std::string getSearchForCustomerIDByID();
+    const std::string getCustomerFirstName();
 };

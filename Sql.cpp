@@ -197,3 +197,8 @@ const std::string Sql::getAvailableEquipV2()
 {
     return this->availableEquipV2;
 }
+
+const std::string Sql::getCustomerFirstName()
+{
+    return this->customerFirstName;
+}
