@@ -20,4 +20,5 @@ public:
     void initRentalMenu(Order &initOrder);
     void chooseEquipmentMenu(Order &initOrder);
     void rentalDurationMenu(Order &initOrder);
+    void confirmDetailsMenu(Order &initOrder);
 };

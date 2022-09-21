@@ -42,11 +42,9 @@ void Menu::mainMenu()
     Menu mainMenu;
     Utility utils;
     disp.displayBreakText("LOADING... PLEASE WAIT...", true);
-    // init valid range
     std::set<int> validDigits({1, 2, 3, 4, 5, 6, 7});
     bool Shutdown = false;
     int choice{};
-    // Order *initOrder = new Order;
 
     while (true)
     {
@@ -77,9 +75,13 @@ void Menu::mainMenu()
                 break;
             case 4:
             {
+                // TO DO: make one class and call all the functions
+                // from there
                 Order *initOrder = new Order;
                 mainMenu.initRentalMenu(*initOrder);
                 mainMenu.chooseEquipmentMenu(*initOrder);
+                mainMenu.rentalDurationMenu(*initOrder);
+                mainMenu.confirmDetailsMenu(*initOrder);
                 break;
             }
             case 5:
@@ -160,9 +162,7 @@ void Menu::addCustomerMenu()
         std::cin >> infoPiece;
         customerInfo.push_back(infoPiece);
 
-        // clear screen
         system("cls");
-        // show banners
         disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals.txt");
         disp.displayASCIIArtFromFile("ASCIIArt/add_customer.txt");
         // display user info they have entered
@@ -256,9 +256,7 @@ void Menu::addStaffMenu()
         std::getline(std::cin, infoPiece);
         staffInfo.push_back(infoPiece);
 
-        // clear screen
         system("cls");
-        // show banners
         disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_add_staff.txt");
 
         // display user info they have entered
@@ -291,11 +289,6 @@ void Menu::addStaffMenu()
             break;
         }
     }
-
-    // TO DO: create universal sqlite bind insert to table function
-    // and call it at the end
-    // if user confirms that their input is correct
-    // then insert information to a table in DB
 
     staff.appInsertTableOperation(successMsg, staffInfo, staffInfo.size(), sql.getAddStaffStmnt());
 }
@@ -372,12 +365,7 @@ void Menu::addItemMenu()
                 std::cin >> infoPiece;
                 equipmentInfo.push_back(infoPiece);
 
-                // user is entering type 1 - skis & snowboards
-                // infoPiece = std::to_string(1);
-                // equipmentInfo.push_back(infoPiece);
-                // clear screen
                 system("cls");
-                // show banners
                 disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_add_item.txt");
                 std::cout << "\tYou entered: \n\n";
                 std::cout << "\tMake: "
@@ -722,7 +710,7 @@ void Menu::chooseEquipmentMenu(Order &initOrder)
                 run = false;
                 break;
 
-            case 2: // TO DO: show available snowboards
+            case 2:
                 validEquipmentIDs = inventory.getAvailableEquipmentIDs("inventory_skis_snowboards", 2);
                 // if no available SBs are in inventory
                 if (validEquipmentIDs.size() == 0)
@@ -762,7 +750,7 @@ void Menu::chooseEquipmentMenu(Order &initOrder)
                 run = false;
                 break;
 
-            case 3: // show available ATVs
+            case 3:
                 validEquipmentIDs = inventory.getAvailableEquipmentIDs("inventory_atvs", 3);
                 // if no available ATVs are in inventory
                 if (validEquipmentIDs.size() == 0)
@@ -804,22 +792,13 @@ void Menu::chooseEquipmentMenu(Order &initOrder)
     } while (run = true);
 
     initOrder.setEquipment("id", choice);
-
-    std::cout << "This is chooseEquipmentMenu" << std::endl;
-    std::cout << "Equipment ID is: " << initOrder.getEquipment("id") << std::endl;
-    std::cout << "Customer ID is: " << initOrder.getID("customer") << std::endl;
-    std::cout << "Equipment type is: " << initOrder.getEquipment("type") << std::endl;
-    system("pause");
-    // TO DO: call another function to set rental duration, display initial rental
-    // amountg and to confirm that payment is taken with orderorderTableInfo
-    // map as argument
-    // Mainmenu::showRentalDetailsMenu(orderTableInfo);
 }
 
 void Menu::rentalDurationMenu(Order &initOrder)
 {
     int choice{};
-    int daysHourschoice{};
+    int hoursChoice{};
+    int daysChoice{};
     bool run = true;
 
     Display disp;
@@ -881,7 +860,7 @@ void Menu::rentalDurationMenu(Order &initOrder)
                 std::cout << "|---" << std::endl;
                 std::cout << "|---TR~Init Rental: ";
 
-                while ((!(std::cin >> daysHourschoice)) || (!(utils.validateDigits(daysHourschoice, validHours))))
+                while ((!(std::cin >> hoursChoice)) || (!(utils.validateDigits(hoursChoice, validHours))))
 
                 {
                     std::cout << "|---Thor is not happy - Please enter numbers up 11 hours only " << std::endl;
@@ -893,7 +872,7 @@ void Menu::rentalDurationMenu(Order &initOrder)
                     std::cout << "|---TR~Init Rental: ";
                 }
 
-                initOrder.setRental("hours", daysHourschoice);
+                initOrder.setRental("hours", hoursChoice);
                 initOrder.setRental("days", 0);
                 run = false;
                 break;
@@ -904,7 +883,7 @@ void Menu::rentalDurationMenu(Order &initOrder)
                 std::cout << "|---" << std::endl;
                 std::cout << "|---TR~Init Rental: ";
 
-                while ((!(std::cin >> daysHourschoice)) || (!(utils.validateDigits(daysHourschoice, validDays))))
+                while ((!(std::cin >> daysChoice)) || (!(utils.validateDigits(daysChoice, validDays))))
 
                 {
                     std::cout << "|---Thor is not happy - Please enter numbers up 28 days only " << std::endl;
@@ -917,7 +896,7 @@ void Menu::rentalDurationMenu(Order &initOrder)
                 }
 
                 initOrder.setRental("hours", 0);
-                initOrder.setRental("days", daysHourschoice);
+                initOrder.setRental("days", daysChoice);
                 run = false;
                 break;
             }
@@ -925,8 +904,89 @@ void Menu::rentalDurationMenu(Order &initOrder)
         }
     } while (run = true);
 
-    orderTableInfo.insert({"Total cost", Utility::getRentalCost(orderTableInfo)});
+    // set total rental cost
+    initOrder.setRental(initRental.calculateRentalCost(initOrder));
+    // set return datetime
+    initOrder.setReturnDateTime(utils.calculateReturnDatetime(initOrder));
 
     // TO DO: call another function with orderTableInfo and returnDateTime
-    Mainmenu::showRentalDetails(orderTableInfo);
+    // Mainmenu::showRentalDetails(orderTableInfo);
+}
+
+void Menu::confirmDetailsMenu(Order &initOrder)
+{
+
+    int userSuppliedEquimentID{};
+    std::string choice{};
+    bool run = true;
+
+    std::set<int> validDigits({1, 2, 3, 9});
+    std::unordered_set<int> validEquipmentIDs{};
+
+    std::string sqlStmnt{};
+
+    int resultID = {};
+
+    Display disp;
+    Utility utils;
+    Menu mainMenu;
+    Table initRental;
+    Sql sql;
+
+    do
+    {
+        system("cls");
+        disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_init_rental.txt");
+
+        // select FIRST_NAME FROM customers WHERE ID = ?
+        // getorderID is val1
+
+        sqlStmnt = sql.getCustomerFirstName() + std::to_string(initOrder.getID("customer"));
+        // initRental.searchTextValuesFromDB(sqlStmnt);
+        std::cout << "first name is: " << initRental.searchTextValuesFromDB(sqlStmnt) << std::endl;
+        system("pause");
+
+        // select SURNAME FROM customers WHERE ID = getorderID
+
+        // TO DO: Get customer firstname and surname
+        //        Get equipment make using equipment ID and type
+        //        Get equipment model using equipment ID and type
+
+        std::cout
+            << "|---You have chosen: " << std::endl;
+        std::cout << "|---" << std::endl;
+        std::cout << "|---Customer name: " << std::endl;
+        std::cout << "|---Equipment make: " << std::endl;
+        std::cout << "|---Equipment model: " << std::endl;
+        std::cout << "|---Rental days: " << initOrder.getRental("days") << std::endl;
+        std::cout << "|---Rental hours: " << initOrder.getRental("hours") << std::endl;
+        std::cout << "|---Total cost: " << initOrder.getRental() << std::endl;
+        std::cout << "|---Return date / time: " << initOrder.getReturnDateTime() << std::endl;
+        std::cout << "|---" << std::endl;
+        std::cout << "|---Is this correct? [Y/N]" << std::endl;
+        std::cout << "|---" << std::endl;
+
+        std::cout << "|---TR~Init Rental: ";
+
+        while ((!(std::cin >> choice)) || (!(utils.validateYesOrNo(choice))))
+
+        {
+            std::cout << "Y or N please: ";
+            std::cin.clear();
+            std::cin.ignore(10000, '\n');
+            std::cin >> choice;
+        }
+
+        if ((utils.lowerStr(choice) == "n"))
+        {
+            run = false;
+            system("cls");
+            mainMenu.mainMenu();
+        }
+
+    } while (run = true);
+    // TO DO: add sales rep ID and order ID to Order
+    // 1) add details to orders table
+    // 2) update statistics option (total money from rentals) with rental cost
+    // 3) change rented equipment status to not available in inventory table
 }
