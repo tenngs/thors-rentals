@@ -227,3 +227,8 @@ const std::string Sql::getSkisSBsModel()
 {
     return this->skisSBsModel;
 }
+
+const std::string Sql::getSalesRepID()
+{
+    return this->salesRepID;
+}

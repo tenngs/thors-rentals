@@ -186,6 +186,9 @@ private:
     const std::string skisSBsMake = "SELECT MAKE from inventory_skis_snowboards WHERE ID = ";
 
     const std::string skisSBsModel = "SELECT MODEL from inventory_skis_snowboards WHERE ID = ";
+
+    const std::string salesRepID = "SELECT ID FROM system_access WHERE LOGGED_ON = 1";
+
     /*
         Getters for private variables
     */
@@ -213,4 +216,5 @@ public:
     const std::string getAtvModel();
     const std::string getSkisSBsMake();
     const std::string getSkisSBsModel();
+    const std::string getSalesRepID();
 };
