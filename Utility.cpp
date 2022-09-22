@@ -11,7 +11,7 @@
 #include "sqlite3.h"
 #include "Display.h"
 #include "Sql.h"
-
+#include "Table.h"
 #include "Utility.h"
 
 /*
@@ -444,4 +444,35 @@ void Utility::revoffsetDays(int offset, int year, int *day, int *month1)
 
     *day = offset;
     *month1 = i;
+}
+
+void Utility::setOrderDetails(Order &initOrder)
+{
+    std::string strCustomerID{std::to_string(initOrder.getID("customer"))};
+    std::string strEquipmentID{std::to_string(initOrder.getEquipment("id"))};
+
+    Utility utils;
+    Table initRental;
+    Sql sql;
+
+    // calculate total rental cost
+    initOrder.setRental(initRental.calculateRentalCost(initOrder));
+    // set return datetime
+    initOrder.setReturnDateTime(utils.calculateReturnDatetime(initOrder));
+
+    initOrder.setName("first", initRental.searchTextValuesFromDB(sql.getCustomerFirstName() + strCustomerID));
+    initOrder.setName("last", initRental.searchTextValuesFromDB(sql.getCustomerSurname() + strCustomerID));
+
+    if (initOrder.getEquipment("type") == 3)
+    {
+        initOrder.setEquipmentStyle("make", initRental.searchTextValuesFromDB(sql.getAtvMake() + strEquipmentID));
+        initOrder.setEquipmentStyle("model", initRental.searchTextValuesFromDB(sql.getAtvModel() + strEquipmentID));
+    }
+    else
+    {
+        initOrder.setEquipmentStyle("make", initRental.searchTextValuesFromDB(sql.getSkisSBsMake() + strEquipmentID));
+        initOrder.setEquipmentStyle("model", initRental.searchTextValuesFromDB(sql.getSkisSBsModel() + strEquipmentID));
+    }
+
+    initOrder.setSalesRepID(initRental.searchNumericValuesFromDB(sql.getSalesRepID()));
 }

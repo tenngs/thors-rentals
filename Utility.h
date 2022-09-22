@@ -30,4 +30,5 @@ public:
     bool isLeap(int);
     int offsetDays(int d, int m, int y);
     void revoffsetDays(int offset, int year, int *day, int *month1);
+    void setOrderDetails(Order &initOrder);
 };
