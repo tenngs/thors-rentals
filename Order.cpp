@@ -1,7 +1,19 @@
 #include <string>
 #include "Order.h"
 
+int Order::orderID = 0;
+
+Order::Order()
+{
+    ++orderID;
+}
+
 // GETTERS
+int Order::getOrderID()
+{
+    return orderID;
+}
+
 int Order::getID(std::string type)
 {
     if (type == "order")
@@ -150,4 +162,14 @@ void Order::setRental(double cost)
 void Order::setReturnDateTime(std::string time)
 {
     this->returnDateTime = time;
+}
+
+int Order::getSalesRepID()
+{
+    return this->salesRepID;
+}
+
+void Order::setSalesRepID(int id)
+{
+    this->salesRepID = id;
 }

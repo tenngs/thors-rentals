@@ -3,7 +3,7 @@
 class Order
 {
 private:
-    int orderID;
+    static int orderID;
     int salesRepID;
     int customerID;
     std::string customerFirstName;
@@ -18,7 +18,9 @@ private:
     std::string returnDateTime;
 
 public:
+    Order();
     // getters for all
+    static int getOrderID();
     int getID(std::string type);
     std::string getName(std::string type);
     int getEquipment(std::string choice);
@@ -27,6 +29,7 @@ public:
     double getRental();
     std::string getReturnDateTime();
     std::string getEquipmentStyle();
+    int getSalesRepID();
 
     // setters for all
     void setID(std::string type, int ID);
@@ -36,5 +39,5 @@ public:
     void setRental(std::string type, int value);
     void setRental(double cost);
     void setReturnDateTime(std::string time);
-    // TO DO: clear all private variables in destructor?
+    void setSalesRepID(int id);
 };
