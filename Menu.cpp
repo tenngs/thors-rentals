@@ -609,12 +609,6 @@ void Menu::initRentalMenu(Order &initOrder)
     } while (run == true);
 
     initOrder.setID("customer", resultID);
-    // TO DO: get customer first and surname and by using
-    // customer ID and set them to Order class
-
-    std::cout << "This is initRental" << initOrder.getID("customer") << std::endl;
-    std::cout << "Customer ID is: " << initOrder.getID("customer") << std::endl;
-    system("pause");
 }
 
 void Menu::chooseEquipmentMenu(Order &initOrder)
@@ -913,47 +907,31 @@ void Menu::confirmDetailsMenu(Order &initOrder)
     std::set<int> validDigits({1, 2, 3, 9});
     std::unordered_set<int> validEquipmentIDs{};
 
-    std::string strCustomerID{std::to_string(initOrder.getID("customer"))};
-    std::string strEquipmentID{std::to_string(initOrder.getEquipment("id"))};
-
+    Menu mainMenu;
     Display disp;
     Utility utils;
-    Menu mainMenu;
-    Table initRental;
-    Sql sql;
+    utils.setOrderDetails(initOrder);
 
-    // -------------------------------------MOVE THIS TO ANOTHER FUNCTION---------------------------------------
-    // calculate total rental cost
-    initOrder.setRental(initRental.calculateRentalCost(initOrder));
-    // set return datetime
-    initOrder.setReturnDateTime(utils.calculateReturnDatetime(initOrder));
-
-    initOrder.setName("first", initRental.searchTextValuesFromDB(sql.getCustomerFirstName() + strCustomerID));
-    initOrder.setName("last", initRental.searchTextValuesFromDB(sql.getCustomerSurname() + strCustomerID));
-
-    if (initOrder.getEquipment("type") == 3)
-    {
-        initOrder.setEquipmentStyle("make", initRental.searchTextValuesFromDB(sql.getAtvMake() + strEquipmentID));
-        initOrder.setEquipmentStyle("model", initRental.searchTextValuesFromDB(sql.getAtvModel() + strEquipmentID));
-    }
-    else
-    {
-        initOrder.setEquipmentStyle("make", initRental.searchTextValuesFromDB(sql.getSkisSBsMake() + strEquipmentID));
-        initOrder.setEquipmentStyle("model", initRental.searchTextValuesFromDB(sql.getSkisSBsModel() + strEquipmentID));
-    }
-
-        // TO DO: add sales rep ID and order ID to Order
-
-    // -------------------------------------MOVE THIS TO ANOTHER FUNCTION---------------------------------------
     do
     {
         system("cls");
         disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_init_rental.txt");
 
-        std::cout << "|---You have chosen: " << std::endl;
+        std::cout << "|-----TR Order #" << initOrder.getOrderID() << "-----|"
+                  << std::endl;
+
+        std::cout << "|---------for"
+                  << "---------|\n"
+                  << std::endl;
+        std::cout << "|---Sales rep ID: " << initOrder.getSalesRepID()
+                  << "\n\n"
+                  << std::endl;
+
+        std::cout << "|---Order details: " << std::endl;
         std::cout << "|---" << std::endl;
         std::cout << "|---Customer name: " << initOrder.getName("first") + " " + initOrder.getName("last") << std::endl;
         std::cout << "|---Equipment make/model: " << initOrder.getEquipmentStyle("make") + " " + initOrder.getEquipmentStyle("model") << std::endl;
+        std::cout << "|---Equipment ID: " << initOrder.getEquipment("id") << std::endl;
         std::cout << "|---Rental days: " << initOrder.getRental("days") << std::endl;
         std::cout << "|---Rental hours: " << initOrder.getRental("hours") << std::endl;
         std::cout << "|---Total cost: " << initOrder.getRental() << std::endl;
@@ -979,12 +957,11 @@ void Menu::confirmDetailsMenu(Order &initOrder)
             system("cls");
             mainMenu.mainMenu();
         }
-
     } while (run = true);
 
     system("pause");
 
-    // 1) add details to orders table
-    // 2) update statistics option (total money from rentals) with rental cost
-    // 3) change rented equipment status to not available in inventory table
+    // TO DO:
+    // 1) update statistics option (total money from rentals) with rental cost
+    // 2) change rented equipment status to not available in inventory table
 }
