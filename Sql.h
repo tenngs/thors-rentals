@@ -177,6 +177,9 @@ private:
 
     const std::string customerFirstName = "SELECT FIRST_NAME FROM customers WHERE ID = ";
 
+    const std::string customerSurname = "SELECT SURNAME FROM customers WHERE ID = ";
+    // select SURNAME FROM customers WHERE ID = getorderID
+
     /*
         Getters for private variables
     */
@@ -199,4 +202,5 @@ public:
     const std::string getAvailableEquipV2();
     const std::string getSearchForCustomerIDByID();
     const std::string getCustomerFirstName();
+    const std::string getCustomerSurname();
 };

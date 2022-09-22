@@ -83,11 +83,11 @@ void Order::setID(std::string type, int ID)
 
 void Order::setName(std::string type, std::string name)
 {
-    if (name == "first")
+    if (type == "first")
     {
         this->customerFirstName = name;
     }
-    if (name == "last")
+    if (type == "last")
     {
         this->customerSurname = name;
     }
@@ -113,7 +113,7 @@ void Order::setRental(std::string type, int value)
     }
     if (type == "days")
     {
-        this->rentalDays;
+        this->rentalDays = value;
     }
 }
 

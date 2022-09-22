@@ -388,6 +388,7 @@ std::string Table::searchTextValuesFromDB(std::string sqlStmnt)
 
     size_t len;
     const unsigned char *uc;
+    std::string textValue;
 
     Utility utils;
 
@@ -403,7 +404,8 @@ std::string Table::searchTextValuesFromDB(std::string sqlStmnt)
 
     while ((rc = sqlite3_step(stmt)) == SQLITE_ROW)
     {
-        uc = sqlite3_column_text(stmt, 0);
+        // uc = sqlite3_column_text(stmt, 0);
+        textValue = std::string(reinterpret_cast<const char *>(sqlite3_column_text(stmt, 0)));
     }
     if (rc != SQLITE_DONE)
     {
@@ -411,16 +413,13 @@ std::string Table::searchTextValuesFromDB(std::string sqlStmnt)
         std::cout << "Please try again" << std::endl;
         utils.pause(3);
     }
-
-    // std::cout << "I am uc value" << uc << std::endl;
-    // system("pause");
-
-    std::string textValue(reinterpret_cast<char const *>(uc), len);
-    // std::cout << textValue << std::endl;
-    // system("pause");
-
+    // TO DO: print const char* value
     sqlite3_finalize(stmt);
     sqlite3_close(db);
 
     return textValue;
 }
+// TO DO: convert it to string and return
+
+// std::cout << "I am uc value" << uc << std::endl;
+// system("pause");

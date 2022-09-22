@@ -923,9 +923,9 @@ void Menu::confirmDetailsMenu(Order &initOrder)
     std::set<int> validDigits({1, 2, 3, 9});
     std::unordered_set<int> validEquipmentIDs{};
 
-    std::string sqlStmnt{};
+    std::string sqlStmntFirstName{};
 
-    int resultID = {};
+    std::string strCustomerID{};
 
     Display disp;
     Utility utils;
@@ -938,24 +938,18 @@ void Menu::confirmDetailsMenu(Order &initOrder)
         system("cls");
         disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_init_rental.txt");
 
-        // select FIRST_NAME FROM customers WHERE ID = ?
-        // getorderID is val1
+        strCustomerID = std::to_string(initOrder.getID("customer"));
 
-        sqlStmnt = sql.getCustomerFirstName() + std::to_string(initOrder.getID("customer"));
-        // initRental.searchTextValuesFromDB(sqlStmnt);
-        std::cout << "first name is: " << initRental.searchTextValuesFromDB(sqlStmnt) << std::endl;
-        system("pause");
+        initOrder.setName("first", initRental.searchTextValuesFromDB(sql.getCustomerFirstName() + strCustomerID));
+        initOrder.setName("last", initRental.searchTextValuesFromDB(sql.getCustomerSurname() + strCustomerID));
 
-        // select SURNAME FROM customers WHERE ID = getorderID
+        // TO DO: Get Equipment make
+        //        Get Equipment model
+        //        Get equipment model
 
-        // TO DO: Get customer firstname and surname
-        //        Get equipment make using equipment ID and type
-        //        Get equipment model using equipment ID and type
-
-        std::cout
-            << "|---You have chosen: " << std::endl;
+        std::cout << "|---You have chosen: " << std::endl;
         std::cout << "|---" << std::endl;
-        std::cout << "|---Customer name: " << std::endl;
+        std::cout << "|---Customer name: " << initOrder.getName("first") + " " + initOrder.getName("last") << std::endl;
         std::cout << "|---Equipment make: " << std::endl;
         std::cout << "|---Equipment model: " << std::endl;
         std::cout << "|---Rental days: " << initOrder.getRental("days") << std::endl;
@@ -985,6 +979,9 @@ void Menu::confirmDetailsMenu(Order &initOrder)
         }
 
     } while (run = true);
+
+    system("pause");
+
     // TO DO: add sales rep ID and order ID to Order
     // 1) add details to orders table
     // 2) update statistics option (total money from rentals) with rental cost

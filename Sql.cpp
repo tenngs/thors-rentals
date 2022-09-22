@@ -202,3 +202,8 @@ const std::string Sql::getCustomerFirstName()
 {
     return this->customerFirstName;
 }
+
+const std::string Sql::getCustomerSurname()
+{
+    return this->customerSurname;
+}
