@@ -89,13 +89,13 @@ private:
                                          "VALUES ('t', 't', '123 Main Street', '29650', 'UKTown1', 'test@test.com', 'tester', '9', '0', '1');"
 
                                          "INSERT INTO staff (FIRST_NAME, SURNAME, ADDRESS_FIRST_LINE, POSTCODE, CITY, EMAIL, ROLE, EMPLOYMENT_TYPE, APP_ACCESS, COVID_VACCINATED)"
-                                         "VALUES ('Sally', 'Silverstrom', '123 Main Street', '29650', 'UKTown1', 'salls@salberger.com', 'tester', '9', '1', '1');"
+                                         "VALUES ('Sally', 'Silverstrom', '456 Main Street', '29650', 'UKTown13', 'salls@salberger.com', 'tester', '9', '1', '1');"
 
                                          "INSERT INTO staff (FIRST_NAME, SURNAME, ADDRESS_FIRST_LINE, POSTCODE, CITY, EMAIL, ROLE, EMPLOYMENT_TYPE, APP_ACCESS, COVID_VACCINATED)"
                                          "VALUES ('Johnny', 'Jordanovic', '907 Cube Street', '29612', 'UKTown19', 'johnmeister@jonslair.com', 'dev', '9', '1', '1');"
 
                                          "INSERT INTO staff (FIRST_NAME, SURNAME, ADDRESS_FIRST_LINE, POSTCODE, CITY, EMAIL, ROLE, EMPLOYMENT_TYPE, APP_ACCESS, COVID_VACCINATED)"
-                                         "VALUES ('Rocko', 'Rocdanovic', '123 Main Street', '29650', 'UKTown1', 'rocko@rocs.com', 'rocker', '1', '1', '1');"
+                                         "VALUES ('Rocko', 'Rocdanovic', '789 Main Street', '29650', 'UKTown11', 'rocko@rocs.com', 'rocker', '1', '1', '1');"
 
                                          "INSERT INTO staff (FIRST_NAME, SURNAME, ADDRESS_FIRST_LINE, POSTCODE, CITY, EMAIL, ROLE, EMPLOYMENT_TYPE, APP_ACCESS, COVID_VACCINATED)"
                                          "VALUES ('Jenny', 'Jemstein', '456 Side Street', '39650', 'UKTown2', 'jens@jemstein.com', 'jenmeister', '2', '0', '0');";
@@ -178,8 +178,14 @@ private:
     const std::string customerFirstName = "SELECT FIRST_NAME FROM customers WHERE ID = ";
 
     const std::string customerSurname = "SELECT SURNAME FROM customers WHERE ID = ";
-    // select SURNAME FROM customers WHERE ID = getorderID
 
+    const std::string atvMake = "SELECT MAKE from inventory_atvs WHERE ID = ";
+
+    const std::string atvModel = "SELECT MODEL from inventory_atvs WHERE ID = ";
+
+    const std::string skisSBsMake = "SELECT MAKE from inventory_skis_snowboards WHERE ID = ";
+
+    const std::string skisSBsModel = "SELECT MODEL from inventory_skis_snowboards WHERE ID = ";
     /*
         Getters for private variables
     */
@@ -203,4 +209,8 @@ public:
     const std::string getSearchForCustomerIDByID();
     const std::string getCustomerFirstName();
     const std::string getCustomerSurname();
+    const std::string getAtvMake();
+    const std::string getAtvModel();
+    const std::string getSkisSBsMake();
+    const std::string getSkisSBsModel();
 };

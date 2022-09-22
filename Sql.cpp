@@ -207,3 +207,23 @@ const std::string Sql::getCustomerSurname()
 {
     return this->customerSurname;
 }
+
+const std::string Sql::getAtvMake()
+{
+    return this->atvMake;
+}
+
+const std::string Sql::getAtvModel()
+{
+    return this->atvModel;
+}
+
+const std::string Sql::getSkisSBsMake()
+{
+    return this->skisSBsMake;
+}
+
+const std::string Sql::getSkisSBsModel()
+{
+    return this->skisSBsModel;
+}

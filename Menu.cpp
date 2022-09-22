@@ -903,29 +903,18 @@ void Menu::rentalDurationMenu(Order &initOrder)
             break;
         }
     } while (run = true);
-
-    // set total rental cost
-    initOrder.setRental(initRental.calculateRentalCost(initOrder));
-    // set return datetime
-    initOrder.setReturnDateTime(utils.calculateReturnDatetime(initOrder));
-
-    // TO DO: call another function with orderTableInfo and returnDateTime
-    // Mainmenu::showRentalDetails(orderTableInfo);
 }
 
 void Menu::confirmDetailsMenu(Order &initOrder)
 {
-
-    int userSuppliedEquimentID{};
     std::string choice{};
     bool run = true;
 
     std::set<int> validDigits({1, 2, 3, 9});
     std::unordered_set<int> validEquipmentIDs{};
 
-    std::string sqlStmntFirstName{};
-
-    std::string strCustomerID{};
+    std::string strCustomerID{std::to_string(initOrder.getID("customer"))};
+    std::string strEquipmentID{std::to_string(initOrder.getEquipment("id"))};
 
     Display disp;
     Utility utils;
@@ -933,29 +922,42 @@ void Menu::confirmDetailsMenu(Order &initOrder)
     Table initRental;
     Sql sql;
 
+    // -------------------------------------MOVE THIS TO ANOTHER FUNCTION---------------------------------------
+    // calculate total rental cost
+    initOrder.setRental(initRental.calculateRentalCost(initOrder));
+    // set return datetime
+    initOrder.setReturnDateTime(utils.calculateReturnDatetime(initOrder));
+
+    initOrder.setName("first", initRental.searchTextValuesFromDB(sql.getCustomerFirstName() + strCustomerID));
+    initOrder.setName("last", initRental.searchTextValuesFromDB(sql.getCustomerSurname() + strCustomerID));
+
+    if (initOrder.getEquipment("type") == 3)
+    {
+        initOrder.setEquipmentStyle("make", initRental.searchTextValuesFromDB(sql.getAtvMake() + strEquipmentID));
+        initOrder.setEquipmentStyle("model", initRental.searchTextValuesFromDB(sql.getAtvModel() + strEquipmentID));
+    }
+    else
+    {
+        initOrder.setEquipmentStyle("make", initRental.searchTextValuesFromDB(sql.getSkisSBsMake() + strEquipmentID));
+        initOrder.setEquipmentStyle("model", initRental.searchTextValuesFromDB(sql.getSkisSBsModel() + strEquipmentID));
+    }
+
+        // TO DO: add sales rep ID and order ID to Order
+
+    // -------------------------------------MOVE THIS TO ANOTHER FUNCTION---------------------------------------
     do
     {
         system("cls");
         disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_init_rental.txt");
 
-        strCustomerID = std::to_string(initOrder.getID("customer"));
-
-        initOrder.setName("first", initRental.searchTextValuesFromDB(sql.getCustomerFirstName() + strCustomerID));
-        initOrder.setName("last", initRental.searchTextValuesFromDB(sql.getCustomerSurname() + strCustomerID));
-
-        // TO DO: Get Equipment make
-        //        Get Equipment model
-        //        Get equipment model
-
         std::cout << "|---You have chosen: " << std::endl;
         std::cout << "|---" << std::endl;
         std::cout << "|---Customer name: " << initOrder.getName("first") + " " + initOrder.getName("last") << std::endl;
-        std::cout << "|---Equipment make: " << std::endl;
-        std::cout << "|---Equipment model: " << std::endl;
+        std::cout << "|---Equipment make/model: " << initOrder.getEquipmentStyle("make") + " " + initOrder.getEquipmentStyle("model") << std::endl;
         std::cout << "|---Rental days: " << initOrder.getRental("days") << std::endl;
         std::cout << "|---Rental hours: " << initOrder.getRental("hours") << std::endl;
         std::cout << "|---Total cost: " << initOrder.getRental() << std::endl;
-        std::cout << "|---Return date / time: " << initOrder.getReturnDateTime() << std::endl;
+        std::cout << "|---Return date/time: " << initOrder.getReturnDateTime() << std::endl;
         std::cout << "|---" << std::endl;
         std::cout << "|---Is this correct? [Y/N]" << std::endl;
         std::cout << "|---" << std::endl;
@@ -982,7 +984,6 @@ void Menu::confirmDetailsMenu(Order &initOrder)
 
     system("pause");
 
-    // TO DO: add sales rep ID and order ID to Order
     // 1) add details to orders table
     // 2) update statistics option (total money from rentals) with rental cost
     // 3) change rented equipment status to not available in inventory table

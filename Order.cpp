@@ -30,15 +30,28 @@ std::string Order::getName(std::string type)
     }
 }
 
-int Order::getEquipment(std::string type)
+int Order::getEquipment(std::string choice)
 {
-    if (type == "type")
+    if (choice == "type")
     {
         return this->equipmentType;
     }
-    if (type == "id")
+    if (choice == "id")
     {
         return this->equipmentID;
+    }
+}
+
+std::string Order::getEquipmentStyle(std::string choice)
+
+{
+    if (choice == "make")
+    {
+        return this->equipmentMake;
+    }
+    if (choice == "model")
+    {
+        return this->equipmentModel;
     }
 }
 
@@ -102,6 +115,18 @@ void Order::setEquipment(std::string type, int value)
     if (type == "id")
     {
         this->equipmentID = value;
+    }
+}
+
+void Order::setEquipmentStyle(std::string type, std::string value)
+{
+    if (type == "make")
+    {
+        this->equipmentMake = value;
+    }
+    if (type == "model")
+    {
+        this->equipmentModel = value;
     }
 }
 
