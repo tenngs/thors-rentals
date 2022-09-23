@@ -232,3 +232,48 @@ const std::string Sql::getSalesRepID()
 {
     return this->salesRepID;
 }
+
+const std::string Sql::getTotalSkis()
+{
+    return this->totalSkis;
+}
+
+const std::string Sql::getSkisForRent()
+{
+    return this->skisForRent;
+}
+
+const std::string Sql::getTotalSBsForRent()
+{
+    return this->totalSnowboards;
+}
+
+const std::string Sql::getSBsForRent()
+{
+    return this->snowboardsForRent;
+}
+
+const std::string Sql::getTotalAtvs()
+{
+    return this->totalATVs;
+}
+
+const std::string Sql::getTotalAtvs()
+{
+    return this->ATVsForRent;
+}
+
+const std::string Sql::getTotalCustomers()
+{
+    return this->totalCustomers;
+}
+
+const std::string Sql::getTotalStaff()
+{
+    return this->totalStaff;
+}
+
+const std::string Sql::getTotalAccessStaff()
+{
+    return this->totalAppAccessStaff;
+}

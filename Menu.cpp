@@ -85,15 +85,11 @@ void Menu::mainMenu()
                 break;
             }
             case 5:
-            {
                 std::cout << "This is case 5" << std::endl;
                 break;
-            }
             case 6:
-            { // Mainmenu::showStatisticsMenu();
-                std::cout << "This is case 6" << std::endl;
+                mainMenu.statsMenu();
                 break;
-            }
             case 7:
                 // Utility::shutdown();
                 break;
@@ -957,11 +953,104 @@ void Menu::confirmDetailsMenu(Order &initOrder)
             system("cls");
             mainMenu.mainMenu();
         }
+        else
+        {
+            run = false;
+            break;
+        }
+
     } while (run = true);
+
+    std::cout << "Run is nowq false - moving on" << std::endl;
 
     system("pause");
 
     // TO DO:
-    // 1) update statistics option (total money from rentals) with rental cost
-    // 2) change rented equipment status to not available in inventory table
+
+    // - if rental confirmed, amend equipment availability and statistics
+    // - ie. change rented equipment status to not available in inventory table
+
+    // - if not, go back to main menu
+    // - enter rental details in orders table
+    // - if user goes to main menu during rental process, delete order
+    // - create statistics
+    // - update statistics option (total money from rentals) with rental cost
+    // - create receive item
+    // - add "remove access staff" functionality?
+    // - add "remove rental item" functionality?
+}
+void Menu::statsMenu()
+{
+    Display disp;
+    Utility utils;
+    Menu mainMenu;
+    Table table;
+    Sql sql;
+
+    std::set<int> validDigits({9});
+    int choice{};
+    // SQL statements
+
+    int totalSkis = table.searchNumericValuesFromDB(sql.getTotalSkis());
+    int skisForRent = table.searchNumericValuesFromDB(sql.getSkisForRent());
+
+    int totalSnowboards = table.searchNumericValuesFromDB(sql.getTotalSBsForRent());
+    int snowboardsForRent = table.searchNumericValuesFromDB(sql.getSBsForRent());
+
+    int totalATVs = table.searchNumericValuesFromDB(sql.getTotalAtvs());
+    int ATVsForRent = table.searchNumericValuesFromDB(sql.getATVsForRent());
+
+    int totalCustomers = table.searchNumericValuesFromDB(sql.getTotalCustomers());
+    int totalStaff = table.searchNumericValuesFromDB(sql.getTotalStaff());
+    int totalAppAccessStaff = table.searchNumericValuesFromDB(sql.getTotalAccessStaff());
+
+    system("cls");
+
+    while (true)
+    {
+        disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_statistics.txt");
+        std::cout << "                     *********************************************************************\n";
+        std::cout << "                     |                             INVENTORY                             |" << std::endl;
+        std::cout << "                     |-------------------------------------------------------------------|" << std::endl;
+        std::cout << "                     |       Item             Total in Inventory   Available for Rent    |" << std::endl;
+        std::cout << "                     |-------------------------------------------------------------------|" << std::endl;
+        std::cout << "                     |    Skis         |  \t\t" << totalSkis << "\t\t" << skisForRent << "                |" << std::endl;
+        std::cout << "                     |    Snowboard    |  \t\t" << totalSnowboards << "\t\t" << snowboardsForRent << "                |" << std::endl;
+        std::cout << "                     |    ATV          |  \t\t" << totalATVs << "\t\t" << ATVsForRent << "                |" << std::endl;
+        std::cout << "                     |-------------------------------------------------------------------|" << std::endl;
+        std::cout << "                     |------------------------Press 9 for Main Menu----------------------|" << std::endl;
+        std::cout << "                     *********************************************************************\n";
+        std::cout << "\n\n\n";
+
+        std::cout << "                     *********************************************************************\n";
+        std::cout << "                     |                       CUMULATIVE STATISTICS                       |" << std::endl;
+        std::cout << "                     |-------------------------------------------------------------------|" << std::endl;
+        std::cout << "                     |     Customers: " << totalCustomers << "                                                  |" << std::endl;
+        std::cout << "                     |-------------------------------------------------------------------|" << std::endl;
+        std::cout << "                     |     Staff: " << totalStaff << "                                                      |" << std::endl;
+        std::cout << "                     |-------------------------------------------------------------------|" << std::endl;
+        std::cout << "                     |     Staff with App Access: " << totalAppAccessStaff << "                                      |" << std::endl;
+        std::cout << "                     |-------------------------------------------------------------------|" << std::endl;
+        std::cout << "                     |     GBP Amount Received from All Rentals:                         |" << std::endl;
+        std::cout << "                     |-------------------------------------------------------------------|" << std::endl;
+        std::cout << "                     |------------------------Press 9 for Main Menu----------------------|" << std::endl;
+        std::cout << "                     *********************************************************************\n";
+        std::cout << "\n\n";
+
+        std::cout << "|---TR~Statistics~$: ";
+
+        if ((!(std::cin >> choice)) || (!(utils.validateDigits(choice, validDigits))))
+        {
+            std::cout << "|---Thor is not happy - Please enter number 9 only" << std::endl;
+            utils.pause(3);
+            std::cin.clear();
+            std::cin.ignore(10000, '\n');
+            system("cls");
+        }
+        else
+        {
+            break;
+        }
+    }
+    mainMenu.mainMenu();
 }

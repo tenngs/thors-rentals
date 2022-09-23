@@ -17,6 +17,7 @@ public:
     void addCustomerMenu();
     void addStaffMenu();
     void addItemMenu();
+    void statsMenu();
     void initRentalMenu(Order &initOrder);
     void chooseEquipmentMenu(Order &initOrder);
     void rentalDurationMenu(Order &initOrder);

@@ -23,15 +23,16 @@ private:
                                              "EMAIL                    VARCHAR(60)         NOT NULL);";
 
     const std::string ordersCreateStmnt = "CREATE TABLE orders("
-                                          "ID                    INTEGER PRIMARY KEY AUTOINCREMENT,"
-                                          "SALES_REP_ID          INTEGER         NOT NULL,"
-                                          "CUSTOMER_ID           INTEGER         NOT NULL,"
-                                          "EQUIPMENT_TYPE        INTEGER         NOT NULL,"
-                                          "EQUIPMENT_ID          INTEGER         NOT NULL,"
-                                          "RENTAL_HOURS          INTEGER         NOT NULL,"
-                                          "RENTAL_DAYS           INTEGER         NOT NULL,"
-                                          "COST                  DECIMAL(3,2)    NOT NULL,"
-                                          "RETURN_DATETIME       TEXT            NOT NULL);";
+                                          "ID                   INTEGER PRIMARY KEY,"
+                                          "SALES_REP_ID         INTEGER         NOT NULL,"
+                                          "CUSTOMER_ID          INTEGER         NOT NULL,"
+                                          "EQUIPMENT_TYPE       INTEGER         NOT NULL,"
+                                          "EQUIPMENT_ID         INTEGER         NOT NULL,"
+                                          "RENTAL_HOURS         INTEGER         NOT NULL,"
+                                          "RENTAL_DAYS          INTEGER         NOT NULL,"
+                                          "COST                 DECIMAL(3,2)    NOT NULL,"
+                                          "RETURN_DATETIME      TEXT            NOT NULL,"
+                                          "STATUS               CHAR(1)         NOT NULL);";
 
     const std::string staffCreateStmnt = "CREATE TABLE staff("
                                          "ID                       INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -189,11 +190,25 @@ private:
 
     const std::string salesRepID = "SELECT ID FROM system_access WHERE LOGGED_ON = 1";
 
+    const std::string totalSkis = "SELECT count (*) FROM inventory_skis_snowboards WHERE EQUIPMENT_TYPE = '1';";
+    const std::string skisForRent = "SELECT count (*) FROM inventory_skis_snowboards WHERE EQUIPMENT_TYPE = 1 AND AVAILABLE = '1';";
+
+    const std::string totalSnowboards = "SELECT count (*) FROM inventory_skis_snowboards WHERE EQUIPMENT_TYPE = '2';";
+    const std::string snowboardsForRent = "SELECT count (*) FROM inventory_skis_snowboards WHERE EQUIPMENT_TYPE = '2' AND AVAILABLE = '1';";
+
+    const std::string totalATVs = "SELECT count(*) FROM inventory_atvs;";
+    const std::string ATVsForRent = "SELECT count(*) FROM inventory_atvs WHERE AVAILABLE = '1';";
+
+    const std::string totalCustomers = "SELECT count(*) FROM customers;";
+    const std::string totalStaff = "SELECT count(*) FROM staff;";
+    const std::string totalAppAccessStaff = "SELECT count(*) FROM system_access;";
+
     /*
         Getters for private variables
     */
 public:
-    const std::string getCreateStmnt(std::string tableName);
+    const std::string
+    getCreateStmnt(std::string tableName);
     const std::string getDropStmnt(std::string tableName);
     const std::string getInsertStmnt(std::string tableName);
     const std::string getAddCustomerStmnt();
@@ -217,4 +232,14 @@ public:
     const std::string getSkisSBsMake();
     const std::string getSkisSBsModel();
     const std::string getSalesRepID();
+
+    const std::string getTotalSkis();
+    const std::string getSkisForRent();
+    const std::string getTotalSBsForRent();
+    const std::string getSBsForRent();
+    const std::string getTotalAtvs();
+    const std::string getATVsForRent();
+    const std::string getTotalCustomers();
+    const std::string getTotalStaff();
+    const std::string getTotalAccessStaff();
 };
