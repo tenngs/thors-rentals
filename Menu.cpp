@@ -82,6 +82,7 @@ void Menu::mainMenu()
                 mainMenu.chooseEquipmentMenu(*initOrder);
                 mainMenu.rentalDurationMenu(*initOrder);
                 mainMenu.confirmDetailsMenu(*initOrder);
+                mainMenu.addOrderDetails(*initOrder);
                 break;
             }
             case 5:
@@ -898,14 +899,22 @@ void Menu::rentalDurationMenu(Order &initOrder)
 void Menu::confirmDetailsMenu(Order &initOrder)
 {
     std::string choice{};
+    std::string sqlInit{};
     bool run = true;
 
     std::set<int> validDigits({1, 2, 3, 9});
     std::unordered_set<int> validEquipmentIDs{};
 
+    int equipmentType{initOrder.getEquipment("type")};
+    int equipmentID{initOrder.getEquipment("id")};
+
+    Table atvs{"inventory_atvs", "UPDATE"};
+    Table skisSBs{"inventory_skis_snowboards", "UPDATE"};
+
     Menu mainMenu;
     Display disp;
     Utility utils;
+    Sql sql;
     utils.setOrderDetails(initOrder);
 
     do
@@ -955,29 +964,33 @@ void Menu::confirmDetailsMenu(Order &initOrder)
         }
         else
         {
-            run = false;
-            break;
+            switch (equipmentType)
+            {
+            case 3:
+            {
+                // make atv unavailable
+                sqlInit = sql.getChangeAvailabilityATVs() + std::to_string(equipmentID);
+                atvs.execTableOperation(atvs.getOperationType(), atvs.getTableName(), sqlInit);
+                run = false;
+                break;
+            }
+            default:
+                // make skis or snowboard unavailable
+                sqlInit = sql.getChangeAvailabilitySkisSBs() + std::to_string(equipmentID);
+                skisSBs.execTableOperation(skisSBs.getOperationType(), skisSBs.getTableName(), sqlInit);
+                run = false;
+                break;
+            }
         }
+        break;
 
     } while (run = true);
 
-    std::cout << "Run is nowq false - moving on" << std::endl;
+    // call add order details function
+
+    std::cout << "Mashniyesh! Your rental is complete!" << std::endl;
 
     system("pause");
-
-    // TO DO:
-
-    // - if rental confirmed, amend equipment availability and statistics
-    // - ie. change rented equipment status to not available in inventory table
-
-    // - if not, go back to main menu
-    // - enter rental details in orders table
-    // - if user goes to main menu during rental process, delete order
-    // - create statistics
-    // - update statistics option (total money from rentals) with rental cost
-    // - create receive item
-    // - add "remove access staff" functionality?
-    // - add "remove rental item" functionality?
 }
 void Menu::statsMenu()
 {

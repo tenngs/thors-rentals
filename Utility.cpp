@@ -476,3 +476,17 @@ void Utility::setOrderDetails(Order &initOrder)
 
     initOrder.setSalesRepID(initRental.searchNumericValuesFromDB(sql.getSalesRepID()));
 }
+
+void Utility::addOrderDetails(Order &initOrder)
+{
+    // grab all order details from Order
+    std::vector<std::string> equipmentInfo{};
+    equipmentInfo.insert()
+
+        sqlStmnt = sql.getAddAtvStmnt();
+
+    inventory.appInsertTableOperation(successMsg, equipmentInfo, equipmentInfo.size(), sqlStmnt);
+    // add them to orders table
+    // cout message that rental is complete
+    // delete Order
+}

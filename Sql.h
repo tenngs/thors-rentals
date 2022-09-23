@@ -159,6 +159,9 @@ private:
     const std::string addAtvStmnt = "INSERT INTO inventory_atvs (MAKE, MODEL, REG, FUEL_TYPE, PRICE_HOUR, PRICE_DAY, AVAILABLE)"
                                     "VALUES (?,?,?,?,?,?,?);";
 
+    const std::string addToOrdersStmnt = "INSERT INTO orders (SALES_REP_ID, CUSTOMER_ID, EQUIPMENT_TYPE, EQUIPMENT_ID, RENTAL_HOURS, RENTAL_DAYS, COST, RETURN_DATETIME, STATUS)"
+                                         "VALUES (?,?,?,?,?,?,?,?,?);";
+
     const std::string validateUsernameStmnt = "SELECT username FROM system_access WHERE username = ?";
 
     const std::string validateUnamePasswordStmnt = "SELECT password FROM system_access WHERE password = ? AND username = ?";
@@ -203,12 +206,15 @@ private:
     const std::string totalStaff = "SELECT count(*) FROM staff;";
     const std::string totalAppAccessStaff = "SELECT count(*) FROM system_access;";
 
+    const std::string changeAvailabilityATVs = "UPDATE inventory_atvs SET AVAILABLE = 0 WHERE id = ";
+
+    const std::string changeAvailabilitySkisSBs = "UPDATE inventory_skis_snowboards SET AVAILABLE = 0 WHERE id = ";
+
     /*
-        Getters for private variables
-    */
+    Getters for private variables
+*/
 public:
-    const std::string
-    getCreateStmnt(std::string tableName);
+    const std::string getCreateStmnt(std::string tableName);
     const std::string getDropStmnt(std::string tableName);
     const std::string getInsertStmnt(std::string tableName);
     const std::string getAddCustomerStmnt();
@@ -242,4 +248,6 @@ public:
     const std::string getTotalCustomers();
     const std::string getTotalStaff();
     const std::string getTotalAccessStaff();
+    const std::string getChangeAvailabilityATVs();
+    const std::string getChangeAvailabilitySkisSBs();
 };

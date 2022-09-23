@@ -258,7 +258,7 @@ const std::string Sql::getTotalAtvs()
     return this->totalATVs;
 }
 
-const std::string Sql::getTotalAtvs()
+const std::string Sql::getATVsForRent()
 {
     return this->ATVsForRent;
 }
@@ -276,4 +276,14 @@ const std::string Sql::getTotalStaff()
 const std::string Sql::getTotalAccessStaff()
 {
     return this->totalAppAccessStaff;
+}
+
+const std::string Sql::getChangeAvailabilityATVs()
+{
+    return this->changeAvailabilityATVs;
+}
+
+const std::string Sql::getChangeAvailabilitySkisSBs()
+{
+    return this->changeAvailabilitySkisSBs;
 }
