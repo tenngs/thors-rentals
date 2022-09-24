@@ -159,8 +159,8 @@ private:
     const std::string addAtvStmnt = "INSERT INTO inventory_atvs (MAKE, MODEL, REG, FUEL_TYPE, PRICE_HOUR, PRICE_DAY, AVAILABLE)"
                                     "VALUES (?,?,?,?,?,?,?);";
 
-    const std::string addToOrdersStmnt = "INSERT INTO orders (SALES_REP_ID, CUSTOMER_ID, EQUIPMENT_TYPE, EQUIPMENT_ID, RENTAL_HOURS, RENTAL_DAYS, COST, RETURN_DATETIME, STATUS)"
-                                         "VALUES (?,?,?,?,?,?,?,?,?);";
+    const std::string addToOrdersStmnt = "INSERT INTO orders (ID, SALES_REP_ID, CUSTOMER_ID, EQUIPMENT_TYPE, EQUIPMENT_ID, RENTAL_HOURS, RENTAL_DAYS, COST, RETURN_DATETIME, STATUS)"
+                                         "VALUES (?,?,?,?,?,?,?,?,?,?);";
 
     const std::string validateUsernameStmnt = "SELECT username FROM system_access WHERE username = ?";
 
@@ -250,4 +250,5 @@ public:
     const std::string getTotalAccessStaff();
     const std::string getChangeAvailabilityATVs();
     const std::string getChangeAvailabilitySkisSBs();
+    const std::string getAddToOrders();
 };

@@ -287,3 +287,8 @@ const std::string Sql::getChangeAvailabilitySkisSBs()
 {
     return this->changeAvailabilitySkisSBs;
 }
+
+const std::string Sql::getAddToOrders()
+{
+    return this->addToOrdersStmnt;
+}

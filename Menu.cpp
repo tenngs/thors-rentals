@@ -37,7 +37,6 @@ void Menu::showMainMenuBanner()
 
 void Menu::mainMenu()
 {
-
     Display disp;
     Menu mainMenu;
     Utility utils;
@@ -82,7 +81,7 @@ void Menu::mainMenu()
                 mainMenu.chooseEquipmentMenu(*initOrder);
                 mainMenu.rentalDurationMenu(*initOrder);
                 mainMenu.confirmDetailsMenu(*initOrder);
-                mainMenu.addOrderDetails(*initOrder);
+                utils.addOrderDetails(*initOrder);
                 break;
             }
             case 5:
@@ -202,7 +201,7 @@ void Menu::addCustomerMenu()
     // and call it at the end
     // if user confirms that their input is correct
     // then insert information to a table in DB
-    customers.appInsertTableOperation(successMsg, customerInfo, customerInfo.size(), sql.getAddCustomerStmnt());
+    customers.appInsertTableOperation(successMsg, customerInfo, sql.getAddCustomerStmnt());
 }
 
 /*
@@ -287,7 +286,7 @@ void Menu::addStaffMenu()
         }
     }
 
-    staff.appInsertTableOperation(successMsg, staffInfo, staffInfo.size(), sql.getAddStaffStmnt());
+    staff.appInsertTableOperation(successMsg, staffInfo, sql.getAddStaffStmnt());
 }
 
 void Menu::addItemMenu()
@@ -489,7 +488,7 @@ void Menu::addItemMenu()
         }
     } while (run == true);
 
-    inventory.appInsertTableOperation(successMsg, equipmentInfo, equipmentInfo.size(), sqlStmnt);
+    inventory.appInsertTableOperation(successMsg, equipmentInfo, sqlStmnt);
 }
 
 void Menu::initRentalMenu(Order &initOrder)
@@ -985,13 +984,8 @@ void Menu::confirmDetailsMenu(Order &initOrder)
         break;
 
     } while (run = true);
-
-    // call add order details function
-
-    std::cout << "Mashniyesh! Your rental is complete!" << std::endl;
-
-    system("pause");
 }
+
 void Menu::statsMenu()
 {
     Display disp;

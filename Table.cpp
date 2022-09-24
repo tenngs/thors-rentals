@@ -199,7 +199,7 @@ bool Table::determineExistenceTextValuesInDB(std::string val1, std::string val2,
     collection, binds text to SQL statement and inserts data
     to a table in DB.
 */
-void Table::appInsertTableOperation(std::string successMsg, std::vector<std::string> infoCollection, int numberOfQuestions, std::string sql)
+void Table::appInsertTableOperation(std::string successMsg, std::vector<std::string> infoCollection, std::string sql)
 {
     sqlite3 *db;
     char *zErrMsg = 0;
@@ -222,7 +222,54 @@ void Table::appInsertTableOperation(std::string successMsg, std::vector<std::str
     // Bind user specified customer information
     // to SQL statement by iterating over infoCollection
     // string vector
-    for (int index = 0; index < numberOfQuestions; ++index)
+    for (int index = 0; index < infoCollection.size(); ++index)
+    {
+        sqlite3_bind_text(stmt, index + 1, infoCollection[index].c_str(), infoCollection[index].length(), SQLITE_STATIC);
+    }
+
+    if (sqlite3_step(stmt) != SQLITE_DONE)
+    {
+        std::cout << "Something went wrong: " << sqlite3_errmsg(db) << std::endl;
+        std::cout << "Please try again" << std::endl;
+        utils.pause(3);
+    }
+    else
+    {
+        std::cout << "\n\t" << successMsg << std::endl;
+        utils.pause(3);
+    }
+
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+
+    system("cls");
+    mainMenu.mainMenu();
+}
+
+void Table::appToOrdersTableFromOrder(std::string successMsg, std::vector<std::string> infoCollection, std::string sql)
+{
+    sqlite3 *db;
+    char *zErrMsg = 0;
+    int rc{};
+    Utility utils;
+    Menu mainMenu;
+
+    rc = sqlite3_open("thors_rentals.db", &db);
+
+    if (rc)
+    {
+        std::cout << "DB Error: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_close(db);
+    }
+
+    // Construct prepared statement
+    sqlite3_stmt *stmt;
+    sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, nullptr);
+
+    // Bind user specified customer information
+    // to SQL statement by iterating over infoCollection
+    // string vector
+    for (int index = 0; index < infoCollection.size(); ++index)
     {
         sqlite3_bind_text(stmt, index + 1, infoCollection[index].c_str(), infoCollection[index].length(), SQLITE_STATIC);
     }

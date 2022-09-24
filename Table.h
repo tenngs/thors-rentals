@@ -18,7 +18,8 @@ class Table
 {
 private:
     std::string name;
-    std::string operationType; // "DROP", "INSERT INTO", "CREATE"
+    // "DROP", "INSERT INTO", "CREATE", "UPDATE"
+    std::string operationType;
     std::string sqlStmnt;
 
 public:
@@ -33,8 +34,9 @@ public:
     int searchNumericValuesFromDB(std::string sqlStmnt);
     std::string searchTextValuesFromDB(std::string sqlStmnt);
 
-    void appInsertTableOperation(std::string successMsg, std::vector<std::string> infoCollection, int numberOfQuestions, std::string sql);
+    void appInsertTableOperation(std::string successMsg, std::vector<std::string> infoCollection, std::string sql);
     std::unordered_set<int> getAvailableEquipmentIDs(std::string tableName, int type);
     double calculateRentalCost(Order &initOrder);
     std::string calculateReturnDatetime(Order &initOrder);
+    void appToOrdersTableFromOrder(std::string successMsg, std::vector<std::string> infoCollection, std::string sql);
 };

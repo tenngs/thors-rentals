@@ -3,6 +3,7 @@
 #include <string>
 #include <chrono>
 #include <iostream>
+#include <vector>
 #include <unordered_set>
 #include <set>
 #include <algorithm>
@@ -479,13 +480,50 @@ void Utility::setOrderDetails(Order &initOrder)
 
 void Utility::addOrderDetails(Order &initOrder)
 {
-    // grab all order details from Order
-    std::vector<std::string> equipmentInfo{};
-    equipmentInfo.insert()
 
-        sqlStmnt = sql.getAddAtvStmnt();
+    // ---------- LOOK HERE: USE A BINDING FUNCTION
+    Sql sql;
+    std::string sqlStmnt{};
+    std::string successMsg{"Mashniyesh! Your rental is complete!"};
+    Table orders{"INSERT INTO", "orders"};
+    std::vector<std::string> orderDetails;
 
-    inventory.appInsertTableOperation(successMsg, equipmentInfo, equipmentInfo.size(), sqlStmnt);
+    std::string orderID{std::to_string(initOrder.getOrderID())};
+    std::string salesRepID{std::to_string(initOrder.getID("sales"))};
+    std::string customerID{std::to_string(initOrder.getID("customer"))};
+    std::string equipmentType{std::to_string(initOrder.getEquipment("type"))};
+    std::string equipmentID{std::to_string(initOrder.getEquipment("id"))};
+    std::string rentalHours{std::to_string(initOrder.getRental("hours"))};
+    std::string rentalDays{std::to_string(initOrder.getRental("days"))};
+    std::string rentalCost{std::to_string(initOrder.getRental())};
+    std::string returnDateTime{initOrder.getReturnDateTime() + ".000"};
+    std::string status{std::to_string(1)};
+    // status 1 = rental "open" (equipment on loan)
+    // status 0 = rental "closed" (equipment returned)
+
+    orderDetails.push_back(orderID);
+    orderDetails.push_back(salesRepID);
+    orderDetails.push_back(customerID);
+    orderDetails.push_back(equipmentType);
+    orderDetails.push_back(equipmentID);
+    orderDetails.push_back(rentalHours);
+    orderDetails.push_back(rentalDays);
+    orderDetails.push_back(rentalCost);
+    orderDetails.push_back(returnDateTime);
+    orderDetails.push_back(status);
+
+    // "INSERT INTO orders (ID, SALES_REP_ID, CUSTOMER_ID, EQUIPMENT_TYPE, EQUIPMENT_ID, RENTAL_HOURS, RENTAL_DAYS, COST, RETURN_DATETIME, STATUS)"
+    //                                      "VALUES "
+
+    // const std::string sqlAdd = "(" + orderID + "," + salesRepID + "," + customerID + "," + equipmentType + "," + equipmentID + "," + rentalHours + "," + rentalDays + "," + rentalCost + "," + returnDateTime + "," + status + ");";
+    // sqlStmnt = sql.getAddToOrders() + sqlAdd;
+
+    // std::cout << "This is my SQL statement: " << sqlStmnt << std::endl;
+
+    // orders.execTableOperation(orders.getOperationType(), orders.getTableName(), sql.getAddToOrders(), true);
+    orders.appInsertTableOperation(successMsg, orderDetails, sql.getAddToOrders());
+
+    system("pause");
     // add them to orders table
     // cout message that rental is complete
     // delete Order
