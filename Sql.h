@@ -210,6 +210,10 @@ private:
 
     const std::string changeAvailabilitySkisSBs = "UPDATE inventory_skis_snowboards SET AVAILABLE = 0 WHERE id = ";
 
+    const std::string equipmentType1_2OnLoan = "SELECT ID FROM ORDERS WHERE EQUIPMENT_TYPE = ? OR EQUIPMENT_TYPE = ? AND STATUS = 1;";
+
+    const std::string equipmentType3OnLoan = "SELECT ID FROM ORDERS WHERE EQUIPMENT_TYPE = ? AND STATUS = 1;";
+
     /*
     Getters for private variables
 */
@@ -238,7 +242,6 @@ public:
     const std::string getSkisSBsMake();
     const std::string getSkisSBsModel();
     const std::string getSalesRepID();
-
     const std::string getTotalSkis();
     const std::string getSkisForRent();
     const std::string getTotalSBsForRent();
@@ -251,4 +254,6 @@ public:
     const std::string getChangeAvailabilityATVs();
     const std::string getChangeAvailabilitySkisSBs();
     const std::string getAddToOrders();
+    const std::string getEquipmentType1_2OnLoan();
+    const std::string getEquipmentType3OnLoan();
 };

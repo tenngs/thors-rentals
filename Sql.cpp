@@ -292,3 +292,13 @@ const std::string Sql::getAddToOrders()
 {
     return this->addToOrdersStmnt;
 }
+
+const std::string Sql::getEquipmentType1_2OnLoan()
+{
+    return this->equipmentType1_2OnLoan;
+}
+
+const std::string Sql::getEquipmentType3OnLoan()
+{
+    return this->equipmentType3OnLoan;
+}

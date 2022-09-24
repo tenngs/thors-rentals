@@ -11,7 +11,6 @@
 class Menu
 {
 public:
-    // Order &initOrder;
     void showMainMenuBanner();
     void mainMenu();
     void addCustomerMenu();
@@ -22,4 +21,5 @@ public:
     void chooseEquipmentMenu(Order &initOrder);
     void rentalDurationMenu(Order &initOrder);
     void confirmDetailsMenu(Order &initOrder);
+    void receiveItemMenu();
 };

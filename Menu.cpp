@@ -82,16 +82,17 @@ void Menu::mainMenu()
                 mainMenu.rentalDurationMenu(*initOrder);
                 mainMenu.confirmDetailsMenu(*initOrder);
                 utils.addOrderDetails(*initOrder);
+                delete initOrder;
                 break;
             }
             case 5:
-                std::cout << "This is case 5" << std::endl;
+                mainMenu.receiveItemMenu();
                 break;
             case 6:
                 mainMenu.statsMenu();
                 break;
             case 7:
-                // Utility::shutdown();
+                utils.shutdown();
                 break;
             }
         }
@@ -120,6 +121,7 @@ void Menu::addCustomerMenu()
     Table customers;
 
     while (true)
+
     {
         // clear screen, display location banners
         // and ask for customer information
@@ -923,14 +925,12 @@ void Menu::confirmDetailsMenu(Order &initOrder)
 
         std::cout << "|-----TR Order #" << initOrder.getOrderID() << "-----|"
                   << std::endl;
-
         std::cout << "|---------for"
                   << "---------|\n"
                   << std::endl;
         std::cout << "|---Sales rep ID: " << initOrder.getSalesRepID()
                   << "\n\n"
                   << std::endl;
-
         std::cout << "|---Order details: " << std::endl;
         std::cout << "|---" << std::endl;
         std::cout << "|---Customer name: " << initOrder.getName("first") + " " + initOrder.getName("last") << std::endl;
@@ -1060,4 +1060,78 @@ void Menu::statsMenu()
         }
     }
     mainMenu.mainMenu();
+}
+
+void Menu::receiveItemMenu()
+{
+    std::string choice{};
+    std::string sqlInit{};
+    // below integers are cast as std::string
+    // because a system function already exist to do the
+    // required job with std::string
+    // otherwise, a new system function would
+    // have to be written
+    std::string type1{std::to_string(1)};
+    std::string type2{std::to_string(2)};
+    std::string type3{std::to_string(3)};
+    bool run = true;
+
+    Table orders;
+    Sql sql;
+    Menu mainMenu;
+    Utility utils;
+
+    // check if type 1 or 2 is on loan
+    bool type1_2OnLoan{orders.determineExistenceTextValuesInDB(type1, type2, sql.getEquipmentType1_2OnLoan())};
+    // check if type 3 is on loan
+    bool type3OnLoan{orders.determineExistenceTextValuesInDB(type3, sql.getEquipmentType3OnLoan())};
+
+    if (!(type1_2OnLoan) || (!(type3OnLoan)))
+    {
+        std::cout << "Nothing on loan at the minute. Please chill." << std::endl;
+        utils.pause(3);
+        mainMenu.mainMenu();
+    }
+
+    if (type1_2OnLoan)
+    {
+        // SQL statement to get all ids on loan that are type 1 or 2
+        // SELECT EQUIPMENT_ID FROM orders WHERE EQUIPMENT_TYPE = 1 OR EQUIPMENT_TYPE = 2 AND STATUS = 1;
+        // get all ids in a set
+        // iterate through result rows and put them in a set
+
+        // LOOK AT Table::getAvailableEquipmentIDs(std::string tableName, int type)
+    }
+
+    if (type3OnLoan)
+    {
+        // SQL statement to get all ids on loan that are type 3
+        // SELECT EQUIPMENT_ID FROM orders WHERE EQUIPMENT_TYPE = 3 AND STATUS = 1;
+        // get all ids in a set
+    }
+
+    // get all type 3 equipment IDs into a set
+
+    // int equipmentType{};
+    // int equipmentID{};
+
+    // Table atvs{"inventory_atvs", "UPDATE"};
+    // Table skisSBs{"inventory_skis_snowboards", "UPDATE"};
+
+    // Menu mainMenu;
+    // Display disp;
+    // Utility utils;
+    // Sql sql;
+
+    // while (true)
+    // {
+    //     system("cls");
+    //     disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_receive_item.txt");
+
+    //     std::cout << "|---Please enter rental equipment type: " << std::endl;
+    //     std::cin <
+    //         std::cout << "|---Maximum 11 - no half hours allowed" << std::endl;
+    //     std::cout << "|---" << std::endl;
+    //     std::cout << "|---TR~Init Rental: ";
+    // }
 }
