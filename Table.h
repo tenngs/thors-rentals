@@ -24,6 +24,7 @@ private:
 
 public:
     Table();
+    Table(std::string nameVal);
     Table(std::string nameVal, std::string opTypeVal);
     std::string getSqlStatement();
     std::string getTableName();
@@ -35,7 +36,7 @@ public:
     std::string searchTextValuesFromDB(std::string sqlStmnt);
 
     void appInsertTableOperation(std::string successMsg, std::vector<std::string> infoCollection, std::string sql);
-    std::unordered_set<int> getAvailableEquipmentIDs(std::string tableName, int type);
+    std::unordered_set<int> getAvailableEquipmentIDs(std::string sqlStmnt);
     double calculateRentalCost(Order &initOrder);
     std::string calculateReturnDatetime(Order &initOrder);
     void appToOrdersTableFromOrder(std::string successMsg, std::vector<std::string> infoCollection, std::string sql);

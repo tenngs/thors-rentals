@@ -528,3 +528,13 @@ void Utility::addOrderDetails(Order &initOrder)
     // cout message that rental is complete
     // delete Order
 }
+
+std::set<int> Utility::unorderedToOrdered(std::unordered_set<int> us)
+{
+    std::set<int> s;
+    for (auto val : us)
+    {
+        s.insert(val);
+    }
+    return s;
+}

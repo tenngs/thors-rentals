@@ -210,9 +210,9 @@ private:
 
     const std::string changeAvailabilitySkisSBs = "UPDATE inventory_skis_snowboards SET AVAILABLE = 0 WHERE id = ";
 
-    const std::string equipmentType1_2OnLoan = "SELECT ID FROM ORDERS WHERE EQUIPMENT_TYPE = ? OR EQUIPMENT_TYPE = ? AND STATUS = 1;";
+    const std::string equipmentType1_2OnLoan = "SELECT ID FROM ORDERS WHERE EQUIPMENT_TYPE = 1 OR EQUIPMENT_TYPE = 2 AND STATUS = 1;";
 
-    const std::string equipmentType3OnLoan = "SELECT ID FROM ORDERS WHERE EQUIPMENT_TYPE = ? AND STATUS = 1;";
+    const std::string equipmentType3OnLoan = "SELECT ID FROM ORDERS WHERE EQUIPMENT_TYPE = 3 AND STATUS = 1;";
 
     /*
     Getters for private variables

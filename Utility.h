@@ -9,6 +9,7 @@
 #pragma once
 
 #include <set>
+#include <unordered_set>
 #include "Order.h"
 
 class Utility
@@ -32,4 +33,5 @@ public:
     void revoffsetDays(int offset, int year, int *day, int *month1);
     void setOrderDetails(Order &initOrder);
     void addOrderDetails(Order &initOrder);
+    std::set<int> unorderedToOrdered(std::unordered_set<int> us);
 };

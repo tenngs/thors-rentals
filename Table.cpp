@@ -9,12 +9,18 @@
 #include "Table.h"
 
 /*
-    Constructor
+    Overloaded constructors
 */
 Table::Table(std::string nameVal, std::string opTypeVal)
     : name{nameVal}, operationType{opTypeVal}
 {
 }
+
+Table::Table(std::string nameVal)
+    : name{nameVal}
+{
+}
+
 Table::Table()
 {
 }
@@ -331,15 +337,8 @@ int Table::searchNumericValuesFromDB(std::string sqlStmnt)
     return stat;
 }
 
-std::unordered_set<int> Table::getAvailableEquipmentIDs(std::string tableName, int type)
+std::unordered_set<int> Table::getAvailableEquipmentIDs(std::string sqlStmnt)
 {
-    std::string sqlStmnt{};
-    std::string strType{};
-    strType = std::to_string(type);
-    Sql sql;
-
-    sqlStmnt = sql.getAvailableEquipIDsV1() + tableName + sql.getAvailableEquipIDsV2() + strType;
-
     sqlite3 *db;
     std::unordered_set<int> validEquipmentIDs{};
     sqlite3_stmt *selectStmt;
@@ -348,7 +347,7 @@ std::unordered_set<int> Table::getAvailableEquipmentIDs(std::string tableName, i
     if (sqlite3_prepare(db, sqlStmnt.c_str(), -1, &selectStmt, 0) == SQLITE_OK)
     {
         // count number of columns in table
-        int ctotal = sqlite3_column_count(selectStmt);
+        int columnTotal = sqlite3_column_count(selectStmt);
         int res = 0;
 
         while (true)
@@ -357,7 +356,7 @@ std::unordered_set<int> Table::getAvailableEquipmentIDs(std::string tableName, i
             if (res == SQLITE_ROW)
             {
 
-                for (int i = 0; i < ctotal; i++)
+                for (int i = 0; i < columnTotal; i++)
                 {
                     // loop times the number of columns in table
                     int j = sqlite3_column_int(selectStmt, i);
