@@ -457,7 +457,6 @@ std::string Table::searchTextValuesFromDB(std::string sqlStmnt)
         std::cout << "Please try again" << std::endl;
         utils.pause(3);
     }
-    // TO DO: print const char* value
     sqlite3_finalize(stmt);
     sqlite3_close(db);
 

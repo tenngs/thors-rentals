@@ -480,8 +480,6 @@ void Utility::setOrderDetails(Order &initOrder)
 
 void Utility::addOrderDetails(Order &initOrder)
 {
-
-    // ---------- LOOK HERE: USE A BINDING FUNCTION
     Sql sql;
     std::string sqlStmnt{};
     std::string successMsg{"Mashniyesh! Your rental is complete!"};
@@ -511,14 +509,6 @@ void Utility::addOrderDetails(Order &initOrder)
     orderDetails.push_back(rentalCost);
     orderDetails.push_back(returnDateTime);
     orderDetails.push_back(status);
-
-    // "INSERT INTO orders (ID, SALES_REP_ID, CUSTOMER_ID, EQUIPMENT_TYPE, EQUIPMENT_ID, RENTAL_HOURS, RENTAL_DAYS, COST, RETURN_DATETIME, STATUS)"
-    //                                      "VALUES "
-
-    // const std::string sqlAdd = "(" + orderID + "," + salesRepID + "," + customerID + "," + equipmentType + "," + equipmentID + "," + rentalHours + "," + rentalDays + "," + rentalCost + "," + returnDateTime + "," + status + ");";
-    // sqlStmnt = sql.getAddToOrders() + sqlAdd;
-
-    // std::cout << "This is my SQL statement: " << sqlStmnt << std::endl;
 
     // orders.execTableOperation(orders.getOperationType(), orders.getTableName(), sql.getAddToOrders(), true);
     orders.appInsertTableOperation(successMsg, orderDetails, sql.getAddToOrders());

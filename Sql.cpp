@@ -293,12 +293,32 @@ const std::string Sql::getAddToOrders()
     return this->addToOrdersStmnt;
 }
 
-const std::string Sql::getEquipmentType1_2OnLoan()
+const std::string Sql::getEquipmentTypeOnLoan()
 {
-    return this->equipmentType1_2OnLoan;
+    return this->equipmentTypeOnLoan;
+}
+const std::string Sql::getReturnDatetime()
+{
+    return this->returnDatetime;
 }
 
-const std::string Sql::getEquipmentType3OnLoan()
+const std::string Sql::getEquipmentIDsOnLoan(int type)
 {
-    return this->equipmentType3OnLoan;
+    if (type == 1)
+    {
+        return this->equipmentIDsOnLoanType1;
+    }
+    if (type == 2)
+    {
+        return this->equipmentIDsOnLoanType2;
+    }
+    if (type == 3)
+    {
+        return this->equipmentIDsOnLoanType2;
+    }
+}
+
+const std::string Sql::getOrdersSum()
+{
+    return this->ordersSum;
 }

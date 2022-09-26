@@ -210,13 +210,19 @@ private:
 
     const std::string changeAvailabilitySkisSBs = "UPDATE inventory_skis_snowboards SET AVAILABLE = 0 WHERE id = ";
 
-    const std::string equipmentType1_2OnLoan = "SELECT ID FROM ORDERS WHERE EQUIPMENT_TYPE = 1 OR EQUIPMENT_TYPE = 2 AND STATUS = 1;";
+    const std::string equipmentTypeOnLoan = "SELECT EQUIPMENT_ID FROM ORDERS WHERE EQUIPMENT_TYPE = ? AND STATUS = 1;";
 
-    const std::string equipmentType3OnLoan = "SELECT ID FROM ORDERS WHERE EQUIPMENT_TYPE = 3 AND STATUS = 1;";
+    const std::string returnDatetime = "SELECT RETURN_DATETIME FROM orders WHERE EQUIPMENT_TYPE = ";
+
+    const std::string equipmentIDsOnLoanType1 = "SELECT EQUIPMENT_ID FROM orders WHERE EQUIPMENT_TYPE = 1 AND STATUS = 1;";
+    const std::string equipmentIDsOnLoanType2 = "SELECT EQUIPMENT_ID FROM orders WHERE EQUIPMENT_TYPE = 2 AND STATUS = 1;";
+    const std::string equipmentIDsOnLoanType3 = "SELECT EQUIPMENT_ID FROM orders WHERE EQUIPMENT_TYPE = 3 AND STATUS = 1;";
+
+    const std::string ordersSum = "SELECT sum(cost) FROM orders WHERE STATUS = 0;";
 
     /*
     Getters for private variables
-*/
+    */
 public:
     const std::string getCreateStmnt(std::string tableName);
     const std::string getDropStmnt(std::string tableName);
@@ -254,6 +260,8 @@ public:
     const std::string getChangeAvailabilityATVs();
     const std::string getChangeAvailabilitySkisSBs();
     const std::string getAddToOrders();
-    const std::string getEquipmentType1_2OnLoan();
-    const std::string getEquipmentType3OnLoan();
+    const std::string getEquipmentTypeOnLoan();
+    const std::string getReturnDatetime();
+    const std::string getEquipmentIDsOnLoan(int type);
+    const std::string getOrdersSum();
 };
