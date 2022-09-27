@@ -1,5 +1,5 @@
 /*
-    This class provides a login facility for
+    Provides a login facility for
     a user. User is given 3 attempts each to
     enter a correct username and password. The
     validity of login details are checked from a

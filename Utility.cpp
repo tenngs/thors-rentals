@@ -4,6 +4,7 @@
 #include <chrono>
 #include <iostream>
 #include <vector>
+#include <regex>
 #include <unordered_set>
 #include <set>
 #include <algorithm>
@@ -527,4 +528,22 @@ std::set<int> Utility::unorderedToOrdered(std::unordered_set<int> us)
         s.insert(val);
     }
     return s;
+}
+
+bool Utility::postcodeCheck(std::string postcode)
+{
+    std::regex postcodePattern("^((([a-zA-Z][0-9])|([a-zA-Z][0-9]{2})|([a-zA-Z]{2}[0-9])|([a-zA-Z]{2}[0-9]{2})|([A-Za-z][0-9][a-zA-Z])|([a-zA-Z]{2}[0-9][a-zA-Z]))(\\s*[0-9][a-zA-Z]{2})$)");
+    return regex_match(postcode, postcodePattern);
+}
+
+bool Utility::emailCheck(std::string email)
+{
+    std::regex emailPattern("(\\w+)(\\.|_)?(\\w*)@(\\w+)(\\.(\\w+))+");
+    return regex_match(email, emailPattern);
+}
+
+std::string Utility::toUpperCase(std::string str)
+{
+    std::transform(str.begin(), str.end(), str.begin(), ::toupper);
+    return str;
 }

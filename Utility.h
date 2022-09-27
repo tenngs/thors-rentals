@@ -34,4 +34,7 @@ public:
     void setOrderDetails(Order &initOrder);
     void addOrderDetails(Order &initOrder);
     std::set<int> unorderedToOrdered(std::unordered_set<int> us);
+    bool postcodeCheck(std::string postcode);
+    bool emailCheck(std::string email);
+    std::string toUpperCase(std::string str);
 };

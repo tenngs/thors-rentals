@@ -30,7 +30,6 @@ void Display::displayBreakText(std::string text, bool clearScreen = false)
     {
         // adjust 100000000 value to display character
         // faster / slower
-        // dev env: 2 0s removed
         for (int j = 0; j <= 10000; j++)
             ;
         printf("%c", 177);
@@ -98,6 +97,16 @@ void Display::displaySkiTableColumns()
               << "AVAILABLE\n\n";
 }
 
+/*
+    Displays available equipment for rent specified by tableName and
+    equipment type arguments, where:
+    type 1 = skis
+    type 2 = snowboards
+    type 3 = ATVs
+
+    tableName = inventory_skis_snowboards // skis & snowboards
+    tableName = inventory_atvs // ATVs
+*/
 void Display::displayAvailableEquipment(std::string tableName, int type)
 {
     sqlite3 *db;

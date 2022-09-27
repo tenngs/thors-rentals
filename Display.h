@@ -1,5 +1,5 @@
 /*
-    This class contains utility functions in relation
+    Contains utility functions in relation
     to displaying items such as text, ASCII art
     and table columns.
 */

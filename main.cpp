@@ -1,12 +1,10 @@
 #include <string>
 #include <iostream>
 #include "InitApplication.h"
-#include "Display.h"
 #include "Utility.h"
-#include "Sql.h"
 #include "Login.h"
+#include "Order.h"
 #include "Menu.h"
-#include "Table.h"
 /*
    Driver from where the app is initialised
    and operated.
@@ -27,6 +25,6 @@ int main()
     else
     {
         utils.shutdown();
-        return 0;
     }
+    return 0;
 }

@@ -1,8 +1,11 @@
 #include <iostream>
+#include <cmath>
+#include <iomanip>
 #include <set>
 #include <unordered_set>
 #include <vector>
 #include <map>
+#include <regex>
 #include <string>
 #include "Display.h"
 #include "Utility.h"
@@ -73,8 +76,6 @@ void Menu::mainMenu()
                 break;
             case 4:
             {
-                // TO DO: make one class and call all the functions
-                // from there
                 Order *initOrder = new Order;
                 mainMenu.initRentalMenu(*initOrder);
                 mainMenu.chooseEquipmentMenu(*initOrder);
@@ -111,8 +112,10 @@ void Menu::addCustomerMenu()
     // input and to perform table operations
     std::vector<std::string> customerInfo{};
     std::string infoPiece{};
-    std::string successMsg = "Customer added successfully";
-    std::string answer = {};
+    std::string successMsg{"Customer added successfully"};
+    std::string answer{};
+    std::string postcode{};
+    std::string email{};
 
     Display disp;
     Utility utils;
@@ -120,7 +123,6 @@ void Menu::addCustomerMenu()
     Table customers;
 
     while (true)
-
     {
         // clear screen, display location banners
         // and ask for customer information
@@ -144,21 +146,46 @@ void Menu::addCustomerMenu()
         std::getline(std::cin, infoPiece);
         customerInfo.push_back(infoPiece);
 
-        std::cout << "|---Please enter customer's postcode" << std::endl;
-        std::cout << "|---TR~Add Customer~$: ";
-        std::cin >> infoPiece;
-        customerInfo.push_back(infoPiece);
-
+        while (1)
+        {
+            std::cout << "|---Please enter customer's UK postcode [No spaces]" << std::endl;
+            std::cout << "|---TR~Add Customer~$: ";
+            std::cin >> postcode;
+            if (utils.postcodeCheck(postcode))
+            {
+                customerInfo.push_back(utils.toUpperCase(postcode));
+                break;
+            }
+            else
+            {
+                std::cin.clear();
+                std::cin.ignore(10000, '\n');
+                std::cout << "|---Thor is not happy - invalid postcode" << std::endl;
+            }
+        }
         std::cout << "|---Please enter customer's city" << std::endl;
         std::cout << "|---TR~Add Customer~$: ";
         std::cin >> infoPiece;
         customerInfo.push_back(infoPiece);
 
-        std::cout << "|---Please enter customer's email" << std::endl;
-        std::cout << "|---TR~Add Customer~$: ";
-        std::cin >> infoPiece;
-        customerInfo.push_back(infoPiece);
+        while (1)
+        {
 
+            std::cout << "|---Please enter customer's email" << std::endl;
+            std::cout << "|---TR~Add Customer~$: ";
+            std::cin >> email;
+            if (utils.emailCheck(email))
+            {
+                customerInfo.push_back(email);
+                break;
+            }
+            else
+            {
+                std::cin.clear();
+                std::cin.ignore(10000, '\n');
+                std::cout << "|---Thor is not happy - invalid email" << std::endl;
+            }
+        }
         system("cls");
         disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals.txt");
         disp.displayASCIIArtFromFile("ASCIIArt/add_customer.txt");
@@ -198,10 +225,6 @@ void Menu::addCustomerMenu()
         }
     }
 
-    // TO DO: create universal sqlite bind insert to table function
-    // and call it at the end
-    // if user confirms that their input is correct
-    // then insert information to a table in DB
     customers.appInsertTableOperation(successMsg, customerInfo, sql.getAddCustomerStmnt());
 }
 
@@ -211,15 +234,18 @@ void Menu::addCustomerMenu()
     to collect pieces of user-entered information that
     will be upon confirmation from a user utilised to
     add a staff member to system_access table thereby
-    granting that staff member access to this application.
+    granting that staff member login access to this application.
 */
 void Menu::addStaffMenu()
 {
-
     std::vector<std::string> staffInfo{};
     std::string infoPiece{};
     std::string successMsg = "Staff member added and granted app access successfully";
     std::string answer = {};
+
+    int staffIDchoice{};
+
+    std::unordered_set<int> validStaffIDs{};
 
     Display disp;
     Utility utils;
@@ -228,10 +254,31 @@ void Menu::addStaffMenu()
 
     while (true)
     {
+        while (1)
+        {
+            system("cls");
+            disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_add_staff.txt");
+            std::cout << "|---Please enter staff member's ID" << std::endl;
+            std::cout << "|---TR~Add Staffr~$: ";
+            // get all current staff IDs in a set
+            validStaffIDs = staff.getAvailableIDs(sql.getstaffIDs());
+
+            if ((!(std::cin >> staffIDchoice)) || (!(utils.validateDigits(staffIDchoice, utils.unorderedToOrdered(validStaffIDs)))))
+            {
+                std::cout << "|---Thor is not happy - Please enter valid staff IDs only";
+                utils.pause(3);
+                std::cin.clear();
+                std::cin.ignore(10000, '\n');
+            }
+            else
+            {
+                staffInfo.push_back(std::to_string(staffIDchoice));
+                break;
+            }
+        }
+
         // clear screen, display location banners
         // and ask for staff member's information
-        system("cls");
-        disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_add_staff.txt");
 
         std::cout << "|---Please enter staff member's username" << std::endl;
         std::cout << "|---TR~Add Staffr~$: ";
@@ -245,25 +292,20 @@ void Menu::addStaffMenu()
         staffInfo.push_back(infoPiece);
 
         // push back a string zero to indicate that the staff
-        // member is not currently logged on
+        // member that is currently added is not logged on at present
         staffInfo.push_back(std::to_string(0));
-
-        std::cout << "|---Please enter staff member's staff ID" << std::endl;
-        std::cout << "|---TR~Add Staff~$: ";
-        std::getline(std::cin, infoPiece);
-        staffInfo.push_back(infoPiece);
 
         system("cls");
         disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_add_staff.txt");
 
         // display user info they have entered
         std::cout << "\tYou entered: \n\n";
-        std::cout << "\tUsername: "
-                  << "\t" << staffInfo[0] << std::endl;
-        std::cout << "\tPassword: "
-                  << "\t" << staffInfo[1] << std::endl;
         std::cout << "\tStaff ID: "
+                  << "\t" << staffInfo[0] << std::endl;
+        std::cout << "\tUsername: "
                   << "\t" << staffInfo[1] << std::endl;
+        std::cout << "\tPassword: "
+                  << "\t" << staffInfo[2] << std::endl;
 
         // if not correct --> ask and display customer info agin
         std::cout << "\n\n\tIs this correct [Y/N]: ";
@@ -290,16 +332,36 @@ void Menu::addStaffMenu()
     staff.appInsertTableOperation(successMsg, staffInfo, sql.getAddStaffStmnt());
 }
 
+/*
+    Displays and facilitates Add Rental Item menu options
+    for a user. Utilises a std::vector<std::string>
+    to collect pieces of user-entered information that
+    will be upon confirmation from a user utilised to
+    add a rental item to its correct table.
+    For example, equipment of type 1 & 2 are added to
+    the inventory_skis_snowboards table and ATVs are
+    added to inventory_atvs table.
+    Provides an option to add an item to rental
+    inventory and specify whether the item is/is not
+    available for rent currently.
+*/
 void Menu::addItemMenu()
 {
     std::vector<std::string> equipmentInfo{};
     std::string infoPiece{};
-    std::string successMsg = {};
-    std::string sqlStmnt = {};
-    std::string answer = {};
+    std::string successMsg{};
+    std::string sqlStmnt{};
+    std::string answer{};
+    std::string equipmentType{};
+
     bool run = true;
     std::set<int> validDigits({1, 2});
     int choice{};
+    int equipmentTypeChoice{};
+    int equipmentStatusChoice{};
+
+    double pricePerHourChoice{};
+    double pricePerDayChoice{};
 
     Display disp;
     Utility utils;
@@ -315,7 +377,7 @@ void Menu::addItemMenu()
 
         if ((!(std::cin >> choice)) || (!(utils.validateDigits(choice, validDigits))))
         {
-            std::cout << "|---Thor is not happy - Please enter numbers 1-2 only" << std::endl;
+            std::cout << "|---Thor is not happy - Please enter numbers 1 or 2 only" << std::endl;
             utils.pause(3);
             std::cin.clear();
             std::cin.ignore(10000, '\n');
@@ -339,42 +401,115 @@ void Menu::addItemMenu()
                 std::cin.ignore();
                 equipmentInfo.push_back(infoPiece);
 
-                std::cout << "|---Please enter price per hour" << std::endl;
-                std::cout << "|---TR~Add Skis & Snowboards~$: ";
-                std::getline(std::cin, infoPiece);
-                equipmentInfo.push_back(infoPiece);
+                while (1)
+                {
+                    std::cout << "|---Please enter price per hour" << std::endl;
+                    std::cout << "|---TR~Add Skis & Snowboards~$: ";
 
-                std::cout << "|---Please enter price per day" << std::endl;
-                std::cout << "|---TR~Add Skis & Snowboards~$: ";
-                std::cin >> infoPiece;
-                equipmentInfo.push_back(infoPiece);
+                    if ((!(std::cin >> pricePerHourChoice)))
+                    {
+                        std::cout << "|---Thor is not happy - Please enter integers or decimals only" << std::endl;
+                        utils.pause(3);
+                        std::cin.clear();
+                        std::cin.ignore(10000, '\n');
+                    }
+                    else
+                    {
+                        equipmentInfo.push_back(std::to_string(pricePerHourChoice));
+                        break;
+                    }
+                }
 
-                std::cout << "|---Please enter equipment type: [1] skis - [2] Snowboard" << std::endl;
-                std::cout << "|---TR~Add Skis & Snowboards~$: ";
-                // TO DO: Validate 1 or 2
-                std::cin >> infoPiece;
-                equipmentInfo.push_back(infoPiece);
+                while (1)
+                {
+                    std::cout << "|---Please enter price per day" << std::endl;
+                    std::cout << "|---TR~Add Skis & Snowboards~$: ";
 
-                std::cout << "|---Please enter rental status\n:" << std::endl;
-                std::cout << "|---[0] for NOT available for rent" << std::endl;
-                std::cout << "|---[1] for AVAILABLE for rent" << std::endl;
-                std::cout << "\n|---TR~Add Skis & Snowboards~$: ";
-                std::cin >> infoPiece;
-                equipmentInfo.push_back(infoPiece);
+                    if ((!(std::cin >> pricePerDayChoice)))
+                    {
+                        std::cout << "|---Thor is not happy - Please enter integers or decimals only" << std::endl;
+                        utils.pause(3);
+                        std::cin.clear();
+                        std::cin.ignore(10000, '\n');
+                    }
+                    else
+                    {
+                        equipmentInfo.push_back(std::to_string(pricePerDayChoice));
+                        break;
+                    }
+                }
+
+                // std::cout << "|---Please enter price per day" << std::endl;
+                // std::cout << "|---TR~Add Skis & Snowboards~$: ";
+                // std::cin >> infoPiece;
+                // equipmentInfo.push_back(infoPiece);
+
+                while (1)
+                {
+                    std::cout << "|---Please enter equipment type: [1] skis - [2] Snowboard" << std::endl;
+                    std::cout << "|---TR~Add Skis & Snowboards~$: ";
+
+                    if ((!(std::cin >> equipmentTypeChoice)) || (!(utils.validateDigits(equipmentTypeChoice, validDigits))))
+                    {
+                        std::cout << "|---Thor is not happy - Please enter numbers 1 or 2 only" << std::endl;
+                        utils.pause(3);
+                        std::cin.clear();
+                        std::cin.ignore(10000, '\n');
+                    }
+                    else
+                    {
+                        equipmentInfo.push_back(std::to_string(equipmentTypeChoice));
+                        break;
+                    }
+                }
+
+                validDigits.clear();
+                validDigits.insert(0);
+                validDigits.insert(1);
+
+                while (1)
+                {
+                    std::cout << "|---Please enter rental status\n:" << std::endl;
+                    std::cout << "|---[0] for NOT available for rent" << std::endl;
+                    std::cout << "|---[1] for AVAILABLE for rent\n"
+                              << std::endl;
+                    std::cout << "\n|---TR~Add Skis & Snowboards~$: ";
+
+                    if ((!(std::cin >> equipmentStatusChoice)) || (!(utils.validateDigits(equipmentStatusChoice, validDigits))))
+                    {
+                        std::cout << "|---Thor is not happy - Please enter numbers 0 or 1 only" << std::endl;
+                        utils.pause(3);
+                        std::cin.clear();
+                        std::cin.ignore(10000, '\n');
+                    }
+                    else
+                    {
+                        equipmentInfo.push_back(std::to_string(equipmentStatusChoice));
+                        break;
+                    }
+                }
 
                 system("cls");
                 disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_add_item.txt");
                 std::cout << "\tYou entered: \n\n";
+                if (equipmentInfo[4] == "2")
+                {
+                    std::cout << "\tEquipment type: "
+                              << "\tSnowboard" << std::endl;
+                }
+                else
+                {
+                    std::cout << "\tEquipment type: "
+                              << "\tSkis" << std::endl;
+                }
                 std::cout << "\tMake: "
                           << "\t\t\t" << equipmentInfo[0] << std::endl;
                 std::cout << "\tModel: "
                           << "\t\t\t" << equipmentInfo[1] << std::endl;
                 std::cout << "\tPrice per hour: "
-                          << "\t" << equipmentInfo[2] << std::endl;
+                          << "\t" << std::setprecision(3) << std::stod(equipmentInfo[2]) << std::endl;
                 std::cout << "\tPrice per day: "
-                          << "\t\t" << equipmentInfo[3] << std::endl;
-                std::cout << "\tEquipment type: "
-                          << "\t" << equipmentInfo[4] << std::endl;
+                          << "\t\t" << std::setprecision(4) << std::stod(equipmentInfo[3]) << std::endl;
                 std::cout << "\tAvailable: "
                           << "\t\t" << equipmentInfo[5] << std::endl;
 
@@ -428,26 +563,88 @@ void Menu::addItemMenu()
                 std::cin.ignore();
                 equipmentInfo.push_back(infoPiece);
 
-                std::cout << "|---Please enter price per hour" << std::endl;
-                std::cout << "|---TR~Add ATV~$: ";
-                std::getline(std::cin, infoPiece);
-                equipmentInfo.push_back(infoPiece);
+                while (1)
+                {
+                    std::cout << "|---Please enter price per hour" << std::endl;
+                    std::cout << "|---TR~Add ATV~$: ";
 
-                std::cout << "|---Please enter price per day" << std::endl;
-                std::cout << "|---TR~Add ATV~$: ";
-                std::cin >> infoPiece;
-                equipmentInfo.push_back(infoPiece);
+                    if ((!(std::cin >> pricePerHourChoice)))
+                    {
+                        std::cout << "|---Thor is not happy - Please enter integers or decimals only" << std::endl;
+                        utils.pause(3);
+                        std::cin.clear();
+                        std::cin.ignore(10000, '\n');
+                    }
+                    else
+                    {
+                        equipmentInfo.push_back(std::to_string(pricePerHourChoice));
+                        break;
+                    }
+                }
 
-                std::cout << "|---Please enter 0 for not available for rent" << std::endl;
-                std::cout << "|---Or 1 for available for rent" << std::endl;
-                std::cout << "|---TR~Add ATV~$: ";
-                std::cin >> infoPiece;
-                equipmentInfo.push_back(infoPiece);
+                // std::cout << "|---Please enter price per hour" << std::endl;
+                // std::cout << "|---TR~Add ATV~$: ";
+                // std::getline(std::cin, infoPiece);
+                // equipmentInfo.push_back(infoPiece);
+                while (1)
+                {
+                    std::cout << "|---Please enter price per day" << std::endl;
+                    std::cout << "|---TR~Add ATV~$: ";
+
+                    if ((!(std::cin >> pricePerDayChoice)))
+                    {
+                        std::cout << "|---Thor is not happy - Please enter integers or decimals only" << std::endl;
+                        utils.pause(3);
+                        std::cin.clear();
+                        std::cin.ignore(10000, '\n');
+                    }
+                    else
+                    {
+                        equipmentInfo.push_back(std::to_string(pricePerDayChoice));
+                        break;
+                    }
+                }
+
+                // std::cout << "|---Please enter price per day" << std::endl;
+                // std::cout << "|---TR~Add ATV~$: ";
+                // std::cin >> infoPiece;
+                // equipmentInfo.push_back(infoPiece);
+
+                while (1)
+                {
+                    std::cout << "|---Please enter rental status\n:" << std::endl;
+                    std::cout << "|---[0] for NOT available for rent" << std::endl;
+                    std::cout << "|---[1] for AVAILABLE for rent\n"
+                              << std::endl;
+                    std::cout << "|---TR~Add ATV~$: ";
+
+                    if ((!(std::cin >> equipmentStatusChoice)) || (!(utils.validateDigits(equipmentStatusChoice, validDigits))))
+                    {
+                        std::cout << "|---Thor is not happy - Please enter numbers 0 or 1 only" << std::endl;
+                        utils.pause(3);
+                        std::cin.clear();
+                        std::cin.ignore(10000, '\n');
+                    }
+                    else
+                    {
+                        equipmentInfo.push_back(std::to_string(equipmentStatusChoice));
+                        break;
+                    }
+                }
+
+                // std::cout << "|---Please enter 0 for not available for rent" << std::endl;
+                // std::cout << "|---Or 1 for available for rent" << std::endl;
+                // std::cout << "|---TR~Add ATV~$: ";
+                // std::cin >> infoPiece;
+                // equipmentInfo.push_back(infoPiece);
 
                 system("cls");
                 disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_add_item.txt");
 
                 std::cout << "\tYou entered: \n\n";
+                std::cout << "\tEquipment type: "
+                          << "\t"
+                          << "ATV" << std::endl;
                 std::cout << "\tMake: "
                           << "\t\t\t" << equipmentInfo[0] << std::endl;
                 std::cout << "\tModel: "
@@ -457,9 +654,9 @@ void Menu::addItemMenu()
                 std::cout << "\tFuel type: "
                           << "\t\t" << equipmentInfo[3] << std::endl;
                 std::cout << "\tPrice per hour: "
-                          << "\t" << equipmentInfo[4] << std::endl;
+                          << "\t" << std::setprecision(3) << std::stod(equipmentInfo[4]) << std::endl;
                 std::cout << "\tPrice per day: "
-                          << "\t\t" << equipmentInfo[5] << std::endl;
+                          << "\t\t" << std::setprecision(4) << std::stod(equipmentInfo[5]) << std::endl;
                 std::cout << "\tAvailable: "
                           << "\t\t" << equipmentInfo[6] << std::endl;
 
@@ -492,6 +689,12 @@ void Menu::addItemMenu()
     inventory.appInsertTableOperation(successMsg, equipmentInfo, sqlStmnt);
 }
 
+/*
+  Provides a facility to add a valid customer from
+  customers table to a rental order. Customers can
+  be added by providing their valid first / surname or
+  customer ID.
+*/
 void Menu::initRentalMenu(Order &initOrder)
 {
     std::map<std::string, int> orderTableInfo;
@@ -608,6 +811,13 @@ void Menu::initRentalMenu(Order &initOrder)
     initOrder.setID("customer", resultID);
 }
 
+/*
+  Provides a facility to select an available
+  rental item to a rental order. Equipment
+  can be selected by their type and ID.
+  Shows only available equipment by searching
+  inventory databases.
+*/
 void Menu::chooseEquipmentMenu(Order &initOrder)
 {
     int userSuppliedEquimentID{};
@@ -672,7 +882,7 @@ void Menu::chooseEquipmentMenu(Order &initOrder)
                 // sqlStmnt = sql.getAvailableEquipIDsV1() + tableName + sql.getAvailableEquipIDsV2() + strType;
                 // sqlStmnt = sql.getAvailableEquipIDsV1() + tableName + sql.getAvailableEquipIDsV2() + strType;
 
-                validEquipmentIDs = skisSBs.getAvailableEquipmentIDs(sqlStmnt);
+                validEquipmentIDs = skisSBs.getAvailableIDs(sqlStmnt);
                 // if no available SBs are in inventory
                 if (validEquipmentIDs.size() == 0)
                 {
@@ -686,6 +896,8 @@ void Menu::chooseEquipmentMenu(Order &initOrder)
                 // otherwise display available SBs
                 system("cls");
                 disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_init_rental.txt");
+                std::cout << "|---------------------Available Skis---------------------|"
+                          << std::endl;
                 disp.displaySkiTableColumns();
 
                 disp.displayAvailableEquipment("inventory_skis_snowboards", 1);
@@ -714,7 +926,7 @@ void Menu::chooseEquipmentMenu(Order &initOrder)
             case 2:
                 sqlStmnt = sql.getAvailableEquipIDsV1() + skisSBs.getTableName() + sql.getAvailableEquipIDsV2() + std::to_string(2);
 
-                validEquipmentIDs = skisSBs.getAvailableEquipmentIDs(sqlStmnt);
+                validEquipmentIDs = skisSBs.getAvailableIDs(sqlStmnt);
                 // if no available SBs are in inventory
                 if (validEquipmentIDs.size() == 0)
                 {
@@ -723,12 +935,14 @@ void Menu::chooseEquipmentMenu(Order &initOrder)
                     system("cls");
 
                     disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_init_rental.txt");
-                    break; // TO DO: figure out how to break
+                    break;
                 }
 
                 // otherwise display available SBs
                 system("cls");
                 disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_init_rental.txt");
+                std::cout << "|---------------------------Available Snowboards---------------------------|\n"
+                          << std::endl;
                 disp.displaySnowboardTableColumns();
 
                 disp.displayAvailableEquipment("inventory_skis_snowboards", 2);
@@ -757,7 +971,7 @@ void Menu::chooseEquipmentMenu(Order &initOrder)
             case 3:
                 sqlStmnt = sql.getAvailableEquipIDsV1() + atvs.getTableName() + sql.getAvailableEquipIDsV2() + std::to_string(3);
 
-                validEquipmentIDs = atvs.getAvailableEquipmentIDs(sqlStmnt);
+                validEquipmentIDs = atvs.getAvailableIDs(sqlStmnt);
                 // if no available ATVs are in inventory
                 if (validEquipmentIDs.size() == 0)
                 {
@@ -771,6 +985,8 @@ void Menu::chooseEquipmentMenu(Order &initOrder)
                 // otherwise display available ATVs
                 system("cls");
                 disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_init_rental.txt");
+                std::cout << "|-------------------------------------Available ATVs-------------------------------------|" << std::endl;
+
                 disp.displayATVTableColumns();
 
                 disp.displayAvailableEquipment("inventory_atvs", 3);
@@ -800,6 +1016,11 @@ void Menu::chooseEquipmentMenu(Order &initOrder)
     initOrder.setEquipment("id", choice);
 }
 
+/*
+  Provides a facility for a user to enter a rental
+  duration to rental order. Duration can be specified
+  as hours (up to 11) or days (up to 28).
+*/
 void Menu::rentalDurationMenu(Order &initOrder)
 {
     int choice{};
@@ -911,6 +1132,14 @@ void Menu::rentalDurationMenu(Order &initOrder)
     } while (run = true);
 }
 
+/*
+  Provides a facility for a user to confirm that their
+  rental order selections are correct. If a user validates
+  that the rental information is correct, selected eqipment
+  are marked in their respective inventory databases as
+  unavailable. Thus, they will not show as 'available' if
+  a user is searching for equipment to rent.
+*/
 void Menu::confirmDetailsMenu(Order &initOrder)
 {
     std::string choice{};
@@ -1000,20 +1229,25 @@ void Menu::confirmDetailsMenu(Order &initOrder)
     } while (run = true);
 }
 
+/*
+  Displays various inventory and business statisctics.
+  For example, shows the number of various types of
+  equipment in total in inventory and how many of them
+  are on loan at any one time. Also displays total
+  amount of money Thor's Rentals have made from all
+  rentals.
+*/
 void Menu::statsMenu()
 {
     Display disp;
     Utility utils;
     Menu mainMenu;
     Table table;
-    Table orders{"orders", "SELECT"};
     Sql sql;
 
     std::set<int> validDigits({9});
 
     int choice{};
-    // SQL statements
-
     int execTableOperation(std::string operationType, std::string tableName, std::string sql, bool verbose = false);
 
     int totalSkis = table.searchNumericValuesFromDB(sql.getTotalSkis());
@@ -1029,8 +1263,7 @@ void Menu::statsMenu()
     int totalStaff = table.searchNumericValuesFromDB(sql.getTotalStaff());
     int totalAppAccessStaff = table.searchNumericValuesFromDB(sql.getTotalAccessStaff());
 
-    // ordersSum = "SELECT sum(cost) FROM orders WHERE STATUS = 0";
-    int moneyMade = orders.execTableOperation(orders.getOperationType(), orders.getTableName(), sql.getOrdersSum(), true);
+    int moneyMade = table.searchNumericValuesFromDB(sql.getOrdersSum());
 
     system("cls");
 
@@ -1059,7 +1292,7 @@ void Menu::statsMenu()
         std::cout << "                     |-------------------------------------------------------------------|" << std::endl;
         std::cout << "                     |     Staff with App Access: " << totalAppAccessStaff << "                                      |" << std::endl;
         std::cout << "                     |-------------------------------------------------------------------|" << std::endl;
-        std::cout << "                     |     GBP Amount Received from All Rentals: " << moneyMade << "                       |" << std::endl;
+        std::cout << "                                  GBP Amount Received from All Rentals: " << moneyMade << "                       " << std::endl;
         std::cout << "                     |-------------------------------------------------------------------|" << std::endl;
         std::cout << "                     |------------------------Press 9 for Main Menu----------------------|" << std::endl;
         std::cout << "                     *********************************************************************\n";
@@ -1083,10 +1316,15 @@ void Menu::statsMenu()
     mainMenu.mainMenu();
 }
 
+/*
+  Provides a facility to return rental items by their type and ID.
+  Provides a possibility to add a late / damaged equipment
+  fee to total rental cost. Returned rental items are
+  marked as available in their respective rental
+  tables and order is marked as closed (0).
+*/
 void Menu::receiveItemMenu()
 {
-    // std::string choice{};
-    // std::string sqlInit{};
     // below integers are cast as std::string
     // because a system function already exist to do the
     // required job with std::string
@@ -1095,6 +1333,7 @@ void Menu::receiveItemMenu()
     std::string type1{std::to_string(1)};
     std::string type2{std::to_string(2)};
     std::string type3{std::to_string(3)};
+
     std::string sqlInit{};
     std::string returnDatetime{};
     std::string lateAnswer{};
@@ -1105,8 +1344,6 @@ void Menu::receiveItemMenu()
     double lateFeeChoice{};
     double damagedFeeChoice{};
     double totalFees{};
-
-    bool run = true;
 
     std::set<int> validDigits({});
     std::unordered_set<int> equipmentIDsOnLoanSkis{};
@@ -1127,11 +1364,11 @@ void Menu::receiveItemMenu()
     Utility utils;
     Display disp;
 
-    equipmentIDsOnLoanSkis = skis.getAvailableEquipmentIDs(sql.getEquipmentIDsOnLoan(1));
-    equipmentIDsOnLoanSBs = SBs.getAvailableEquipmentIDs(sql.getEquipmentIDsOnLoan(2));
-    equipmentIDsOnLoanAtvs = atvs.getAvailableEquipmentIDs(sql.getEquipmentIDsOnLoan(3));
+    equipmentIDsOnLoanSkis = skis.getAvailableIDs(sql.getEquipmentIDsOnLoan(1));
+    equipmentIDsOnLoanSBs = SBs.getAvailableIDs(sql.getEquipmentIDsOnLoan(2));
+    equipmentIDsOnLoanAtvs = atvs.getAvailableIDs(sql.getEquipmentIDsOnLoan(3));
 
-    if ((equipmentIDsOnLoanSkis.size() == 0) && (equipmentIDsOnLoanSBs.size() == 0) && (equipmentIDsOnLoanAtvs.size() == 0))
+    if ((equipmentIDsOnLoanSkis.size() == 0) && (equipmentIDsOnLoanSBs.size() == 0) || (equipmentIDsOnLoanAtvs.size() == 0))
     {
         std::cout << "Nothing on loan at the minute. Please chill." << std::endl;
         utils.pause(3);
@@ -1141,7 +1378,7 @@ void Menu::receiveItemMenu()
     if (equipmentIDsOnLoanSkis.size() > 0)
     {
         // get all equipment IDs on loan that are type 1 into a set
-        equipmentIDsOnLoanSkis = skis.getAvailableEquipmentIDs(sql.getEquipmentIDsOnLoan(1));
+        equipmentIDsOnLoanSkis = skis.getAvailableIDs(sql.getEquipmentIDsOnLoan(1));
         equipmentIDsOnLoanSkisOrdered = utils.unorderedToOrdered(equipmentIDsOnLoanSkis);
         validDigits.insert(1);
     }
@@ -1149,7 +1386,7 @@ void Menu::receiveItemMenu()
     if (equipmentIDsOnLoanSBs.size() > 0)
     {
         // get all equipment IDs on loan that are type 2 into a set
-        equipmentIDsOnLoanSBs = SBs.getAvailableEquipmentIDs(sql.getEquipmentIDsOnLoan(2));
+        equipmentIDsOnLoanSBs = SBs.getAvailableIDs(sql.getEquipmentIDsOnLoan(2));
         equipmentIDsOnLoanSBsOrdered = utils.unorderedToOrdered(equipmentIDsOnLoanSBs);
         validDigits.insert(2);
     }
@@ -1157,7 +1394,7 @@ void Menu::receiveItemMenu()
     if (equipmentIDsOnLoanAtvs.size() > 0)
     {
         // get all equipment IDs on loan that are type 3 into a set
-        equipmentIDsOnLoanAtvs = atvs.getAvailableEquipmentIDs(sql.getEquipmentIDsOnLoan(3));
+        equipmentIDsOnLoanAtvs = atvs.getAvailableIDs(sql.getEquipmentIDsOnLoan(3));
         equipmentIDsOnLoanAtvsOrdered = utils.unorderedToOrdered(equipmentIDsOnLoanAtvs);
         validDigits.insert(3);
     }
@@ -1339,10 +1576,7 @@ void Menu::receiveItemMenu()
         }
     }
 
-    // int Table::execTableOperation(std::string operationType, std::string tableName, std::string sql, bool verbose)
-
-    // IF FEES ---> ADD FEES TOGETHER ---> ADD THEM IN ORDER TABLE TO RENTAL COST
-
+    // If there are fees ---> sum up the fees ---> add them in orders table in total rental cost
     if (lateFeeChoice || damagedFeeChoice)
     {
         totalFees = lateFeeChoice + damagedFeeChoice;
@@ -1350,7 +1584,7 @@ void Menu::receiveItemMenu()
         orders.execTableOperation(orders.getOperationType(), orders.getTableName(), sqlInit, true);
     }
 
-    // CHANGE EQUIPMENT TO AVAILABLE
+    // Change received equipment back to available for rent
     // skis and SBs
     if (equipmentTypeChoice != 3)
     {
@@ -1363,9 +1597,7 @@ void Menu::receiveItemMenu()
         sqlInit = atvs.getOperationType() + " " + atvs.getTableName() + " " + "SET AVAILABLE = 1 WHERE ID = " + std::to_string(equipmentIDChoice);
         skisSBs.execTableOperation(atvs.getOperationType(), atvs.getTableName(), sqlInit, true);
     }
-    // CHANGE ORDER STATUS TO 0 (CLOSED)
-    // UPDATE orders SET STATUS = 0 WHERE EQUIPMENT_TYPE = 1 AND EQUIPMENT_ID = 2;
-
+    // Change order status to 0 (closed)
     sqlInit = orders.getOperationType() + " " + orders.getTableName() + " SET STATUS = 0 WHERE EQUIPMENT_TYPE = " + std::to_string(equipmentTypeChoice) + " AND EQUIPMENT_ID = " + std::to_string(equipmentIDChoice);
     orders.execTableOperation(orders.getOperationType(), orders.getTableName(), sqlInit, true);
 }

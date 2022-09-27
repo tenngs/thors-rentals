@@ -337,7 +337,7 @@ int Table::searchNumericValuesFromDB(std::string sqlStmnt)
     return stat;
 }
 
-std::unordered_set<int> Table::getAvailableEquipmentIDs(std::string sqlStmnt)
+std::unordered_set<int> Table::getAvailableIDs(std::string sqlStmnt)
 {
     sqlite3 *db;
     std::unordered_set<int> validEquipmentIDs{};

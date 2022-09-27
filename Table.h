@@ -36,7 +36,7 @@ public:
     std::string searchTextValuesFromDB(std::string sqlStmnt);
 
     void appInsertTableOperation(std::string successMsg, std::vector<std::string> infoCollection, std::string sql);
-    std::unordered_set<int> getAvailableEquipmentIDs(std::string sqlStmnt);
+    std::unordered_set<int> getAvailableIDs(std::string sqlStmnt);
     double calculateRentalCost(Order &initOrder);
     std::string calculateReturnDatetime(Order &initOrder);
     void appToOrdersTableFromOrder(std::string successMsg, std::vector<std::string> infoCollection, std::string sql);

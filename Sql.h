@@ -150,7 +150,7 @@ private:
     const std::string addCustomerStmnt = "INSERT INTO customers (FIRST_NAME, SURNAME, ADDRESS_FIRST_LINE, POSTCODE, CITY, EMAIL) "
                                          "VALUES (?,?,?,?,?,?);";
 
-    const std::string addSystemAccessStaffStmnt = "INSERT INTO system_access (USERNAME, PASSWORD, LOGGED_ON, STAFF_ID)"
+    const std::string addSystemAccessStaffStmnt = "INSERT INTO system_access (STAFF_ID, USERNAME, PASSWORD, LOGGED_ON)"
                                                   "VALUES (?,?,?,?);";
 
     const std::string addSkisSnowboarsStmnt = "INSERT INTO inventory_skis_snowboards (MAKE, MODEL, PRICE_HOUR, PRICE_DAY, AVAILABLE)"
@@ -220,6 +220,8 @@ private:
 
     const std::string ordersSum = "SELECT sum(cost) FROM orders WHERE STATUS = 0;";
 
+    const std::string staffIDs = "SELECT ID FROM staff;";
+
     /*
     Getters for private variables
     */
@@ -264,4 +266,5 @@ public:
     const std::string getReturnDatetime();
     const std::string getEquipmentIDsOnLoan(int type);
     const std::string getOrdersSum();
+    const std::string getstaffIDs();
 };
