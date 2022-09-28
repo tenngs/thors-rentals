@@ -439,11 +439,6 @@ void Menu::addItemMenu()
                     }
                 }
 
-                // std::cout << "|---Please enter price per day" << std::endl;
-                // std::cout << "|---TR~Add Skis & Snowboards~$: ";
-                // std::cin >> infoPiece;
-                // equipmentInfo.push_back(infoPiece);
-
                 while (1)
                 {
                     std::cout << "|---Please enter equipment type: [1] skis - [2] Snowboard" << std::endl;
@@ -582,10 +577,6 @@ void Menu::addItemMenu()
                     }
                 }
 
-                // std::cout << "|---Please enter price per hour" << std::endl;
-                // std::cout << "|---TR~Add ATV~$: ";
-                // std::getline(std::cin, infoPiece);
-                // equipmentInfo.push_back(infoPiece);
                 while (1)
                 {
                     std::cout << "|---Please enter price per day" << std::endl;
@@ -601,14 +592,10 @@ void Menu::addItemMenu()
                     else
                     {
                         equipmentInfo.push_back(std::to_string(pricePerDayChoice));
+                        equipmentInfo.push_back(std::to_string(3)); // push back equipment type
                         break;
                     }
                 }
-
-                // std::cout << "|---Please enter price per day" << std::endl;
-                // std::cout << "|---TR~Add ATV~$: ";
-                // std::cin >> infoPiece;
-                // equipmentInfo.push_back(infoPiece);
 
                 while (1)
                 {
@@ -632,12 +619,6 @@ void Menu::addItemMenu()
                     }
                 }
 
-                // std::cout << "|---Please enter 0 for not available for rent" << std::endl;
-                // std::cout << "|---Or 1 for available for rent" << std::endl;
-                // std::cout << "|---TR~Add ATV~$: ";
-                // std::cin >> infoPiece;
-                // equipmentInfo.push_back(infoPiece);
-
                 system("cls");
                 disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_add_item.txt");
 
@@ -658,7 +639,7 @@ void Menu::addItemMenu()
                 std::cout << "\tPrice per day: "
                           << "\t\t" << std::setprecision(4) << std::stod(equipmentInfo[5]) << std::endl;
                 std::cout << "\tAvailable: "
-                          << "\t\t" << equipmentInfo[6] << std::endl;
+                          << "\t\t" << equipmentInfo[7] << std::endl;
 
                 std::cout << "\n\n\tIs this correct [Y/N]: ";
                 std::cin >> answer;
@@ -792,7 +773,7 @@ void Menu::initRentalMenu(Order &initOrder)
                 }
                 if (resultID == 0)
                 {
-                    std::cout << "Thor is not happy - please enter a number matching customer ID" << std::endl;
+                    std::cout << "Thor is not happy - please enter a valid customer ID" << std::endl;
                     utils.pause(3);
                     std::cin.clear();
                     std::cin.ignore(10000, '\n');
@@ -838,7 +819,6 @@ void Menu::chooseEquipmentMenu(Order &initOrder)
     Sql sql;
     Table skisSBs{"inventory_skis_snowboards"};
     Table atvs{"inventory_atvs"};
-
     Menu mainMenu;
 
     do
@@ -886,11 +866,11 @@ void Menu::chooseEquipmentMenu(Order &initOrder)
                 // if no available SBs are in inventory
                 if (validEquipmentIDs.size() == 0)
                 {
-                    std::cout << "No skis available for rent at the moment" << std::endl;
-                    system("pause");
-                    system("cls");
-                    disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_init_rental.txt");
-                    break; // TO DO: figure out how to break
+                    std::cout << "\n|---No skis available for rent at the moment" << std::endl;
+                    utils.pause(3);
+                    mainMenu.mainMenu();
+                    run = false;
+                    break;
                 }
 
                 // otherwise display available SBs
@@ -912,6 +892,7 @@ void Menu::chooseEquipmentMenu(Order &initOrder)
                 {
                     std::cout << "|---" << std::endl;
                     std::cout << "|---HINT: they are on the left side of your screen" << std::endl;
+                    std::cout << "|---Please try again" << std::endl;
                     utils.pause(3);
                     std::cin.clear();
                     std::cin.ignore(10000, '\n');
@@ -930,11 +911,10 @@ void Menu::chooseEquipmentMenu(Order &initOrder)
                 // if no available SBs are in inventory
                 if (validEquipmentIDs.size() == 0)
                 {
-                    std::cout << "No snowboards available for rent at the moment" << std::endl;
-                    system("pause");
-                    system("cls");
-
-                    disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_init_rental.txt");
+                    std::cout << "\n|---No snowboards available for rent at the moment" << std::endl;
+                    utils.pause(3);
+                    mainMenu.mainMenu();
+                    run = false;
                     break;
                 }
 
@@ -975,11 +955,11 @@ void Menu::chooseEquipmentMenu(Order &initOrder)
                 // if no available ATVs are in inventory
                 if (validEquipmentIDs.size() == 0)
                 {
-                    std::cout << "No ATVs available for rent at the moment" << std::endl;
-                    system("pause");
-                    system("cls");
-                    disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_init_rental.txt");
-                    break; // TO DO: figure out how to break
+                    std::cout << "\n|---No ATVs available for rent at the moment" << std::endl;
+                    utils.pause(3);
+                    mainMenu.mainMenu();
+                    run = false;
+                    break;
                 }
 
                 // otherwise display available ATVs
@@ -1339,6 +1319,8 @@ void Menu::receiveItemMenu()
     std::string lateAnswer{};
     std::string damagedAnswer{};
 
+    bool equipmentOnLoan{};
+
     int equipmentTypeChoice{};
     int equipmentIDChoice{};
     double lateFeeChoice{};
@@ -1354,6 +1336,9 @@ void Menu::receiveItemMenu()
     std::set<int> equipmentIDsOnLoanSBsOrdered{};
     std::set<int> equipmentIDsOnLoanAtvsOrdered{};
 
+    std::set<int> trueSizes{};
+    int position{};
+
     Table skisSBs{"inventory_skis_snowboards", "UPDATE"};
     Table skis;
     Table SBs;
@@ -1363,27 +1348,33 @@ void Menu::receiveItemMenu()
     Menu mainMenu;
     Utility utils;
     Display disp;
+    Table table;
 
-    equipmentIDsOnLoanSkis = skis.getAvailableIDs(sql.getEquipmentIDsOnLoan(1));
-    equipmentIDsOnLoanSBs = SBs.getAvailableIDs(sql.getEquipmentIDsOnLoan(2));
-    equipmentIDsOnLoanAtvs = atvs.getAvailableIDs(sql.getEquipmentIDsOnLoan(3));
+    equipmentIDsOnLoanSkis = table.getAvailableIDs(sql.getEquipmentIDsOnLoan(1));
+    equipmentIDsOnLoanSBs = table.getAvailableIDs(sql.getEquipmentIDsOnLoan(2));
+    equipmentIDsOnLoanAtvs = table.getAvailableIDs(sql.getEquipmentIDsOnLoan(3));
 
-    if ((equipmentIDsOnLoanSkis.size() == 0) && (equipmentIDsOnLoanSBs.size() == 0) || (equipmentIDsOnLoanAtvs.size() == 0))
+    // if there are no skis IDs that are on loan ---> insert a marker into trueSizes
+    //
+    if (equipmentIDsOnLoanSkis.size() == 0)
     {
-        std::cout << "Nothing on loan at the minute. Please chill." << std::endl;
-        utils.pause(3);
-        mainMenu.mainMenu();
+        trueSizes.insert(1);
     }
-
-    if (equipmentIDsOnLoanSkis.size() > 0)
+    else
     {
-        // get all equipment IDs on loan that are type 1 into a set
+        // if there are skis IDs that are on load --- > get all equipment IDs
+        // on loan that are type 1 into a set
+        // repeat same process for snowboards and ATVs
         equipmentIDsOnLoanSkis = skis.getAvailableIDs(sql.getEquipmentIDsOnLoan(1));
         equipmentIDsOnLoanSkisOrdered = utils.unorderedToOrdered(equipmentIDsOnLoanSkis);
         validDigits.insert(1);
     }
 
-    if (equipmentIDsOnLoanSBs.size() > 0)
+    if (equipmentIDsOnLoanSBs.size() == 0)
+    {
+        trueSizes.insert(2);
+    }
+    else
     {
         // get all equipment IDs on loan that are type 2 into a set
         equipmentIDsOnLoanSBs = SBs.getAvailableIDs(sql.getEquipmentIDsOnLoan(2));
@@ -1391,7 +1382,11 @@ void Menu::receiveItemMenu()
         validDigits.insert(2);
     }
 
-    if (equipmentIDsOnLoanAtvs.size() > 0)
+    if (equipmentIDsOnLoanAtvs.size() == 0)
+    {
+        trueSizes.insert(3);
+    }
+    else
     {
         // get all equipment IDs on loan that are type 3 into a set
         equipmentIDsOnLoanAtvs = atvs.getAvailableIDs(sql.getEquipmentIDsOnLoan(3));
@@ -1399,19 +1394,25 @@ void Menu::receiveItemMenu()
         validDigits.insert(3);
     }
 
+    if (trueSizes.size() == 3)
+    {
+        std::cout << "\n|---Nothing on loan at the minute. Please chill." << std::endl;
+        utils.pause(3);
+        mainMenu.mainMenu();
+    }
+
     system("cls");
     disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_receive_item.txt");
 
-    // check that only valid equipment types that are on
-    // loan are entered
-    std::cout << "|---Please enter rental equipment type: " << std::endl;
-    std::cout << "|---Press [1] for skis, [2] for snowboard and [3] for ATV"
-              << "\n\n";
-
-    std::cout << "|---TR~Receive Rental~$: ";
-
     while (1)
     {
+        // check that only valid equipment types that are on
+        // loan are entered
+        std::cout << "|---Please enter rental equipment type: " << std::endl;
+        std::cout << "|---Press [1] for skis, [2] for snowboard and [3] for ATV"
+                  << "\n\n";
+        std::cout << "|---TR~Receive Rental~$: ";
+
         if ((!(std::cin >> equipmentTypeChoice)) || (!(utils.validateDigits(equipmentTypeChoice, validDigits))))
         {
             std::cout << "|---Thor is not happy - Please enter type of equipment that is returned" << std::endl;
@@ -1420,10 +1421,6 @@ void Menu::receiveItemMenu()
             std::cin.ignore(10000, '\n');
             system("cls");
             disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_receive_item.txt");
-            std::cout << "|---Please enter rental equipment type: " << std::endl;
-            std::cout << "|---Press [1] for skis and snowboards or [2] for ATVs"
-                      << "\n\n";
-            std::cout << "|---TR~Receive Rental~$: ";
         }
         else
         {
@@ -1512,7 +1509,9 @@ void Menu::receiveItemMenu()
     }
 
     returnDatetime = orders.searchTextValuesFromDB(sqlInit);
-    std::cout << "|---This rental item is due to be returned on: " + returnDatetime << std::endl;
+    position = returnDatetime.find(".");
+
+    std::cout << "|---This rental item is due to be returned on: " + returnDatetime.substr(0, position) << std::endl;
     std::cout << "|---Is it late? [Y/N]: ";
     std::cin >> lateAnswer;
 
@@ -1555,7 +1554,7 @@ void Menu::receiveItemMenu()
         std::cin >> damagedAnswer;
     }
 
-    if (utils.lowerStr(lateAnswer) == "y")
+    if (utils.lowerStr(damagedAnswer) == "y")
     {
         std::cout << "|---Please enter damage fee: ";
 
@@ -1581,7 +1580,7 @@ void Menu::receiveItemMenu()
     {
         totalFees = lateFeeChoice + damagedFeeChoice;
         sqlInit = orders.getOperationType() + " " + orders.getTableName() + " SET COST = COST + " + std::to_string(totalFees) + " WHERE EQUIPMENT_ID = " + std::to_string(equipmentIDChoice) + " AND EQUIPMENT_TYPE = " + std::to_string(equipmentTypeChoice) + ";";
-        orders.execTableOperation(orders.getOperationType(), orders.getTableName(), sqlInit, true);
+        orders.execTableOperation(orders.getOperationType(), orders.getTableName(), sqlInit);
     }
 
     // Change received equipment back to available for rent
@@ -1589,15 +1588,20 @@ void Menu::receiveItemMenu()
     if (equipmentTypeChoice != 3)
     {
         sqlInit = skisSBs.getOperationType() + " " + skisSBs.getTableName() + " " + "SET AVAILABLE = 1 WHERE ID = " + std::to_string(equipmentIDChoice);
-        skisSBs.execTableOperation(skisSBs.getOperationType(), skisSBs.getTableName(), sqlInit, true);
+        skisSBs.execTableOperation(skisSBs.getOperationType(), skisSBs.getTableName(), sqlInit);
     }
     else
     {
         // ATVs
         sqlInit = atvs.getOperationType() + " " + atvs.getTableName() + " " + "SET AVAILABLE = 1 WHERE ID = " + std::to_string(equipmentIDChoice);
-        skisSBs.execTableOperation(atvs.getOperationType(), atvs.getTableName(), sqlInit, true);
+        skisSBs.execTableOperation(atvs.getOperationType(), atvs.getTableName(), sqlInit);
     }
     // Change order status to 0 (closed)
     sqlInit = orders.getOperationType() + " " + orders.getTableName() + " SET STATUS = 0 WHERE EQUIPMENT_TYPE = " + std::to_string(equipmentTypeChoice) + " AND EQUIPMENT_ID = " + std::to_string(equipmentIDChoice);
-    orders.execTableOperation(orders.getOperationType(), orders.getTableName(), sqlInit, true);
+    orders.execTableOperation(orders.getOperationType(), orders.getTableName(), sqlInit);
+
+    // express Thor's happiness when he gets his equipment back
+    std::cout << "\nThor is very happy! Equipment received successfully!" << std::endl;
+    utils.pause(3);
+    mainMenu.mainMenu();
 }

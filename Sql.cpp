@@ -314,7 +314,7 @@ const std::string Sql::getEquipmentIDsOnLoan(int type)
     }
     if (type == 3)
     {
-        return this->equipmentIDsOnLoanType2;
+        return this->equipmentIDsOnLoanType3;
     }
 }
 

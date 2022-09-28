@@ -153,10 +153,10 @@ private:
     const std::string addSystemAccessStaffStmnt = "INSERT INTO system_access (STAFF_ID, USERNAME, PASSWORD, LOGGED_ON)"
                                                   "VALUES (?,?,?,?);";
 
-    const std::string addSkisSnowboarsStmnt = "INSERT INTO inventory_skis_snowboards (MAKE, MODEL, PRICE_HOUR, PRICE_DAY, AVAILABLE)"
-                                              "VALUES (?,?,?,?,?);";
+    const std::string addSkisSnowboarsStmnt = "INSERT INTO inventory_skis_snowboards (MAKE, MODEL, PRICE_HOUR, PRICE_DAY, EQUIPMENT_TYPE, AVAILABLE)"
+                                              "VALUES (?,?,?,?,?,?);";
 
-    const std::string addAtvStmnt = "INSERT INTO inventory_atvs (MAKE, MODEL, REG, FUEL_TYPE, PRICE_HOUR, PRICE_DAY, AVAILABLE)"
+    const std::string addAtvStmnt = "INSERT INTO inventory_atvs (MAKE, MODEL, REG, FUEL_TYPE, PRICE_HOUR, PRICE_DAY, EQUIPMENT_TYPE, AVAILABLE)"
                                     "VALUES (?,?,?,?,?,?,?);";
 
     const std::string addToOrdersStmnt = "INSERT INTO orders (ID, SALES_REP_ID, CUSTOMER_ID, EQUIPMENT_TYPE, EQUIPMENT_ID, RENTAL_HOURS, RENTAL_DAYS, COST, RETURN_DATETIME, STATUS)"

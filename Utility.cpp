@@ -483,7 +483,7 @@ void Utility::addOrderDetails(Order &initOrder)
 {
     Sql sql;
     std::string sqlStmnt{};
-    std::string successMsg{"Mashniyesh! Your rental is complete!"};
+    std::string successMsg{"Thor is very happy! Rental process is complete!"};
     Table orders{"INSERT INTO", "orders"};
     std::vector<std::string> orderDetails;
 
@@ -546,4 +546,13 @@ std::string Utility::toUpperCase(std::string str)
 {
     std::transform(str.begin(), str.end(), str.begin(), ::toupper);
     return str;
+}
+
+// To do: look how this function is defined and see if you can
+// change my functions to be like that
+void Utility::printUnorderedSet(std::unordered_set<int> const &s)
+{
+    std::copy(s.begin(),
+              s.end(),
+              std::ostream_iterator<int>(std::cout, " "));
 }

@@ -37,4 +37,5 @@ public:
     bool postcodeCheck(std::string postcode);
     bool emailCheck(std::string email);
     std::string toUpperCase(std::string str);
+    void printUnorderedSet(std::unordered_set<int> const &s);
 };
