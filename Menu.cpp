@@ -122,6 +122,8 @@ void Menu::addCustomerMenu()
     Sql sql;
     Table customers;
 
+    // toupper(str[0])
+
     while (true)
     {
         // clear screen, display location banners
@@ -130,48 +132,75 @@ void Menu::addCustomerMenu()
         disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals.txt");
         disp.displayASCIIArtFromFile("ASCIIArt/add_customer.txt");
 
-        std::cout << "|---Please enter customer's first name" << std::endl;
-        std::cout << "|---TR~Add Customer~$: ";
-        std::cin >> infoPiece;
-        customerInfo.push_back(infoPiece);
+        while (1)
+        {
+            std::cout << "\n|---Please enter customer's first name [one name only]" << std::endl;
+            std::cout << "|---TR~Add Customer~$: ";
+            std::cin >> infoPiece;
+            if (utils.lettersOnly(infoPiece))
+            {
+                infoPiece[0] = std::toupper(infoPiece[0]);
+                customerInfo.push_back(infoPiece);
+                // flush the rest of the line because getline is used next
+                std::cin.ignore(std::numeric_limits<int>::max(), '\n');
+                break;
+            }
+            else
+            {
+                std::cout << "\n|---Thor is not happy - letters only please" << std::endl;
+                std::cin.ignore(std::numeric_limits<int>::max(), '\n');
+            }
+        }
 
-        std::cout << "|---Please enter customer's surname" << std::endl;
-        std::cout << "|---TR~Add Customer~$: ";
-        std::cin >> infoPiece;
-        std::cin.ignore();
-        customerInfo.push_back(infoPiece);
+        while (1)
+        {
+            std::cout << "\n|---Please enter customer's surname" << std::endl;
+            std::cout << "|---TR~Add Customer~$: ";
+            std::getline(std::cin, infoPiece);
 
-        std::cout << "|---Please enter customer's first line of address" << std::endl;
+            if (utils.lettersAndSpacesOnly(infoPiece))
+            {
+                utils.capitaliseAllFirstLetters(infoPiece);
+                customerInfo.push_back(infoPiece);
+                break;
+            }
+            else
+            {
+                std::cout << "\n|---Thor is not happy - letters and whitespace only please" << std::endl;
+            }
+        }
+
+        std::cout << "\n|---Please enter customer's first line of address" << std::endl;
         std::cout << "|---TR~Add Customer~$: ";
         std::getline(std::cin, infoPiece);
+        utils.capitaliseAllFirstLetters(infoPiece);
         customerInfo.push_back(infoPiece);
 
         while (1)
         {
-            std::cout << "|---Please enter customer's UK postcode [No spaces]" << std::endl;
+            std::cout << "\n|---Please enter customer's UK postcode [No spaces]" << std::endl;
             std::cout << "|---TR~Add Customer~$: ";
             std::cin >> postcode;
             if (utils.postcodeCheck(postcode))
             {
                 customerInfo.push_back(utils.toUpperCase(postcode));
+                std::cin.ignore(std::numeric_limits<int>::max(), '\n');
                 break;
             }
             else
             {
-                std::cin.clear();
-                std::cin.ignore(10000, '\n');
-                std::cout << "|---Thor is not happy - invalid postcode" << std::endl;
+                std::cout << "\n|---Thor is not happy - invalid postcode" << std::endl;
             }
         }
-        std::cout << "|---Please enter customer's city" << std::endl;
+        std::cout << "\n|---Please enter customer's city" << std::endl;
         std::cout << "|---TR~Add Customer~$: ";
-        std::cin >> infoPiece;
+        std::getline(std::cin, infoPiece);
+        utils.capitaliseAllFirstLetters(infoPiece);
         customerInfo.push_back(infoPiece);
 
         while (1)
         {
-
-            std::cout << "|---Please enter customer's email" << std::endl;
+            std::cout << "\n|---Please enter customer's email" << std::endl;
             std::cout << "|---TR~Add Customer~$: ";
             std::cin >> email;
             if (utils.emailCheck(email))
@@ -181,9 +210,7 @@ void Menu::addCustomerMenu()
             }
             else
             {
-                std::cin.clear();
-                std::cin.ignore(10000, '\n');
-                std::cout << "|---Thor is not happy - invalid email" << std::endl;
+                std::cout << "\n|---Thor is not happy - invalid email" << std::endl;
             }
         }
         system("cls");
@@ -245,6 +272,8 @@ void Menu::addStaffMenu()
 
     int staffIDchoice{};
 
+    std::unordered_set<int> staffIDs{};
+    std::unordered_set<int> systemAccessStaffIDs{};
     std::unordered_set<int> validStaffIDs{};
 
     Display disp;
@@ -261,7 +290,33 @@ void Menu::addStaffMenu()
             std::cout << "|---Please enter staff member's ID" << std::endl;
             std::cout << "|---TR~Add Staffr~$: ";
             // get all current staff IDs in a set
-            validStaffIDs = staff.getAvailableIDs(sql.getstaffIDs());
+            staffIDs = staff.getAvailableIDs(sql.getStaffIDs());
+
+            // get all staff ids from system_access to a set
+            systemAccessStaffIDs = staff.getAvailableIDs(sql.getSystemAccessStaffIDs());
+
+            for (auto num : staffIDs)
+            {
+                if (systemAccessStaffIDs.find(num) == systemAccessStaffIDs.end())
+                {
+                    validStaffIDs.insert(num);
+                }
+            }
+
+            // To do: check if ID values present in staff, but not present in system_access
+            // actually are put into validStaffIDs
+
+            // std::unordered_set<int> s = {1, 2, 3, 4, 5};
+            // int key = 3;
+
+            // if (s.find(key) != s.end())
+            // {
+            //     std::cout << "Element is present in the set" << std::endl;
+            // }
+            // else
+            // {
+            //     std::cout << "Element not found" << std::endl;
+            // }
 
             if ((!(std::cin >> staffIDchoice)) || (!(utils.validateDigits(staffIDchoice, utils.unorderedToOrdered(validStaffIDs)))))
             {
@@ -280,16 +335,62 @@ void Menu::addStaffMenu()
         // clear screen, display location banners
         // and ask for staff member's information
 
-        std::cout << "|---Please enter staff member's username" << std::endl;
-        std::cout << "|---TR~Add Staffr~$: ";
-        std::cin >> infoPiece;
-        std::cin.ignore();
-        staffInfo.push_back(infoPiece);
+        while (1)
+        {
 
-        std::cout << "|---Please enter staff member's password" << std::endl;
-        std::cout << "|---TR~Add Staff~$: ";
-        std::getline(std::cin, infoPiece);
-        staffInfo.push_back(infoPiece);
+            std::cin.ignore(std::numeric_limits<int>::max(), '\n');
+            std::cout << "|---Please enter staff member's username" << std::endl;
+            std::cout << "|---TR~Add Staffr~$: ";
+            // getline used in case user inputs words with spacess
+            // uniqueness of username checked when attempting to insert
+            // details to table
+            std::getline(std::cin, infoPiece);
+
+            if (utils.noSpacesOnly(infoPiece))
+
+            {
+                staffInfo.push_back(infoPiece);
+                break;
+            }
+            else
+            {
+                std::cin.clear();
+                std::cin.ignore(10000, '\n');
+                std::cout << "|---Thor is not happy - no whitespaces please" << std::endl;
+            }
+        }
+
+        // std::cout << "|---Please enter staff member's username" << std::endl;
+        // std::cout << "|---TR~Add Staffr~$: ";
+        // std::cin >> infoPiece;
+        // std::cin.ignore();
+        // staffInfo.push_back(infoPiece);
+
+        while (1)
+        {
+
+            std::cout << "|---Please enter staff member's password" << std::endl;
+            std::cout << "|---TR~Add Staff~$: ";
+
+            std::getline(std::cin, infoPiece);
+            if (utils.noSpacesOnly(infoPiece))
+
+            {
+                staffInfo.push_back(infoPiece);
+                break;
+            }
+            else
+            {
+                // std::cin.clear();
+                // std::cin.ignore(10000, '\n');
+                std::cout << "|---Thor is not happy - no whitespaces please" << std::endl;
+            }
+        }
+
+        // std::cout << "|---Please enter staff member's password" << std::endl;
+        // std::cout << "|---TR~Add Staff~$: ";
+        // std::getline(std::cin, infoPiece);
+        // staffInfo.push_back(infoPiece);
 
         // push back a string zero to indicate that the staff
         // member that is currently added is not logged on at present

@@ -556,3 +556,55 @@ void Utility::printUnorderedSet(std::unordered_set<int> const &s)
               s.end(),
               std::ostream_iterator<int>(std::cout, " "));
 }
+
+bool Utility::lettersAndSpacesOnly(std::string input)
+{
+    for (auto &i : input) // check each character in the input string
+    {
+        // is it an alphabetical character or whitespace?
+        if (!(std::isalpha(i) || (std::isspace(i))))
+            return false;
+    }
+    return true;
+}
+
+bool Utility::noSpacesOnly(std::string input)
+{
+    for (auto &i : input) // check each character in the input string
+    {
+        // is it whitespace?
+        if (std::isspace(i))
+            return false;
+    }
+    return true;
+}
+
+bool Utility::lettersOnly(std::string &input)
+{
+    for (auto &i : input) // check each character in the input string
+    {
+        // is it an alphabetical character or whitespace?
+        if (!(std::isalpha(i)))
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+std::string Utility::capitaliseAllFirstLetters(std::string &input)
+{
+    for (int x = 0; x < input.length(); x++)
+    {
+        if (x == 0)
+        {
+            input[x] = toupper(input[x]);
+        }
+        else if (input[x - 1] == ' ')
+        {
+            input[x] = toupper(input[x]);
+        }
+    }
+
+    return input;
+}

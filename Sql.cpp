@@ -323,7 +323,12 @@ const std::string Sql::getOrdersSum()
     return this->ordersSum;
 }
 
-const std::string Sql::getstaffIDs()
+const std::string Sql::getStaffIDs()
 {
     return this->staffIDs;
+}
+
+const std::string Sql::getSystemAccessStaffIDs()
+{
+    return this->systemAccessStaffIDs;
 }

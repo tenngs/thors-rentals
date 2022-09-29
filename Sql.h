@@ -222,6 +222,8 @@ private:
 
     const std::string staffIDs = "SELECT ID FROM staff;";
 
+    const std::string systemAccessStaffIDs = "SELECT ID FROM system_access;";
+
     /*
     Getters for private variables
     */
@@ -266,5 +268,6 @@ public:
     const std::string getReturnDatetime();
     const std::string getEquipmentIDsOnLoan(int type);
     const std::string getOrdersSum();
-    const std::string getstaffIDs();
+    const std::string getStaffIDs();
+    const std::string getSystemAccessStaffIDs();
 };

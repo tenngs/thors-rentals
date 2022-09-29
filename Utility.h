@@ -38,4 +38,8 @@ public:
     bool emailCheck(std::string email);
     std::string toUpperCase(std::string str);
     void printUnorderedSet(std::unordered_set<int> const &s);
+    bool lettersAndSpacesOnly(std::string input);
+    bool noSpacesOnly(std::string input);
+    bool lettersOnly(std::string &input);
+    std::string capitaliseAllFirstLetters(std::string &input);
 };
