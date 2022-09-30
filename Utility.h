@@ -42,4 +42,5 @@ public:
     bool noSpacesOnly(std::string input);
     bool lettersOnly(std::string &input);
     std::string capitaliseAllFirstLetters(std::string &input);
+    std::unordered_set<int> getValidStaffIDS(std::unordered_set<int> staffIDs, std::unordered_set<int> systemAccessStaffIDs);
 };

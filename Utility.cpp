@@ -8,6 +8,7 @@
 #include <unordered_set>
 #include <set>
 #include <algorithm>
+#include "stdlib.h"
 #include <ctime>
 #include "mingw.thread.h"
 #include "sqlite3.h"
@@ -146,6 +147,7 @@ void Utility::shutdown()
     disp.displayASCIIArtFromFile("ASCIIArt/goodbye.txt");
     // wait
     utils.pause(2);
+    exit(0);
 }
 std::string Utility::calculateReturnDatetime(Order &initOrder)
 {
@@ -487,7 +489,7 @@ void Utility::addOrderDetails(Order &initOrder)
     Table orders{"INSERT INTO", "orders"};
     std::vector<std::string> orderDetails;
 
-    std::string orderID{std::to_string(initOrder.getOrderID())};
+    // std::string orderID{std::to_string(initOrder.getOrderID())};
     std::string salesRepID{std::to_string(initOrder.getID("sales"))};
     std::string customerID{std::to_string(initOrder.getID("customer"))};
     std::string equipmentType{std::to_string(initOrder.getEquipment("type"))};
@@ -500,7 +502,7 @@ void Utility::addOrderDetails(Order &initOrder)
     // status 1 = rental "open" (equipment on loan)
     // status 0 = rental "closed" (equipment returned)
 
-    orderDetails.push_back(orderID);
+    // orderDetails.push_back(orderID);
     orderDetails.push_back(salesRepID);
     orderDetails.push_back(customerID);
     orderDetails.push_back(equipmentType);
@@ -607,4 +609,26 @@ std::string Utility::capitaliseAllFirstLetters(std::string &input)
     }
 
     return input;
+}
+
+/*
+    inserts IDs that are valid staff IDs, but do NOT have
+    system access to std::unordered_set<int> and returns
+    it. For example:
+    Staff IDs:                  1, 2, 3, 4, 5
+    System access staff IDs:    1, 2, 3
+    returns validStaffIDs:      4, 5
+*/
+std::unordered_set<int> Utility::getValidStaffIDS(std::unordered_set<int> staffIDs, std::unordered_set<int> systemAccessStaffIDs)
+{
+    std::unordered_set<int> validStaffIDs{};
+
+    for (auto num : staffIDs)
+    {
+        if (systemAccessStaffIDs.find(num) == systemAccessStaffIDs.end())
+        {
+            validStaffIDs.insert(num);
+        }
+    }
+    return validStaffIDs;
 }

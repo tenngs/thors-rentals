@@ -1,25 +1,18 @@
 #include <string>
 #include "Order.h"
 
-int Order::orderID = 0;
-
-Order::Order()
-{
-    ++orderID;
-}
-
 // GETTERS
-int Order::getOrderID()
-{
-    return orderID;
-}
+// int Order::getOrderID()
+// {
+//     return this->orderID;
+// }
 
 int Order::getID(std::string type)
 {
-    if (type == "order")
-    {
-        return this->orderID;
-    }
+    // if (type == "order")
+    // {
+    //     return this->orderID;
+    // }
     if (type == "sales")
     {
         return this->salesRepID;
@@ -89,13 +82,18 @@ std::string Order::getReturnDateTime()
     return this->returnDateTime;
 }
 
+int Order::getSalesRepID()
+{
+    return this->salesRepID;
+}
+
 // SETTERS
 void Order::setID(std::string type, int ID)
 {
-    if (type == "order")
-    {
-        this->orderID = ID;
-    }
+    // if (type == "order")
+    // {
+    //     this->orderID = ID;
+    // }
     if (type == "sales")
     {
         this->salesRepID = ID;
@@ -164,12 +162,17 @@ void Order::setReturnDateTime(std::string time)
     this->returnDateTime = time;
 }
 
-int Order::getSalesRepID()
-{
-    return this->salesRepID;
-}
-
 void Order::setSalesRepID(int id)
 {
     this->salesRepID = id;
 }
+
+// void Order::incrementOrderID()
+// {
+//     this->orderID++;
+// }
+
+// void Order::decrementOrderID()
+// {
+//     this->orderID--;
+// }

@@ -23,7 +23,7 @@ private:
                                              "EMAIL                    VARCHAR(60)         NOT NULL);";
 
     const std::string ordersCreateStmnt = "CREATE TABLE orders("
-                                          "ID                   INTEGER PRIMARY KEY,"
+                                          "ID                   INTEGER PRIMARY KEY AUTOINCREMENT,"
                                           "SALES_REP_ID         INTEGER         NOT NULL,"
                                           "CUSTOMER_ID          INTEGER         NOT NULL,"
                                           "EQUIPMENT_TYPE       INTEGER         NOT NULL,"
@@ -157,10 +157,10 @@ private:
                                               "VALUES (?,?,?,?,?,?);";
 
     const std::string addAtvStmnt = "INSERT INTO inventory_atvs (MAKE, MODEL, REG, FUEL_TYPE, PRICE_HOUR, PRICE_DAY, EQUIPMENT_TYPE, AVAILABLE)"
-                                    "VALUES (?,?,?,?,?,?,?);";
+                                    "VALUES (?,?,?,?,?,?,?,?);";
 
-    const std::string addToOrdersStmnt = "INSERT INTO orders (ID, SALES_REP_ID, CUSTOMER_ID, EQUIPMENT_TYPE, EQUIPMENT_ID, RENTAL_HOURS, RENTAL_DAYS, COST, RETURN_DATETIME, STATUS)"
-                                         "VALUES (?,?,?,?,?,?,?,?,?,?);";
+    const std::string addToOrdersStmnt = "INSERT INTO orders (SALES_REP_ID, CUSTOMER_ID, EQUIPMENT_TYPE, EQUIPMENT_ID, RENTAL_HOURS, RENTAL_DAYS, COST, RETURN_DATETIME, STATUS)"
+                                         "VALUES (?,?,?,?,?,?,?,?,?);";
 
     const std::string validateUsernameStmnt = "SELECT username FROM system_access WHERE username = ?";
 

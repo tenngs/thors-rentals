@@ -280,6 +280,7 @@ void Menu::addStaffMenu()
     Utility utils;
     Sql sql;
     Table staff;
+    Table system_access;
 
     while (true)
     {
@@ -291,36 +292,14 @@ void Menu::addStaffMenu()
             std::cout << "|---TR~Add Staffr~$: ";
             // get all current staff IDs in a set
             staffIDs = staff.getAvailableIDs(sql.getStaffIDs());
-
             // get all staff ids from system_access to a set
             systemAccessStaffIDs = staff.getAvailableIDs(sql.getSystemAccessStaffIDs());
 
-            for (auto num : staffIDs)
+            // if staffIDchoice is not numeric or if staffIDchoice is within valid staff IDs that already
+            // have system access ---> ask the user to enter a new staffID
+            if ((!(std::cin >> staffIDchoice)) || (!(utils.validateDigits(staffIDchoice, utils.unorderedToOrdered(utils.getValidStaffIDS(staffIDs, systemAccessStaffIDs))))))
             {
-                if (systemAccessStaffIDs.find(num) == systemAccessStaffIDs.end())
-                {
-                    validStaffIDs.insert(num);
-                }
-            }
-
-            // To do: check if ID values present in staff, but not present in system_access
-            // actually are put into validStaffIDs
-
-            // std::unordered_set<int> s = {1, 2, 3, 4, 5};
-            // int key = 3;
-
-            // if (s.find(key) != s.end())
-            // {
-            //     std::cout << "Element is present in the set" << std::endl;
-            // }
-            // else
-            // {
-            //     std::cout << "Element not found" << std::endl;
-            // }
-
-            if ((!(std::cin >> staffIDchoice)) || (!(utils.validateDigits(staffIDchoice, utils.unorderedToOrdered(validStaffIDs)))))
-            {
-                std::cout << "|---Thor is not happy - Please enter valid staff IDs only";
+                std::cout << "\n|---Thor is not happy - Please enter valid staff IDs that do NOT have system access only";
                 utils.pause(3);
                 std::cin.clear();
                 std::cin.ignore(10000, '\n');
@@ -328,43 +307,34 @@ void Menu::addStaffMenu()
             else
             {
                 staffInfo.push_back(std::to_string(staffIDchoice));
+                std::cin.ignore(std::numeric_limits<int>::max(), '\n');
                 break;
             }
         }
-
-        // clear screen, display location banners
-        // and ask for staff member's information
 
         while (1)
         {
 
-            std::cin.ignore(std::numeric_limits<int>::max(), '\n');
             std::cout << "|---Please enter staff member's username" << std::endl;
             std::cout << "|---TR~Add Staffr~$: ";
-            // getline used in case user inputs words with spacess
-            // uniqueness of username checked when attempting to insert
-            // details to table
-            std::getline(std::cin, infoPiece);
+            std::cin >> infoPiece;
 
-            if (utils.noSpacesOnly(infoPiece))
-
+            // Note: even though std::cin only takes in user input
+            // until the first whitespace character, noSpacesOnly() is
+            // utilised as a secondary check because of mixed use of
+            // std::cin and std::getline()
+            // check for uniqueness of username by querying DB
+            if (utils.noSpacesOnly(infoPiece) && (!system_access.determineExistenceTextValuesInDB(infoPiece, sql.getValidateUsernameStmnt())))
             {
                 staffInfo.push_back(infoPiece);
+                std::cin.ignore(std::numeric_limits<int>::max(), '\n');
                 break;
             }
             else
             {
-                std::cin.clear();
-                std::cin.ignore(10000, '\n');
-                std::cout << "|---Thor is not happy - no whitespaces please" << std::endl;
+                std::cout << "\n|---Thor is not happy - Please enter unique username without whitespace" << std::endl;
             }
         }
-
-        // std::cout << "|---Please enter staff member's username" << std::endl;
-        // std::cout << "|---TR~Add Staffr~$: ";
-        // std::cin >> infoPiece;
-        // std::cin.ignore();
-        // staffInfo.push_back(infoPiece);
 
         while (1)
         {
@@ -381,16 +351,9 @@ void Menu::addStaffMenu()
             }
             else
             {
-                // std::cin.clear();
-                // std::cin.ignore(10000, '\n');
                 std::cout << "|---Thor is not happy - no whitespaces please" << std::endl;
             }
         }
-
-        // std::cout << "|---Please enter staff member's password" << std::endl;
-        // std::cout << "|---TR~Add Staff~$: ";
-        // std::getline(std::cin, infoPiece);
-        // staffInfo.push_back(infoPiece);
 
         // push back a string zero to indicate that the staff
         // member that is currently added is not logged on at present
@@ -443,7 +406,7 @@ void Menu::addStaffMenu()
     the inventory_skis_snowboards table and ATVs are
     added to inventory_atvs table.
     Provides an option to add an item to rental
-    inventory and specify whether the item is/is not
+    inventory and specify whether the item is/ is NOT
     available for rent currently.
 */
 void Menu::addItemMenu()
@@ -456,10 +419,11 @@ void Menu::addItemMenu()
     std::string equipmentType{};
 
     bool run = true;
-    std::set<int> validDigits({1, 2});
+    std::set<int> validDigitsOneAndTwo({1, 2});
+    std::set<int> validDigitsZeroAndOne({0, 1});
     int choice{};
     int equipmentTypeChoice{};
-    int equipmentStatusChoice{};
+    int equipmentStatusChoice{}; // START HERE!!
 
     double pricePerHourChoice{};
     double pricePerDayChoice{};
@@ -476,7 +440,7 @@ void Menu::addItemMenu()
         std::cout << "|---Please enter [1] to add skis / snowboard or [2] to add ATV" << std::endl;
         std::cout << "|---TR~Add Item~$: ";
 
-        if ((!(std::cin >> choice)) || (!(utils.validateDigits(choice, validDigits))))
+        if ((!(std::cin >> choice)) || (!(utils.validateDigits(choice, validDigitsOneAndTwo))))
         {
             std::cout << "|---Thor is not happy - Please enter numbers 1 or 2 only" << std::endl;
             utils.pause(3);
@@ -486,6 +450,8 @@ void Menu::addItemMenu()
 
         else
         {
+            // flush the stream because going from std::cin to std::getline()
+            std::cin.ignore(std::numeric_limits<int>::max(), '\n');
             switch (choice)
             {
             case 1:
@@ -493,14 +459,16 @@ void Menu::addItemMenu()
                 disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_add_item.txt");
                 std::cout << "|---Please enter make" << std::endl;
                 std::cout << "|---TR~Add Skis & Snowboards~$: ";
-                std::cin >> infoPiece;
+                std::getline(std::cin, infoPiece);
+                utils.capitaliseAllFirstLetters(infoPiece);
                 equipmentInfo.push_back(infoPiece);
 
                 std::cout << "|---Please enter model" << std::endl;
                 std::cout << "|---TR~Add Skis & Snowboards~$: ";
-                std::cin >> infoPiece;
-                std::cin.ignore();
+                std::getline(std::cin, infoPiece);
+                utils.capitaliseAllFirstLetters(infoPiece);
                 equipmentInfo.push_back(infoPiece);
+                // std::cin.ignore(std::numeric_limits<int>::max(), '\n');
 
                 while (1)
                 {
@@ -545,7 +513,7 @@ void Menu::addItemMenu()
                     std::cout << "|---Please enter equipment type: [1] skis - [2] Snowboard" << std::endl;
                     std::cout << "|---TR~Add Skis & Snowboards~$: ";
 
-                    if ((!(std::cin >> equipmentTypeChoice)) || (!(utils.validateDigits(equipmentTypeChoice, validDigits))))
+                    if ((!(std::cin >> equipmentTypeChoice)) || (!(utils.validateDigits(equipmentTypeChoice, validDigitsOneAndTwo))))
                     {
                         std::cout << "|---Thor is not happy - Please enter numbers 1 or 2 only" << std::endl;
                         utils.pause(3);
@@ -559,10 +527,6 @@ void Menu::addItemMenu()
                     }
                 }
 
-                validDigits.clear();
-                validDigits.insert(0);
-                validDigits.insert(1);
-
                 while (1)
                 {
                     std::cout << "|---Please enter rental status\n:" << std::endl;
@@ -571,7 +535,7 @@ void Menu::addItemMenu()
                               << std::endl;
                     std::cout << "\n|---TR~Add Skis & Snowboards~$: ";
 
-                    if ((!(std::cin >> equipmentStatusChoice)) || (!(utils.validateDigits(equipmentStatusChoice, validDigits))))
+                    if ((!(std::cin >> equipmentStatusChoice)) || (!(utils.validateDigits(equipmentStatusChoice, validDigitsZeroAndOne))))
                     {
                         std::cout << "|---Thor is not happy - Please enter numbers 0 or 1 only" << std::endl;
                         utils.pause(3);
@@ -638,13 +602,14 @@ void Menu::addItemMenu()
                 disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_add_item.txt");
                 std::cout << "|---Please enter make" << std::endl;
                 std::cout << "|---TR~Add ATV~$: ";
-                std::cin >> infoPiece;
+                std::getline(std::cin, infoPiece);
+                utils.capitaliseAllFirstLetters(infoPiece);
                 equipmentInfo.push_back(infoPiece);
 
                 std::cout << "|---Please enter model" << std::endl;
                 std::cout << "|---TR~Add ATV~$: ";
-                std::cin >> infoPiece;
-                std::cin.ignore();
+                std::getline(std::cin, infoPiece);
+                utils.capitaliseAllFirstLetters(infoPiece);
                 equipmentInfo.push_back(infoPiece);
 
                 std::cout << "|---Please enter registration" << std::endl;
@@ -657,6 +622,7 @@ void Menu::addItemMenu()
                 std::cout << "|---TR~Add ATV~$: ";
                 std::cin >> infoPiece;
                 std::cin.ignore();
+                utils.capitaliseAllFirstLetters(infoPiece);
                 equipmentInfo.push_back(infoPiece);
 
                 while (1)
@@ -706,7 +672,7 @@ void Menu::addItemMenu()
                               << std::endl;
                     std::cout << "|---TR~Add ATV~$: ";
 
-                    if ((!(std::cin >> equipmentStatusChoice)) || (!(utils.validateDigits(equipmentStatusChoice, validDigits))))
+                    if ((!(std::cin >> equipmentStatusChoice)) || (!(utils.validateDigits(equipmentStatusChoice, validDigitsZeroAndOne))))
                     {
                         std::cout << "|---Thor is not happy - Please enter numbers 0 or 1 only" << std::endl;
                         utils.pause(3);
@@ -1233,6 +1199,9 @@ void Menu::confirmDetailsMenu(Order &initOrder)
     int equipmentType{initOrder.getEquipment("type")};
     int equipmentID{initOrder.getEquipment("id")};
 
+    // increment orderID
+    // initOrder.incrementOrderID();
+
     Table atvs{"inventory_atvs", "UPDATE"};
     Table skisSBs{"inventory_skis_snowboards", "UPDATE"};
 
@@ -1247,10 +1216,10 @@ void Menu::confirmDetailsMenu(Order &initOrder)
         system("cls");
         disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_init_rental.txt");
 
-        std::cout << "|-----TR Order #" << initOrder.getOrderID() << "-----|"
+        std::cout << "|-----Thor's Rentals Order-----|"
                   << std::endl;
-        std::cout << "|---------for"
-                  << "---------|\n"
+        std::cout << "|--------------for"
+                  << "-------------|\n"
                   << std::endl;
         std::cout << "|---Sales rep ID: " << initOrder.getSalesRepID()
                   << "\n\n"
@@ -1281,9 +1250,11 @@ void Menu::confirmDetailsMenu(Order &initOrder)
 
         if ((utils.lowerStr(choice) == "n"))
         {
+            // initOrder.decrementOrderID();
             run = false;
             system("cls");
             mainMenu.mainMenu();
+            // decrement orderID
         }
         else
         {
@@ -1463,7 +1434,7 @@ void Menu::receiveItemMenu()
     }
     else
     {
-        // if there are skis IDs that are on load --- > get all equipment IDs
+        // if there are skis IDs that are on loan --- > get all equipment IDs
         // on loan that are type 1 into a set
         // repeat same process for snowboards and ATVs
         equipmentIDsOnLoanSkis = skis.getAvailableIDs(sql.getEquipmentIDsOnLoan(1));

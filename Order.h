@@ -3,7 +3,7 @@
 class Order
 {
 private:
-    static int orderID;
+    // int orderID{0};
     int salesRepID;
     int customerID;
     std::string customerFirstName;
@@ -18,9 +18,8 @@ private:
     std::string returnDateTime;
 
 public:
-    Order();
     // getters for all
-    static int getOrderID();
+    int getOrderID();
     int getID(std::string type);
     std::string getName(std::string type);
     int getEquipment(std::string choice);
@@ -40,4 +39,6 @@ public:
     void setRental(double cost);
     void setReturnDateTime(std::string time);
     void setSalesRepID(int id);
+    // void incrementOrderID();
+    // void decrementOrderID();
 };
