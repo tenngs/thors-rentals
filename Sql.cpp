@@ -2,11 +2,11 @@
 #include "Sql.h"
 
 /*
-    Sqlite create statement getters.
-    Returns a Sqlite statement depending on
+    Sqlite table create statement getters.
+    Returns a sqlite statement depending on
     tableName attribute.
 */
-const std::string Sql::getCreateStmnt(std::string tableName)
+const std::string Sql::getCreateStmnt(std::string const &tableName)
 {
     if (tableName == "customers")
     {
@@ -40,11 +40,11 @@ const std::string Sql::getCreateStmnt(std::string tableName)
 }
 
 /*
-    Sqlite drop statement getters.
-    Returns a Sqlite statement depending on
+    Sqlite table drop statement getters.
+    Returns a sqlite statement depending on
     tableName attribute.
 */
-const std::string Sql::getDropStmnt(std::string tableName)
+const std::string Sql::getDropStmnt(std::string const &tableName)
 {
     if (tableName == "customers")
     {
@@ -77,11 +77,11 @@ const std::string Sql::getDropStmnt(std::string tableName)
 }
 
 /*
-    Sqlite insert statement getters.
-    Returns a Sqlite statement depending on
+    Sqlite table insert statement getters.
+    Returns a sqlite statement depending on
     tableName attribute.
 */
-const std::string Sql::getInsertStmnt(std::string tableName)
+const std::string Sql::getInsertStmnt(std::string const &tableName)
 {
     if (tableName == "customers")
     {
@@ -106,58 +106,38 @@ const std::string Sql::getInsertStmnt(std::string tableName)
 }
 
 /*
-    Add customer to table getter.
+    Various getters for system's sqlite statements
 */
 const std::string Sql::getAddCustomerStmnt()
 {
     return this->addCustomerStmnt;
 }
 
-/*
-    Add staff to table getter.
-*/
 const std::string Sql::getAddStaffStmnt()
 {
     return this->addSystemAccessStaffStmnt;
 }
 
-/*
-    Add skis / snowboard to table getter.
-*/
 const std::string Sql::getAddSkisSnowboardStmnt()
 {
     return this->addSkisSnowboarsStmnt;
 }
 
-/*
-    Add ATV to table getter.
-*/
 const std::string Sql::getAddAtvStmnt()
 {
     return this->addAtvStmnt;
 }
 
-/*
-    Validate username from DB getter.
-*/
 const std::string Sql::getValidateUsernameStmnt()
 {
     return this->validateUsernameStmnt;
 }
 
-/*
-    Validate username and password from DB getter.
-*/
 const std::string Sql::getValidateUnamePasswordStmnt()
 {
     return this->validateUnamePasswordStmnt;
 }
 
-/*
-    Update system access staff getter.
-    Utilised to set the status of person who is
-    logged on/
-*/
 const std::string Sql::getUpdateSystemAccessStaffStmnt()
 {
     return this->updateSystemAccessStaffStmnt;

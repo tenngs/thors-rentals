@@ -20,29 +20,27 @@
 /*
     Sets cursor position on screen to xPos and yPos.
 */
-void Utility::goToXY(int xPos, int yPos)
+void Utility::goToXY(int const &xPos, int const &yPos)
 {
     COORD coord;
     coord.X = xPos;
     coord.Y = yPos;
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
-
 /*
     Pauses execution for number of seconds determined
     by the function argument.
 */
-void Utility::pause(int seconds)
+void Utility::pause(int const &seconds)
 {
     std::this_thread::sleep_for(std::chrono::seconds(seconds));
 }
-
 /*
     Validates [Y/N] user input by utilising a set
     of valid answers.
     If user input is found in the set --> answer is valid.
 */
-bool Utility::validateYesOrNo(std::string word)
+bool Utility::validateYesOrNo(std::string const &word)
 {
 
     {
@@ -50,29 +48,26 @@ bool Utility::validateYesOrNo(std::string word)
         return validWords.count(word) == 1;
     }
 }
-
 /*
     Validates user-entered numeric input by utilising a set
     of valid numbers.
     If user input is found in the set --> answer is valid.
 */
-bool Utility::validateDigits(int digit, std::set<int> validDigits)
+bool Utility::validateDigits(int const &digit, std::set<int> const &validDigits)
 {
 
     {
         return validDigits.count(digit) == 1;
     }
 }
-
 /*
     Returns a lowercase version of an argument string.
 */
-std::string Utility::lowerStr(std::string str)
+std::string Utility::lowerStr(std::string &str)
 {
     transform(str.begin(), str.end(), str.begin(), ::tolower);
     return str;
 }
-
 /*
     Function to determine current time from
     system clock.
@@ -83,7 +78,6 @@ std::string Utility::lowerStr(std::string str)
     HH = hour
     MM = minutes on the hour
 */
-
 std::string Utility::getCurrentTime()
 {
     time_t rawtime;
@@ -102,7 +96,6 @@ std::string Utility::getCurrentTime()
 
     return strHours + ":" + strMins;
 }
-
 /*
     Reads a text file line-by-line and returns
     it as a string.
@@ -127,7 +120,6 @@ std::string Utility::getContents(std::ifstream &file)
         return "File does not exist - check maybe?";
     }
 }
-
 /*
     Displays "old school SHUTTING DOWN...." message and
     ASCII art informing a user that their session is
@@ -139,21 +131,20 @@ void Utility::shutdown()
     Utility utils;
     disp.displayBreakText("SHUTTING DOWN... PLEASE WAIT...", true);
     disp.displayASCIIArtFromFile("ASCIIArt/session_terminated.txt");
-    // wait
     utils.pause(2);
-    // clear screen
     system("cls");
-    // display goodbye.txt
     disp.displayASCIIArtFromFile("ASCIIArt/goodbye.txt");
-    // wait
     utils.pause(2);
     exit(0);
 }
+/*
+    Determines which fuction is utilised to calculate
+    a return datetime for rental equipment depending
+    whether rental duration is measured in days or hours.
+    Returns rental duration datetime as a std::string
+*/
 std::string Utility::calculateReturnDatetime(Order &initOrder)
 {
-
-    // int days = initOrder.getRental("days");
-
     switch (initOrder.getRental("days"))
     {
     case 0:
@@ -167,7 +158,6 @@ std::string Utility::calculateReturnDatetime(Order &initOrder)
         break;
     }
 }
-
 /*
     A function to determine due back date and time
     when a customer rents equipment by the hour.
@@ -223,7 +213,13 @@ std::string Utility::getReturnDatetimeHourly(Order &initOrder)
 
     if (currentHours + rentalHours > 20)
     {
-        // TO DO: RETURN NO RENTAL CAUSE SHOP AINT OPEN
+        // Note: Thor's rentals is a 24h/day business
+        // if it would instead close at 20:00 hours,
+        // a return statement stating that equipment
+        // can not be rented as the return time is
+        // past shop's daily closing time should be
+        // added here. Adjust the value that is currently
+        // 20 to customise shop's closing time
     }
 
     if (utils.validateDigits(currentMins, zeroAddDigits))
@@ -237,7 +233,6 @@ std::string Utility::getReturnDatetimeHourly(Order &initOrder)
 
     return utils.getCurrentTimeDetails(4) + " " + resultHours + ":" + resultMins;
 }
-
 /*
     A function to determine due back date and time
     when a customer rents equipment by number of days.
@@ -276,7 +271,6 @@ std::string Utility::getReturnDatetimeDaily(Order &initOrder)
         resultYear = startYear;
         offset2 = offset1 + rentalDays;
     }
-
     else
     {
         rentalDays -= remDays;
@@ -290,10 +284,8 @@ std::string Utility::getReturnDatetimeDaily(Order &initOrder)
         }
         offset2 = rentalDays;
     }
-
     // Find values of day and month from
     // offset of result year.
-
     utils.revoffsetDays(offset2, resultYear, &resultDay, &resultMonth);
 
     if (resultDay >= 0 && resultDay < 10)
@@ -316,18 +308,17 @@ std::string Utility::getReturnDatetimeDaily(Order &initOrder)
 
     return std::to_string(resultYear) + "-" + returnResultMonth + "-" + returnResultDay + " " + utils.getCurrentTime();
 }
-
 /*
     A function to determine current month, day, year
     or year+month+day by function argument,
-    Arguments return values as follows:
+    int type arguments return values as follows:
 
     1 = year (YYYY)
     2 = month (MM)
     3 = day (DD)
     4 = year-month-day (YYYY-MM-DD)
 */
-std::string Utility::getCurrentTimeDetails(int type)
+std::string Utility::getCurrentTimeDetails(int const &type)
 {
     std::set<int> zeroAddDigits;
     for (int i = 1; i < 10; ++i)
@@ -340,7 +331,6 @@ std::string Utility::getCurrentTimeDetails(int type)
     std::string resultYear{};
 
     Utility utils;
-    // current date/time based on current system
     time_t now = time(0);
     tm *ltm = localtime(&now);
 
@@ -377,20 +367,24 @@ std::string Utility::getCurrentTimeDetails(int type)
         return resultYear + "-" + resultMonth + "-" + resultDay;
     }
 }
-
-// determine a leap year from an input year
-bool Utility::isLeap(int y)
+/*
+    Determines whether argument int year is
+    a leap year.
+*/
+bool Utility::isLeap(int &year)
 {
-    if (y % 100 != 0 && y % 4 == 0 || y % 400 == 0)
+    if (year % 100 != 0 && year % 4 == 0 || year % 400 == 0)
+    {
         return true;
-
+    }
     return false;
 }
-
-// Given a date, returns number of days elapsed
-// from the  beginning of the current year (1st
-// jan).
-int Utility::offsetDays(int day, int month, int year)
+/*
+    Given a date as arguments day, month, year,
+    returns number of days elapsed from the beginning
+    of current year.
+*/
+int Utility::offsetDays(int &day, int &month, int &year)
 {
     Utility utils;
     int offset = day;
@@ -426,10 +420,11 @@ int Utility::offsetDays(int day, int month, int year)
 
     return offset;
 }
-
-// Given a year and days elapsed in it, finds
-// date by storing results in d and m.
-void Utility::revoffsetDays(int offset, int year, int *day, int *month1)
+/*
+    Given a year and days elapsed in it (int year, int offset),
+    finds date by storing results in day and month1.
+*/
+void Utility::revoffsetDays(int &offset, int &year, int *day, int *month1)
 {
     int month[13] = {0, 31, 28, 31, 30, 31, 30,
                      31, 31, 30, 31, 30, 31};
@@ -449,7 +444,9 @@ void Utility::revoffsetDays(int offset, int year, int *day, int *month1)
     *day = offset;
     *month1 = i;
 }
-
+/*
+    Sets current order details to Order class.
+*/
 void Utility::setOrderDetails(Order &initOrder)
 {
     std::string strCustomerID{std::to_string(initOrder.getID("customer"))};
@@ -459,7 +456,7 @@ void Utility::setOrderDetails(Order &initOrder)
     Table initRental;
     Sql sql;
 
-    // calculate total rental cost
+    // calculate and set total rental cost
     initOrder.setRental(initRental.calculateRentalCost(initOrder));
     // set return datetime
     initOrder.setReturnDateTime(utils.calculateReturnDatetime(initOrder));
@@ -480,7 +477,10 @@ void Utility::setOrderDetails(Order &initOrder)
 
     initOrder.setSalesRepID(initRental.searchNumericValuesFromDB(sql.getSalesRepID()));
 }
-
+/*
+    Gets current order details from Order class and inserts them to orders table
+    in thors_rentals DB.
+*/
 void Utility::addOrderDetails(Order &initOrder)
 {
     Sql sql;
@@ -489,7 +489,6 @@ void Utility::addOrderDetails(Order &initOrder)
     Table orders{"INSERT INTO", "orders"};
     std::vector<std::string> orderDetails;
 
-    // std::string orderID{std::to_string(initOrder.getOrderID())};
     std::string salesRepID{std::to_string(initOrder.getID("sales"))};
     std::string customerID{std::to_string(initOrder.getID("customer"))};
     std::string equipmentType{std::to_string(initOrder.getEquipment("type"))};
@@ -502,7 +501,6 @@ void Utility::addOrderDetails(Order &initOrder)
     // status 1 = rental "open" (equipment on loan)
     // status 0 = rental "closed" (equipment returned)
 
-    // orderDetails.push_back(orderID);
     orderDetails.push_back(salesRepID);
     orderDetails.push_back(customerID);
     orderDetails.push_back(equipmentType);
@@ -513,53 +511,52 @@ void Utility::addOrderDetails(Order &initOrder)
     orderDetails.push_back(returnDateTime);
     orderDetails.push_back(status);
 
-    // orders.execTableOperation(orders.getOperationType(), orders.getTableName(), sql.getAddToOrders(), true);
     orders.appInsertTableOperation(successMsg, orderDetails, sql.getAddToOrders());
-
-    system("pause");
-    // add them to orders table
-    // cout message that rental is complete
-    // delete Order
 }
-
-std::set<int> Utility::unorderedToOrdered(std::unordered_set<int> us)
+/*
+    Takes in std::unordered_set<int> and returns it as std::set<int>
+    Ie. makes an unordered set to a set.
+*/
+std::set<int> Utility::unorderedToOrdered(std::unordered_set<int> notOrderedSet)
 {
     std::set<int> s;
-    for (auto val : us)
+    for (auto val : notOrderedSet)
     {
         s.insert(val);
     }
     return s;
 }
-
-bool Utility::postcodeCheck(std::string postcode)
+/*
+    Uses regex to determine whether argument std::string is valid
+    UK postcode.
+*/
+bool Utility::postcodeCheck(std::string const &postcode)
 {
     std::regex postcodePattern("^((([a-zA-Z][0-9])|([a-zA-Z][0-9]{2})|([a-zA-Z]{2}[0-9])|([a-zA-Z]{2}[0-9]{2})|([A-Za-z][0-9][a-zA-Z])|([a-zA-Z]{2}[0-9][a-zA-Z]))(\\s*[0-9][a-zA-Z]{2})$)");
     return regex_match(postcode, postcodePattern);
 }
-
-bool Utility::emailCheck(std::string email)
+/*
+    Uses regex to determine whether argument std::string is valid
+    email address.
+*/
+bool Utility::emailCheck(std::string const &email)
 {
     std::regex emailPattern("(\\w+)(\\.|_)?(\\w*)@(\\w+)(\\.(\\w+))+");
     return regex_match(email, emailPattern);
 }
-
-std::string Utility::toUpperCase(std::string str)
+/*
+    Returns argument std::string as all uppercase std::string.
+*/
+std::string Utility::toUpperCase(std::string &str)
 {
     std::transform(str.begin(), str.end(), str.begin(), ::toupper);
     return str;
 }
-
-// To do: look how this function is defined and see if you can
-// change my functions to be like that
-void Utility::printUnorderedSet(std::unordered_set<int> const &s)
-{
-    std::copy(s.begin(),
-              s.end(),
-              std::ostream_iterator<int>(std::cout, " "));
-}
-
-bool Utility::lettersAndSpacesOnly(std::string input)
+/*
+    Checks whether argument std::string contains only letters
+    and whitespace characters.
+*/
+bool Utility::lettersAndSpacesOnly(std::string const &input)
 {
     for (auto &i : input) // check each character in the input string
     {
@@ -569,8 +566,11 @@ bool Utility::lettersAndSpacesOnly(std::string input)
     }
     return true;
 }
-
-bool Utility::noSpacesOnly(std::string input)
+/*
+    Checks whether argument std::string contains
+    whitespace characters.
+*/
+bool Utility::noSpacesOnly(std::string const &input)
 {
     for (auto &i : input) // check each character in the input string
     {
@@ -580,8 +580,11 @@ bool Utility::noSpacesOnly(std::string input)
     }
     return true;
 }
-
-bool Utility::lettersOnly(std::string &input)
+/*
+    Checks whether argument std::string contains
+    only letters.
+*/
+bool Utility::lettersOnly(std::string const &input)
 {
     for (auto &i : input) // check each character in the input string
     {
@@ -593,7 +596,10 @@ bool Utility::lettersOnly(std::string &input)
     }
     return true;
 }
-
+/*
+    Capitalises each first letter of argument std::string
+    and returns it.
+*/
 std::string Utility::capitaliseAllFirstLetters(std::string &input)
 {
     for (int x = 0; x < input.length(); x++)

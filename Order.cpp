@@ -1,18 +1,9 @@
 #include <string>
 #include "Order.h"
 
-// GETTERS
-// int Order::getOrderID()
-// {
-//     return this->orderID;
-// }
-
-int Order::getID(std::string type)
+// getters
+int Order::getID(std::string const &type)
 {
-    // if (type == "order")
-    // {
-    //     return this->orderID;
-    // }
     if (type == "sales")
     {
         return this->salesRepID;
@@ -23,7 +14,7 @@ int Order::getID(std::string type)
     }
 }
 
-std::string Order::getName(std::string type)
+std::string Order::getName(std::string const &type)
 {
     if (type == "first")
     {
@@ -35,7 +26,7 @@ std::string Order::getName(std::string type)
     }
 }
 
-int Order::getEquipment(std::string choice)
+int Order::getEquipment(std::string const &choice)
 {
     if (choice == "type")
     {
@@ -47,7 +38,7 @@ int Order::getEquipment(std::string choice)
     }
 }
 
-std::string Order::getEquipmentStyle(std::string choice)
+std::string Order::getEquipmentStyle(std::string const &choice)
 
 {
     if (choice == "make")
@@ -60,7 +51,7 @@ std::string Order::getEquipmentStyle(std::string choice)
     }
 }
 
-int Order::getRental(std::string type)
+int Order::getRental(std::string const &type)
 {
     if (type == "hours")
     {
@@ -87,13 +78,9 @@ int Order::getSalesRepID()
     return this->salesRepID;
 }
 
-// SETTERS
-void Order::setID(std::string type, int ID)
+// setters
+void Order::setID(std::string const &type, int const &ID)
 {
-    // if (type == "order")
-    // {
-    //     this->orderID = ID;
-    // }
     if (type == "sales")
     {
         this->salesRepID = ID;
@@ -104,7 +91,7 @@ void Order::setID(std::string type, int ID)
     }
 }
 
-void Order::setName(std::string type, std::string name)
+void Order::setName(std::string const &type, std::string const &name)
 {
     if (type == "first")
     {
@@ -116,7 +103,7 @@ void Order::setName(std::string type, std::string name)
     }
 }
 
-void Order::setEquipment(std::string type, int value)
+void Order::setEquipment(std::string const &type, int const &value)
 {
     if (type == "type")
     {
@@ -128,7 +115,7 @@ void Order::setEquipment(std::string type, int value)
     }
 }
 
-void Order::setEquipmentStyle(std::string type, std::string value)
+void Order::setEquipmentStyle(std::string const &type, std::string const &value)
 {
     if (type == "make")
     {
@@ -140,7 +127,7 @@ void Order::setEquipmentStyle(std::string type, std::string value)
     }
 }
 
-void Order::setRental(std::string type, int value)
+void Order::setRental(std::string const &type, int const &value)
 {
     if (type == "hours")
     {
@@ -152,27 +139,17 @@ void Order::setRental(std::string type, int value)
     }
 }
 
-void Order::setRental(double cost)
+void Order::setRental(double const &cost)
 {
     this->rentalCost = cost;
 }
 
-void Order::setReturnDateTime(std::string time)
+void Order::setReturnDateTime(std::string const &time)
 {
     this->returnDateTime = time;
 }
 
-void Order::setSalesRepID(int id)
+void Order::setSalesRepID(int const &id)
 {
     this->salesRepID = id;
 }
-
-// void Order::incrementOrderID()
-// {
-//     this->orderID++;
-// }
-
-// void Order::decrementOrderID()
-// {
-//     this->orderID--;
-// }

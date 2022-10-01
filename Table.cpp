@@ -24,7 +24,6 @@ Table::Table(std::string nameVal)
 Table::Table()
 {
 }
-
 /*
     Sqlite statement getter
 */
@@ -32,7 +31,6 @@ std::string Table::getSqlStatement()
 {
     return this->sqlStmnt;
 }
-
 /*
     Table name getter
 */
@@ -40,7 +38,6 @@ std::string Table::getTableName()
 {
     return this->name;
 }
-
 /*
     Table operation type getter
     "DROP", "CREATE", "INSERT INTO"
@@ -49,7 +46,6 @@ std::string Table::getOperationType()
 {
     return this->operationType;
 }
-
 /*
     Performs data operations on tables in thors_rentals DB.
     Takes as arguments an operation type ("DROP", "CREATE", "INSERT INTO"),
@@ -67,7 +63,6 @@ int Table::execTableOperation(std::string operationType, std::string tableName, 
     char *zErrMsg = 0;
     int rc;
 
-    // Open database
     rc = sqlite3_open("thors_rentals.db", &db);
 
     if (rc)
@@ -103,16 +98,14 @@ int Table::execTableOperation(std::string operationType, std::string tableName, 
     sqlite3_close(db);
     return 0;
 }
-
 /*
     Overloaded DB function that returns a Boolean
     depending on whether an argument std::string
     val1 is found in the DB in relation to the argument
-    SQL statement. Utilised in whether a username
+    SQL statement. Utilised in determining whether a username
     or password exist in the DB matching the argument.
     Uses sqlite3_bind_text to bind user-entered data
     to prepared statements.
-
 */
 bool Table::determineExistenceTextValuesInDB(std::string val1, std::string sqlStmnt)
 {
@@ -150,7 +143,6 @@ bool Table::determineExistenceTextValuesInDB(std::string val1, std::string sqlSt
         return false;
     }
 }
-
 /*
     Overloaded DB function that returns a Boolean
     depending on whether std::string arguments
@@ -159,7 +151,6 @@ bool Table::determineExistenceTextValuesInDB(std::string val1, std::string sqlSt
     a username or password exist in the DB matching
     the arguments. Uses sqlite3_bind_text to bind user-entered data
     to prepared statements.
-
 */
 bool Table::determineExistenceTextValuesInDB(std::string val1, std::string val2, std::string sqlStmnt)
 {
@@ -198,12 +189,11 @@ bool Table::determineExistenceTextValuesInDB(std::string val1, std::string val2,
         return false;
     }
 }
-
 /*
-    Utilises std::vector<std::string> which should be filled with
-    details to be inserted to a table. Loops over that
-    collection, binds text to SQL statement and inserts data
-    to a table in DB.
+    Utilises std::vector<std::string> filled with
+    details to be inserted to a table. Loops over the
+    vector of std::strings, binds text to a SQL statement
+    and inserts data to a table in DB.
 */
 void Table::appInsertTableOperation(std::string successMsg, std::vector<std::string> infoCollection, std::string sql)
 {
@@ -251,56 +241,11 @@ void Table::appInsertTableOperation(std::string successMsg, std::vector<std::str
     system("cls");
     mainMenu.mainMenu();
 }
-
-void Table::appToOrdersTableFromOrder(std::string successMsg, std::vector<std::string> infoCollection, std::string sql)
-{
-    sqlite3 *db;
-    char *zErrMsg = 0;
-    int rc{};
-    Utility utils;
-    Menu mainMenu;
-
-    rc = sqlite3_open("thors_rentals.db", &db);
-
-    if (rc)
-    {
-        std::cout << "DB Error: " << sqlite3_errmsg(db) << std::endl;
-        sqlite3_close(db);
-    }
-
-    // Construct prepared statement
-    sqlite3_stmt *stmt;
-    sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, nullptr);
-
-    // Bind user specified customer information
-    // to SQL statement by iterating over infoCollection
-    // string vector
-    for (int index = 0; index < infoCollection.size(); ++index)
-    {
-        sqlite3_bind_text(stmt, index + 1, infoCollection[index].c_str(), infoCollection[index].length(), SQLITE_STATIC);
-    }
-
-    if (sqlite3_step(stmt) != SQLITE_DONE)
-    {
-        std::cout << "Something went wrong: " << sqlite3_errmsg(db) << std::endl;
-        std::cout << "Please try again" << std::endl;
-        utils.pause(3);
-    }
-    else
-    {
-        std::cout << "\n\t" << successMsg << std::endl;
-        utils.pause(3);
-    }
-
-    sqlite3_finalize(stmt);
-    sqlite3_close(db);
-
-    system("cls");
-    mainMenu.mainMenu();
-}
-
+/*
+    Searches for and returns an int value from
+    a table in DB according to sqlStmnt argument
+*/
 int Table::searchNumericValuesFromDB(std::string sqlStmnt)
-
 {
     int stat{};
     sqlite3 *db;
@@ -336,7 +281,13 @@ int Table::searchNumericValuesFromDB(std::string sqlStmnt)
 
     return stat;
 }
-
+/*
+    Inserts all instances of int values to a
+    std::unordered_set<int> according to
+    a sqlStmnt argument. Returns the set.
+    Used, for example, in getting all available
+    equipment IDs from a table to a set.
+*/
 std::unordered_set<int> Table::getAvailableIDs(std::string sqlStmnt)
 {
     sqlite3 *db;
@@ -375,7 +326,10 @@ std::unordered_set<int> Table::getAvailableIDs(std::string sqlStmnt)
     }
     return validEquipmentIDs;
 }
-
+/*
+    Calculates and returns total rental cost
+    by utilising values from current order (Order &initOrder).
+*/
 double Table::calculateRentalCost(Order &initOrder)
 {
     std::string sqlStmnt{};
@@ -423,9 +377,11 @@ double Table::calculateRentalCost(Order &initOrder)
 
     return totalRentalCost;
 }
-
+/*
+    Searches and returns a text value from DB according to
+    std::string sqlStmnt argument.
+*/
 std::string Table::searchTextValuesFromDB(std::string sqlStmnt)
-
 {
     sqlite3 *db;
     char *zErrMsg = 0;

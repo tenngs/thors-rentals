@@ -1,7 +1,7 @@
 /*
-    This class contains utility functions in relation
+    Contains utility functions in relation
     to displaying menus, capturing user-entered
-    information and upon validation and confirmation
+    information and upon confirmation
     from a user, adding this information in various
     tables in the DB.
 */

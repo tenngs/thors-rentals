@@ -1,6 +1,6 @@
 /*
-    This class contains utility functions in relation
-    to executing a table operations using Sqlite exec
+    Contains utility functions in relation
+    to executing table operations using Sqlite exec
     and sqlite_bindXXX depending whether a query is
     from system-entered data or user-entered data,
     respectively.
@@ -34,10 +34,8 @@ public:
     bool determineExistenceTextValuesInDB(std::string val1, std::string val2, std::string sqlStmnt);
     int searchNumericValuesFromDB(std::string sqlStmnt);
     std::string searchTextValuesFromDB(std::string sqlStmnt);
-
     void appInsertTableOperation(std::string successMsg, std::vector<std::string> infoCollection, std::string sql);
     std::unordered_set<int> getAvailableIDs(std::string sqlStmnt);
     double calculateRentalCost(Order &initOrder);
     std::string calculateReturnDatetime(Order &initOrder);
-    void appToOrdersTableFromOrder(std::string successMsg, std::vector<std::string> infoCollection, std::string sql);
 };

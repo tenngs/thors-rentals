@@ -1,7 +1,5 @@
-
 #include <string>
 #include <iostream>
-
 #include "Login.h"
 #include "Sql.h"
 #include <windows.h>
@@ -87,10 +85,9 @@ bool Login::loginPrompt()
         }
     }
 }
-
 /*
-    Provides a utility whereas a user-entered
-    password is masked as asterisks
+    Provides a utility to mask user-entered
+    password characters as asterisks
 */
 std::string Login::getPassword(const char *prompt)
 {

@@ -1,6 +1,6 @@
 #pragma once
 /*
-    This class contains all Sqlite statements
+    Contains all Sqlite statements
     required to operate the system.
     Getters are utilised to retrieve values from
     private variables.
@@ -228,9 +228,9 @@ private:
     Getters for private variables
     */
 public:
-    const std::string getCreateStmnt(std::string tableName);
-    const std::string getDropStmnt(std::string tableName);
-    const std::string getInsertStmnt(std::string tableName);
+    const std::string getCreateStmnt(std::string const &tableName);
+    const std::string getDropStmnt(std::string const &tableName);
+    const std::string getInsertStmnt(std::string const &tableName);
     const std::string getAddCustomerStmnt();
     const std::string getAddStaffStmnt();
     const std::string getAddSkisSnowboardStmnt();

@@ -32,12 +32,10 @@ void Menu::showMainMenuBanner()
     std::cout << "\n\n";
     std::cout << "|---TR~Main Menu~$: ";
 }
-
 /*
     Displays and facilitates Main menu options
     for a user.
 */
-
 void Menu::mainMenu()
 {
     Display disp;
@@ -60,7 +58,6 @@ void Menu::mainMenu()
             std::cin.ignore(10000, '\n');
             system("cls");
         }
-
         else
         {
             switch (choice)
@@ -98,12 +95,11 @@ void Menu::mainMenu()
         }
     }
 }
-
 /*
     Displays and facilitates Add Customer menu options
     for a user. Utilises a std::vector<std::string>
     to collect pieces of user-entered information that
-    will be upon confirmation from a user utilised to
+    will be upon confirmation from a user used to
     add a customer to customers table.
 */
 void Menu::addCustomerMenu()
@@ -122,12 +118,8 @@ void Menu::addCustomerMenu()
     Sql sql;
     Table customers;
 
-    // toupper(str[0])
-
     while (true)
     {
-        // clear screen, display location banners
-        // and ask for customer information
         system("cls");
         disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals.txt");
         disp.displayASCIIArtFromFile("ASCIIArt/add_customer.txt");
@@ -137,6 +129,7 @@ void Menu::addCustomerMenu()
             std::cout << "\n|---Please enter customer's first name [one name only]" << std::endl;
             std::cout << "|---TR~Add Customer~$: ";
             std::cin >> infoPiece;
+
             if (utils.lettersOnly(infoPiece))
             {
                 infoPiece[0] = std::toupper(infoPiece[0]);
@@ -216,7 +209,7 @@ void Menu::addCustomerMenu()
         system("cls");
         disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals.txt");
         disp.displayASCIIArtFromFile("ASCIIArt/add_customer.txt");
-        // display user info they have entered
+        // display user-entered info
         std::cout << "\tYou entered: \n\n";
         std::cout << "\tFirst name: "
                   << "\t\t" << customerInfo[0] << std::endl;
@@ -254,7 +247,6 @@ void Menu::addCustomerMenu()
 
     customers.appInsertTableOperation(successMsg, customerInfo, sql.getAddCustomerStmnt());
 }
-
 /*
     Displays and facilitates Add Staff menu options
     for a user. Utilises a std::vector<std::string>
@@ -323,6 +315,7 @@ void Menu::addStaffMenu()
             // until the first whitespace character, noSpacesOnly() is
             // utilised as a secondary check because of mixed use of
             // std::cin and std::getline()
+
             // check for uniqueness of username by querying DB
             if (utils.noSpacesOnly(infoPiece) && (!system_access.determineExistenceTextValuesInDB(infoPiece, sql.getValidateUsernameStmnt())))
             {
@@ -355,14 +348,14 @@ void Menu::addStaffMenu()
             }
         }
 
-        // push back a string zero to indicate that the staff
+        // push back a std::string zero to indicate that the staff
         // member that is currently added is not logged on at present
         staffInfo.push_back(std::to_string(0));
 
         system("cls");
         disp.displayASCIIArtFromFile("ASCIIArt/thors_rentals_add_staff.txt");
 
-        // display user info they have entered
+        // display user-entered info
         std::cout << "\tYou entered: \n\n";
         std::cout << "\tStaff ID: "
                   << "\t" << staffInfo[0] << std::endl;
@@ -395,7 +388,6 @@ void Menu::addStaffMenu()
 
     staff.appInsertTableOperation(successMsg, staffInfo, sql.getAddStaffStmnt());
 }
-
 /*
     Displays and facilitates Add Rental Item menu options
     for a user. Utilises a std::vector<std::string>
@@ -406,7 +398,7 @@ void Menu::addStaffMenu()
     the inventory_skis_snowboards table and ATVs are
     added to inventory_atvs table.
     Provides an option to add an item to rental
-    inventory and specify whether the item is/ is NOT
+    inventory and to specify whether the item is / is NOT
     available for rent currently.
 */
 void Menu::addItemMenu()
@@ -423,7 +415,7 @@ void Menu::addItemMenu()
     std::set<int> validDigitsZeroAndOne({0, 1});
     int choice{};
     int equipmentTypeChoice{};
-    int equipmentStatusChoice{}; // START HERE!!
+    int equipmentStatusChoice{};
 
     double pricePerHourChoice{};
     double pricePerDayChoice{};
@@ -468,7 +460,6 @@ void Menu::addItemMenu()
                 std::getline(std::cin, infoPiece);
                 utils.capitaliseAllFirstLetters(infoPiece);
                 equipmentInfo.push_back(infoPiece);
-                // std::cin.ignore(std::numeric_limits<int>::max(), '\n');
 
                 while (1)
                 {
@@ -736,12 +727,12 @@ void Menu::addItemMenu()
 
     inventory.appInsertTableOperation(successMsg, equipmentInfo, sqlStmnt);
 }
-
 /*
-  Provides a facility to add a valid customer from
-  customers table to a rental order. Customers can
-  be added by providing their valid first / surname or
-  customer ID.
+    Provides a facility to add a customer that has
+    had their details saved in customers table
+    to a rental order. Customers can
+    be added by providing their valid first and surname or
+    customer ID.
 */
 void Menu::initRentalMenu(Order &initOrder)
 {
@@ -858,13 +849,12 @@ void Menu::initRentalMenu(Order &initOrder)
 
     initOrder.setID("customer", resultID);
 }
-
 /*
-  Provides a facility to select an available
-  rental item to a rental order. Equipment
-  can be selected by their type and ID.
-  Shows only available equipment by searching
-  inventory databases.
+    Provides a facility to add an available
+    rental item to a rental order. Equipment
+    can be selected by their type and ID.
+    Shows only available equipment by searching
+    inventory tables.
 */
 void Menu::chooseEquipmentMenu(Order &initOrder)
 {
@@ -878,7 +868,6 @@ void Menu::chooseEquipmentMenu(Order &initOrder)
     std::string sqlStmnt{};
     std::string returnDateTime{};
 
-    // const char *sql{};
     int resultID = {};
 
     Display disp;
@@ -924,11 +913,6 @@ void Menu::chooseEquipmentMenu(Order &initOrder)
             case 1:
 
                 sqlStmnt = sql.getAvailableEquipIDsV1() + skisSBs.getTableName() + sql.getAvailableEquipIDsV2() + std::to_string(1);
-                // const std::string availableEquipIDsV1 = "SELECT ID from ";
-                // const std::string availableEquipIDsV2 = " WHERE AVAILABLE = 1 AND EQUIPMENT_TYPE = ";
-                // sqlStmnt = sql.getAvailableEquipIDsV1() + tableName + sql.getAvailableEquipIDsV2() + strType;
-                // sqlStmnt = sql.getAvailableEquipIDsV1() + tableName + sql.getAvailableEquipIDsV2() + strType;
-
                 validEquipmentIDs = skisSBs.getAvailableIDs(sqlStmnt);
                 // if no available SBs are in inventory
                 if (validEquipmentIDs.size() == 0)
@@ -1062,11 +1046,10 @@ void Menu::chooseEquipmentMenu(Order &initOrder)
 
     initOrder.setEquipment("id", choice);
 }
-
 /*
-  Provides a facility for a user to enter a rental
-  duration to rental order. Duration can be specified
-  as hours (up to 11) or days (up to 28).
+    Provides a facility for a user to enter a rental
+    duration to rental order. Duration can be specified
+    as hours (up to 11) or days (up to 28).
 */
 void Menu::rentalDurationMenu(Order &initOrder)
 {
@@ -1127,7 +1110,7 @@ void Menu::rentalDurationMenu(Order &initOrder)
         {
             switch (choice)
             {
-            case 1: // HOURS
+            case 1: // hours
 
                 std::cout << "|---Please enter rental duration in hours" << std::endl;
                 std::cout << "|---Maximum 11 - no half hours allowed" << std::endl;
@@ -1151,7 +1134,7 @@ void Menu::rentalDurationMenu(Order &initOrder)
                 run = false;
                 break;
 
-            case 2: // DAYS
+            case 2: // days
                 std::cout << "|---Please enter rental duration in days" << std::endl;
                 std::cout << "|---Maximum 28 - no half days allowed" << std::endl;
                 std::cout << "|---" << std::endl;
@@ -1178,14 +1161,13 @@ void Menu::rentalDurationMenu(Order &initOrder)
         }
     } while (run = true);
 }
-
 /*
-  Provides a facility for a user to confirm that their
-  rental order selections are correct. If a user validates
-  that the rental information is correct, selected eqipment
-  are marked in their respective inventory databases as
-  unavailable. Thus, they will not show as 'available' if
-  a user is searching for equipment to rent.
+    Provides a facility for a user to confirm that their
+    rental order selections are correct. If a user validates
+    that the rental information is correct, selected eqipment
+    are marked in their respective inventory databases as
+    unavailable. Thus, they will not show as 'available' if
+    a user is searching for equipment to rent.
 */
 void Menu::confirmDetailsMenu(Order &initOrder)
 {
@@ -1198,9 +1180,6 @@ void Menu::confirmDetailsMenu(Order &initOrder)
 
     int equipmentType{initOrder.getEquipment("type")};
     int equipmentID{initOrder.getEquipment("id")};
-
-    // increment orderID
-    // initOrder.incrementOrderID();
 
     Table atvs{"inventory_atvs", "UPDATE"};
     Table skisSBs{"inventory_skis_snowboards", "UPDATE"};
@@ -1250,11 +1229,9 @@ void Menu::confirmDetailsMenu(Order &initOrder)
 
         if ((utils.lowerStr(choice) == "n"))
         {
-            // initOrder.decrementOrderID();
             run = false;
             system("cls");
             mainMenu.mainMenu();
-            // decrement orderID
         }
         else
         {
@@ -1280,14 +1257,13 @@ void Menu::confirmDetailsMenu(Order &initOrder)
 
     } while (run = true);
 }
-
 /*
-  Displays various inventory and business statisctics.
-  For example, shows the number of various types of
-  equipment in total in inventory and how many of them
-  are on loan at any one time. Also displays total
-  amount of money Thor's Rentals have made from all
-  rentals.
+    Displays various inventory and business statistics.
+    For example, shows the number of various types of
+    equipment in total in inventory and how many of them
+    are on loan at any one time. Also displays total
+    amount of money Thor's Rentals have made from all
+    rentals.
 */
 void Menu::statsMenu()
 {
@@ -1367,21 +1343,19 @@ void Menu::statsMenu()
     }
     mainMenu.mainMenu();
 }
-
 /*
-  Provides a facility to return rental items by their type and ID.
-  Provides a possibility to add a late / damaged equipment
-  fee to total rental cost. Returned rental items are
-  marked as available in their respective rental
-  tables and order is marked as closed (0).
+    Provides a facility to return rental items by their type and ID.
+    Provides a possibility to add a late / damaged equipment
+    fee to total rental cost. Returned rental items are
+    marked as available in their respective rental
+    tables and order is marked as closed (0).
 */
 void Menu::receiveItemMenu()
 {
     // below integers are cast as std::string
-    // because a system function already exist to do the
-    // required job with std::string
-    // otherwise, a new system function would
-    // have to be written
+    // to be utilised in a pre-written system
+    // function
+
     std::string type1{std::to_string(1)};
     std::string type2{std::to_string(2)};
     std::string type3{std::to_string(3)};
@@ -1427,7 +1401,6 @@ void Menu::receiveItemMenu()
     equipmentIDsOnLoanAtvs = table.getAvailableIDs(sql.getEquipmentIDsOnLoan(3));
 
     // if there are no skis IDs that are on loan ---> insert a marker into trueSizes
-    //
     if (equipmentIDsOnLoanSkis.size() == 0)
     {
         trueSizes.insert(1);
@@ -1478,8 +1451,10 @@ void Menu::receiveItemMenu()
 
     while (1)
     {
-        // check that only valid equipment types that are on
+        // check that only equipment types that are on
         // loan are entered
+        // For example, if no skis are on loan, a user cannot
+        // enter type 1.
         std::cout << "|---Please enter rental equipment type: " << std::endl;
         std::cout << "|---Press [1] for skis, [2] for snowboard and [3] for ATV"
                   << "\n\n";
@@ -1502,7 +1477,7 @@ void Menu::receiveItemMenu()
 
     switch (equipmentTypeChoice)
     {
-    case 1: // SKIS
+    case 1: // skis
         while (1)
         {
             system("cls");
@@ -1553,6 +1528,7 @@ void Menu::receiveItemMenu()
         }
         sqlInit = sql.getReturnDatetime() + std::to_string(equipmentTypeChoice) + " AND EQUIPMENT_ID = " + std::to_string(equipmentIDChoice) + ";";
         break;
+
     case 3: // ATVs
         while (1)
         {

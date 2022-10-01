@@ -12,7 +12,7 @@
     argument and prints characters one after the
     other under the message.
 */
-void Display::displayBreakText(std::string text, bool clearScreen = false)
+void Display::displayBreakText(std::string const &text, bool clearScreen = false)
 {
     if (clearScreen)
     {
@@ -28,7 +28,7 @@ void Display::displayBreakText(std::string text, bool clearScreen = false)
     utils.goToXY(50, 27);
     for (int i = 1; i <= numChars; i++)
     {
-        // adjust 100000000 value to display character
+        // adjust 10000 value to display character
         // faster / slower
         for (int j = 0; j <= 10000; j++)
             ;
@@ -41,7 +41,7 @@ void Display::displayBreakText(std::string text, bool clearScreen = false)
 /*
     Displays ASCII art from .txt file.
 */
-void Display::displayASCIIArtFromFile(std::string filename)
+void Display::displayASCIIArtFromFile(std::string const &filename)
 {
     Utility utils;
     std::ifstream Reader(filename);
@@ -68,7 +68,7 @@ void Display::displayATVTableColumns()
 }
 
 /*
-    Displays columns for Snowboard equipment.
+    Displays columns for snowboard equipment.
 */
 void Display::displaySnowboardTableColumns()
 {
@@ -99,15 +99,16 @@ void Display::displaySkiTableColumns()
 
 /*
     Displays available equipment for rent specified by tableName and
-    equipment type arguments, where:
+    type arguments, where:
     type 1 = skis
     type 2 = snowboards
     type 3 = ATVs
 
+    And, where:
     tableName = inventory_skis_snowboards // skis & snowboards
     tableName = inventory_atvs // ATVs
 */
-void Display::displayAvailableEquipment(std::string tableName, int type)
+void Display::displayAvailableEquipment(std::string const &tableName, int const &type)
 {
     sqlite3 *db;
     sqlite3_open("thors_rentals.db", &db);
