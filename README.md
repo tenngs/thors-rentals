@@ -34,7 +34,7 @@ I have a passion for C++ language. Whilst contemplating a project idea, I came a
 
 
 ### Initiating ATV rental - error checking for invalid user input<br>
-![](Images/thors-init-rental.gif)
+![](Images/thors-init-rental.gif)![](Images/thors-receive-item.gif)<br><br>
 
 ### Receiving an item back from loan - again, error checking for invalid user input<br>
 ![](Images/thors-receive-item.gif)<br><br>
