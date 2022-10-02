@@ -28,7 +28,7 @@ I have a passion for C++ language. Whilst contemplating a project idea, I came a
 
 ## Let's have a look-see, shall we?
 
-// login
+# Main Menu<br><br> ![](Images/thors-main-menu.jpg)
 
 
 // init rental
