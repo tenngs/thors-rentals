@@ -35,7 +35,7 @@ I have a passion for C++ language. Whilst contemplating a project idea, I came a
 ![](Images/thors-init-rental.gif)
 
 ### Receiving an item back from rental - error checking for invalid user input<br>
-1[](Images/thors-receive-item.gif)
+![](Images/thors-receive-item.gif)
 // receive rental
 
 // stats?
