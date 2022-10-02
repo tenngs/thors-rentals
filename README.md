@@ -21,7 +21,7 @@ Furthermore, the system keeps track about when rental items are due to be return
 TL;DR "old-school" UI interacts with sqlite3 database to write, retrieve and compute rental-related stuff.
 
 ## Tech stack?
-![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white) &nbsp;&nbsp;&nbsp;&nbsp; ![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white)
+![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white) &nbsp;&nbsp;&nbsp;&nbsp; ![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white) &nbsp;&nbsp;&nbsp;&nbsp; ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) &nbsp;&nbsp;&nbsp;&nbsp; ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
 
 ## OK, but why?
 I have a passion for C++ language. Whilst contemplating a project idea, I came across a myriad of car rental, hospital and student management systems made by others. I also wanted to make a management system of some sort, but simultaneously one that is not so common and fits my preferences.
@@ -39,7 +39,8 @@ I have a passion for C++ language. Whilst contemplating a project idea, I came a
 ### Receiving an item back from loan - again, error checking for invalid user input<br>
 ![](Images/thors-receive-item.gif)<br><br>
 
-## Usage
+## Compiling and usage
+The project was 
 
 
 
