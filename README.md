@@ -32,7 +32,7 @@ I have a passion for C++ language. Whilst contemplating a project idea, I came a
 
 
 // init rental
-
+![](Images/thors-init-rental.gif)
 // receive rental
 
 // stats?
