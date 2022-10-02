@@ -16,7 +16,7 @@ Thor's Rentals provides an arctic rental equipment management system which is ai
 TL;DR add customers, staff, equipment, calculate when equipment is due back and update inventory.
 
 ## How does it do that?
-Thor's Rentals 90s-inspired and ASCII Art-rich user interface interacts with thors_rentals sqlite3 database containing various tables where information can be added to and retrieved from. For example, adding a customer involves gathering customer details and saving them into a table in the database and logging in involves querying a database to validate login credentials.<br>
+Thor's Rentals' 90s-inspired and ASCII Art-rich user interface interacts with thors_rentals sqlite3 database containing various tables where information can be added to and retrieved from. For example, adding a customer involves gathering customer details and saving them into a table in the database and logging in involves querying a database to validate login credentials.<br>
 Furthermore, the system keeps track about when rental items are due to be returned and the state of current inventory by retrieving information from a database and computing the result when requested.<br><br>
 TL;DR "old-school" UI interacts with sqlite3 database to write, retrieve and compute rental-related stuff.
 
