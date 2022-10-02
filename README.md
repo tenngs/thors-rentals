@@ -31,7 +31,7 @@ I have a passion for C++ language. Whilst contemplating a project idea, I came a
 ### Main Menu<br><br> ![](Images/thors-main-menu.jpg)
 
 
-// init rental
+### Initiating ATV rental - error checking for invalid user input<br>
 ![](Images/thors-init-rental.gif)
 // receive rental
 
