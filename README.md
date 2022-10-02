@@ -40,7 +40,23 @@ I have a passion for C++ language. Whilst contemplating a project idea, I came a
 ![](Images/thors-receive-item.gif)<br><br>
 
 ## Compiling and usage
-The project was 
+// ADD THAT MINGW IS USED AS COMPILER AND WINDOWS ONLY HAS BEEN USED - NO IDEA ABOUT MAC OS
+Steps to take for Windows:<br><br>
+1) Download precompiled binaries for Windows (32 or 64 bit) from https://www.sqlite.org/download.html
+2) Place binaries into a directory. For example C:\sqlite3
+3) Add the directory where binaries were placed in step 2) to PATH (please search how to do this if not familiar)
+4) Download "sqlite amalgation" source code from  https://www.sqlite.org/download.html
+5) Place sqlite3.c and sqlite3.h from "sqlite amalgation" download into the project directory
+6) Compile using: gcc sqlite3.c -c to produce sqlite3.o file
+7) Compile the project using g++ main.cpp sqlite3.o -LC:\sqlite3 (where: C:\sqlite3 is the directory for sqlite that
+   was added to PATH)
+8) To use threads on Windows and mingw compiler, clone this repo:
+https://github.com/meganz/mingw-std-threads.git
+and #include "mingw.thread.h". Please see additional documentation
+in the repo.
+
+9) What I use now to compile is: g++ *.cpp sqlite3.o -LC:\sqlite3
+
 
 
 
