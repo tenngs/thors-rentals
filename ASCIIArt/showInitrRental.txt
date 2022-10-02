@@ -1,0 +1,143 @@
+void Mainmenu::showInitRentalMenu()
+{
+    // variables
+    const std::unordered_set<int> validDigits({9});
+    int choice{};
+
+    system("cls");
+    // search and select customer - return customer id
+    // OR return error message if not found
+    // do this in a loop until ID returned
+    // OR press 9 for main menu
+
+    while (true)
+    {
+        // show menu
+        Utility::displayASCIIFromFile("thors_rentals_init_rental.txt");
+        Mainmenu::searchCustomerMenu();
+        if ((!(std::cin >> choice)) || (!(Utility::validateDigits(choice, validDigits))))
+        {
+            std::cout << "|---Thor is not happy - Please enter number 9 only" << std::endl;
+            Utility::pause(3);
+            std::cin.clear();
+            std::cin.ignore(10000, '\n');
+            system("cls");
+        }
+
+        else
+        {
+            Mainmenu::showMainMenu();
+            break;
+        }
+    }
+
+    // search and select rental item (skis, snowboards, ATVs)
+    // get rental duration  (days, hours)
+    // show total rental cost
+    // confirm that payment has been taken
+
+    // call table operation function
+}
+// =========================================================================
+
+int Mainmenu::searchCustomerMenu()
+{
+    std::string firstName{};
+    std::string surname{};
+    int userSuppliedID{};
+    int selection{};
+    int option{};
+    bool run = true;
+    int choice{};
+    const std::unordered_set<int> validDigits({1, 2});
+    std::string sqlInit{};
+
+    const char *sql{};
+    int resultID = {};
+
+    std::cout << "|---Select customer " << std::endl;
+    std::cout << "|---Search by: " << std::endl;
+    std::cout << "|---" << std::endl;
+    std::cout << "|---[1]: First name, Surname" << std::endl;
+    std::cout << "|---[2]: ID\n"
+              << std::endl;
+
+    std::cout << "|---TR~Init Rental: ";
+
+    while ((!(std::cin >> choice)) || (!(Utility::validateDigits(choice, validDigits))))
+    {
+        std::cout << "1 or 2 please: ";
+        std::cin.clear();
+        std::cin.ignore(10000, '\n');
+        std::cin >> choice;
+    }
+
+    switch (choice)
+    {
+    case 1:
+        while (true)
+        {
+            std::cout << "|---Please enter first name: " << std::endl;
+            std::cout << "|---TR~Search 4 Customer~$: ";
+            std::cin >> firstName;
+
+            std::cout << "|---Please enter surname: " << std::endl;
+            std::cout << "|---TR~Search 4 Customer~$: ";
+            std::cin >> surname;
+
+            sqlInit = "SELECT ID FROM customers WHERE FIRST_NAME = \'" + firstName + "\' AND SURNAME = \'" + surname + "\';";
+            sql = sqlInit.c_str();
+
+            resultID = Utility::getNumericValuesFromDB(sql);
+            if (resultID != 0)
+            {
+                std::cout << "|---Customer found - happy days" << std::endl;
+                Utility::pause(3);
+                break;
+            }
+
+            std::cout << "|---No customer records with " << firstName << " " << surname << " were found" << std::endl;
+            std::cout << "|---Please re-enter customer details" << std::endl;
+            Utility::pause(3);
+
+            system("pause");
+        }
+
+        std::cout << "|---THIS IS AFTER CASE 1 BREAK!!!" << std::endl;
+        system("pause");
+
+        break;
+
+    case 2:
+        while (true)
+        {
+            std::cout << "|---Please enter ID: ";
+            std::cin >> userSuppliedID;
+
+            sqlInit = "SELECT ID FROM customers WHERE ID = \'" + std::to_string(userSuppliedID) + "\';";
+            sql = sqlInit.c_str();
+
+            resultID = Utility::getNumericValuesFromDB(sql);
+            if (resultID != 0)
+            {
+                std::cout << "|---Customer found - happy days" << std::endl;
+                Utility::pause(3);
+                break;
+            }
+
+            std::cout << "|---No customer records with ID " << userSuppliedID
+                      << " were found" << std::endl;
+            std::cout << "|---Please re-enter customer details" << std::endl;
+            Utility::pause(3);
+
+            system("pause");
+        }
+        std::cout << "|---THIS IS AFTER CASE 2 BREAK!!!" << std::endl;
+        system("pause");
+
+    default:
+        std::cout << "You are an idiot - wrong choice" << std::endl;
+        Utility::pause(3);
+        break;
+    }
+}
