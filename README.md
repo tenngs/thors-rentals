@@ -28,7 +28,9 @@ I have a passion for C++ language. Whilst contemplating a project idea, I came a
 
 ## Let's have a look-see, shall we?
 
-### Main Menu<br><br> ![](Images/thors-main-menu.jpg)
+### Main Menu<br><br> ![](Images/thors-main-menu.jpg)<br>
+
+### Statistics Menu<br><br> ![](Images/thors-main-menu.jpg)<br>
 
 
 ### Initiating ATV rental - error checking for invalid user input<br>
