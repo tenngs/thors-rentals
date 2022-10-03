@@ -57,7 +57,8 @@ Please find below steps to install MinGW (used to build gcc compiler), sqlite3 d
 6) Compile using: gcc sqlite3.c -c to produce sqlite3.o file
 
 ## Compiling
-Please compile the project using g++ *.cpp sqlite3.o -LC:\sqlite3 (where: C:\sqlite3 is the directory for sqlite that
+Please compile the project using g++ *.cpp sqlite3.o -LC:\sqlite3<br>
+(where: C:\sqlite3 is the directory for sqlite that
 was added to PATH)
 
  
