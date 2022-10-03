@@ -71,7 +71,8 @@ Apart from the provided C++ and ASCII Art files, this project requires the follo
 Please compile the project using g++ *.cpp sqlite3.o -LC:\sqlite3<br>
 (where: C:\sqlite3 is the directory for sqlite that
 was added to PATH)
-
+## Future Work
+Adding more functionality such as adding different types of equipment to the inventory, removing or banning customers, adding staff (staff without system access) from the UI, sending an invoice via email to a customer could be considered.
  
 
 
