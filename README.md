@@ -15,7 +15,7 @@ Luckily for Thor, he had just the right person in mind to help him. Thor could n
 Thor's Rentals provides an arctic rental equipment management system which is aimed to be utilised by a rental shop staff member. Currently, Thor's stocks skis, snowboards and ATVs. It allows for adding customers, granting system access for existing staff members, adding rental items, managing outgoing and incoming rental equipment and providing inventory and business-related statistics. The system further provides moderate to high user input validation and a login facility.<br><br>
 TL;DR add customers, staff, equipment, calculate when equipment is due back and update inventory.
 
-## How does it do that?
+## How does it do it?
 Thor's Rentals' 90s-inspired and ASCII Art-rich user interface interacts with thors_rentals sqlite3 database containing various tables where information can be added to and retrieved from. For example, adding a customer involves gathering customer details and saving them into a table in the database and logging in involves querying a database to validate login credentials.<br>
 Furthermore, the system keeps track about when rental items are due to be returned and the state of current inventory by retrieving information from a database and computing the result when requested.<br><br>
 TL;DR "old-school" UI interacts with sqlite3 database to write, retrieve and compute rental-related stuff.
@@ -28,22 +28,22 @@ I have a passion for C++ language. Whilst contemplating a project idea, I came a
 
 ## Let's have a look-see, shall we?
 
-### Main Menu<br><br> ![](Images/thors-main-menu.jpg)<br>
+#Main Menu<br><br> ![](Images/thors-main-menu.jpg)<br>
 
-### Statistics Menu<br><br> ![](Images/thors-stats.jpg)<br>
+# Statistics Menu<br><br> ![](Images/thors-stats.jpg)<br>
 
 
-### Initiating ATV rental - error checking for invalid user input<br>
+# Initiating ATV rental - error checking for invalid user input<br>
 ![](Images/thors-init-rental.gif)
 
-### Receiving an item back from loan - again, error checking for invalid user input<br>
+# Receiving an item back from loan - again, error checking for invalid user input<br>
 ![](Images/thors-receive-item.gif)<br><br>
 
 ## Dependency installation
-This project was built utilising Windows 10 64-bit architecture and compiled using gcc. The version that was utilised is: gcc version 8.1.0 (x86_64-win32-sjlj-rev0, Built by MinGW-W64 project)
+This project was built utilising Windows 10 64-bit architecture and compiled using MinGW and gcc. The version that was utilised is: gcc version 8.1.0 (x86_64-win32-sjlj-rev0, Built by MinGW-W64 project)
 Please find below steps to install MinGW (used to build gcc compiler), sqlite3 database and mingw threads on Windows. Sadly, I can not provide instructions on how to do this on Mac OS or Linux. <br>   
 
-# Installation steps for Windows:<br><br>
+## Installation steps for Windows:<br><br>
 # MinGW
 1) As it is slightly lengthy process, please check out this video: https://www.youtube.com/watch?v=Zcy981HhGw0&t=80s<br><br>
 # Sqlite3 
