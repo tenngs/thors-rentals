@@ -26,7 +26,7 @@
    - [Initiating ATV rental](#initiating-ATV-rental)
    - [Receiving an item back from loan](#receiving-an-item-back-from-loan)
 -[Dependencies](#dependencies)
-- [How to install dependencies for Windows](#how-to-install-dependencies-for-windows)
+-[How to install dependencies for Windows](#how-to-install-dependencies-for-windows)
    - [MinGW & gcc compiler](#mingw--gcc-compiler)
    - [MinGW threads](#mingw-threads)
    - [Sqlite3](#sqlite3)
