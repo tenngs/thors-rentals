@@ -21,7 +21,7 @@
 - [What does it do?](#what-does-it-do)
 - [OK, but why?](#ok-but-why)
 - [Let's have a look-see, shall we?](#lets-have-a-look-see-shall-we)
-   - [Main Menu](main-menu)
+   - [Main Menu](main-menu-)
    - [Statistics Menu](#statistics-menu)
    - [Initiating ATV rental](#initiating-ATV-rental)
    - [Receiving an item back from loan](#receiving-an-item-back-from-loan)                       - [Dependencies](#dependencies)
