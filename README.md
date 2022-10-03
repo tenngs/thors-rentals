@@ -1,5 +1,5 @@
 ![](Images/Thor's_Arctic_Equipment_Rentals.png)
-An equipment rental management system
+Arctic Equipment Rental Management System
 
 ## Background
 (** fictional backstory start ** - please DO NOT read if you just want info about the repo**)<br>
