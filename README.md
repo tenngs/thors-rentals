@@ -76,9 +76,9 @@ I have a passion for C++ language. Whilst contemplating a project idea, I came a
 
 ## Let's have a look-see, shall we?
 
-### Main Menu<br><br> ![](Images/thors-main-menu.jpg)<br>
+### Main menu<br><br> ![](Images/thors-main-menu.jpg)<br>
 
-### Statistics Menu<br><br> ![](Images/thors-stats.jpg)<br>
+### Statistics menu<br><br> ![](Images/thors-stats.jpg)<br>
 
 
 ### Initiating ATV rental<br>
