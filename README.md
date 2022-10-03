@@ -46,7 +46,7 @@ Please find below steps to install MinGW (used to build gcc compiler), sqlite3 d
 ## Installation steps for Windows<br>
 ### MinGW & gcc
 1) As it is a slightly lengthy process, please check out this video: https://www.youtube.com/watch?v=Zcy981HhGw0&t=80s<br>
-## MinGW threads
+### MinGW threads
 1) I have included the required mingw.thread.h file in the repo. However, if you would like to get it yourself, please clone this repo: https://github.com/meganz/mingw-std-threads.git
 ### Sqlite3 
 1) Download precompiled binaries for Windows (32 or 64 bit) from https://www.sqlite.org/download.html
