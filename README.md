@@ -20,7 +20,7 @@
 - [Backgound](#Background)
 - [What does it do?](#what-does-it-do)
 
-- [Heading](#heading-2)
+- [Heading](#how-does-it-do-it)
  
 
 
