@@ -19,7 +19,7 @@
  
  <div align="center">
  
-<2> Table of Contents
+<h2> Table of Contents
 </div>
 
 - [Background](#Background)
