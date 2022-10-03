@@ -72,7 +72,7 @@ Furthermore, the system keeps track about when rental items are due to be return
 TL;DR "old-school" UI interacts with sqlite3 database to write, retrieve and compute rental-related stuff.
 
 ## OK, but why?
-I have a passion for C++ language. Whilst contemplating a project idea, I came across a myriad of car rental, hospital and student management systems made by others. I also wanted to make a management system of some sort, but simultaneously one that is not so common and fits my preferences.
+I have a passion for C++ language. Whilst contemplating a project idea, I came across a myriad of car rental, hospital and student management systems made by others. I also wanted to make a management system of some sort, but simultaneously one that is not so common and fits my preferences.<br><br>
 TL;DR C++ rocks and I wanted use it to make something
 
 ## Let's have a look-see, shall we?
