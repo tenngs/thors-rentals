@@ -26,9 +26,6 @@ Thor's Rentals' 90s-inspired and ASCII Art-rich user interface interacts with th
 Furthermore, the system keeps track about when rental items are due to be returned and the state of current inventory by retrieving information from a database and computing the result when requested.<br><br>
 TL;DR "old-school" UI interacts with sqlite3 database to write, retrieve and compute rental-related stuff.
 
-## Tech stack?
-![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white) &nbsp;&nbsp;&nbsp;&nbsp; ![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white) &nbsp;&nbsp;&nbsp;&nbsp; ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) &nbsp;&nbsp;&nbsp;&nbsp; ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white) &nbsp;&nbsp;&nbsp;&nbsp;    ![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)  &nbsp;&nbsp;&nbsp;&nbsp;    ![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
-
 ## OK, but why?
 I have a passion for C++ language. Whilst contemplating a project idea, I came across a myriad of car rental, hospital and student management systems made by others. I also wanted to make a management system of some sort, but simultaneously one that is not so common and fits my preferences.
 
