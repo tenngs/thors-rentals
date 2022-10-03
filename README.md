@@ -44,9 +44,9 @@ This project was built utilising Windows 10 64-bit architecture and compiled usi
 Please find below steps to install MinGW (used to build gcc compiler), sqlite3 database and mingw threads on Windows. Sadly, I can not provide instructions on how to do this on Mac OS or Linux. <br>   
 
 ## Installation steps for Windows:<br><br>
-# MinGW
+### MinGW
 1) As it is slightly lengthy process, please check out this video: https://www.youtube.com/watch?v=Zcy981HhGw0&t=80s<br><br>
-# Sqlite3 
+### Sqlite3 
 1) Download precompiled binaries for Windows (32 or 64 bit) from https://www.sqlite.org/download.html
 2) Place binaries into a directory. For example C:\sqlite3
 3) Add the directory where binaries were placed in step 2) to PATH (please search how to do this if not familiar)
