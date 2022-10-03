@@ -53,10 +53,10 @@ I have a passion for C++ language. Whilst contemplating a project idea, I came a
 ### Statistics Menu<br><br> ![](Images/thors-stats.jpg)<br>
 
 
-### Initiating ATV rental - error checking for invalid user input<br>
+### Initiating ATV rental<br>
 ![](Images/thors-init-rental.gif)
 
-### Receiving an item back from loan - again, error checking for invalid user input<br>
+### Receiving an item back from loan<br>
 ![](Images/thors-receive-item.gif)<br><br>
 
 ## Dependencies
