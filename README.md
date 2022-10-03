@@ -22,12 +22,20 @@
 - [OK, but why?](#ok-but-why)
 - [Let's have a look-see, shall we?](#lets-have-a-look-see-shall-we)
    - [Main Menu](#main-menu-)
-   - [Statistics Menu](#statistics-menu)
+   - [Statistics Menu](#statistics-menu-)
    - [Initiating ATV rental](#initiating-ATV-rental)
    - [Receiving an item back from loan](#receiving-an-item-back-from-loan)                       - [Dependencies](#dependencies)
-- [How to install dependencies for Windows](#how-to-install-dependencies-for-Windows)
-- [Dependencies](#dependencies)
-- [Dependencies](#dependencies)
+- [How to install dependencies for Windows](#how-to-install-dependencies-for-windows)
+   - [MinGW & gcc compiler](#mingw--gcc-compiler)
+   - [MinGW threads](#mingw-threads)
+   - [Sqlite3](#sqlite3)
+   - [Notes](#notes)
+- [Compiling](#compiling)
+- [Future Work](#future-work)
+
+ 
+ 
+ 
 
 
 
