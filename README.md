@@ -1,5 +1,5 @@
 ![](Images/Thor's_Arctic_Equipment_Rentals.png)
-Arctic Equipment Rental Management System
+ <div align="center">Arctic Equipment Rental Management System</div>
 
 ## Background
 (** fictional backstory start ** - For entertainment ONLY - please DO NOT read if you just want info about the repo**)<br>
