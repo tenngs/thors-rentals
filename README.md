@@ -54,7 +54,7 @@ Apart from the provided C++ and ASCII Art files, this project requires the follo
 4) Sqlite3
 
 ## How to install dependices for Windows<br>
-### MinGW & gcc
+### MinGW & gcc compiler
 1) As it is a slightly lengthy process, please check out this video: https://www.youtube.com/watch?v=Zcy981HhGw0&t=80s<br>
 ### MinGW threads
 1) I have included the required mingw.thread.h file in the repo. However, if you would like to get it yourself, please clone this repo: https://github.com/meganz/mingw-std-threads.git
