@@ -18,7 +18,7 @@
 </div>
 
 - [Backgound](#Background)
-- [What does it do?](#What does it do?-1)
+- [What does it do?](#What does it do?)
 - [Heading](#heading-2)
  
 
