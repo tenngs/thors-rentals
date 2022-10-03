@@ -39,24 +39,26 @@ I have a passion for C++ language. Whilst contemplating a project idea, I came a
 ### Receiving an item back from loan - again, error checking for invalid user input<br>
 ![](Images/thors-receive-item.gif)<br><br>
 
-## Compiling and usage
-// ADD THAT MINGW IS USED AS COMPILER AND WINDOWS ONLY HAS BEEN USED - NO IDEA ABOUT MAC OS
-Steps to take for Windows:<br><br>
+## Dependency installation
+This project was built utilising Windows 10 64-bit architecture and compiled using gcc. The version that was utilised is: gcc version 8.1.0 (x86_64-win32-sjlj-rev0, Built by MinGW-W64 project)
+Please find below steps to install MinGW (used to build gcc compiler), sqlite3 database and mingw threads on Windows. Sadly, I can not provide instructions on how to do this on Mac OS or Linux. <br>   
+
+# Installation steps for Windows:<br><br>
+# MinGW
+1) As it is slightly lengthy process, please check out this video: https://www.youtube.com/watch?v=Zcy981HhGw0&t=80s<br><br>
+# Sqlite3 
 1) Download precompiled binaries for Windows (32 or 64 bit) from https://www.sqlite.org/download.html
 2) Place binaries into a directory. For example C:\sqlite3
 3) Add the directory where binaries were placed in step 2) to PATH (please search how to do this if not familiar)
-4) Download "sqlite amalgation" source code from  https://www.sqlite.org/download.html
-5) Place sqlite3.c and sqlite3.h from "sqlite amalgation" download into the project directory
+4) Download "sqlite amalgation" C source code from  https://www.sqlite.org/download.html
+5) Place sqlite3.c and sqlite3.h from "sqlite amalgation" download into a C++ project directory
 6) Compile using: gcc sqlite3.c -c to produce sqlite3.o file
-7) Compile the project using g++ main.cpp sqlite3.o -LC:\sqlite3 (where: C:\sqlite3 is the directory for sqlite that
-   was added to PATH)
-8) To use threads on Windows and mingw compiler, clone this repo:
-https://github.com/meganz/mingw-std-threads.git
-and #include "mingw.thread.h". Please see additional documentation
-in the repo.
 
-9) What I use now to compile is: g++ *.cpp sqlite3.o -LC:\sqlite3
+## Compiling
+Please compile the project using g++ *.cpp sqlite3.o -LC:\sqlite3 (where: C:\sqlite3 is the directory for sqlite that
+was added to PATH)
 
+ 
 
 
 
