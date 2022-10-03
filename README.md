@@ -24,12 +24,7 @@
    - [Main Menu](main-menu)
    - [Statistics Menu](#statistic-enu)
    - [Initiating ATV rental](#initiating-ATV-rental)
-   - [Receiving an item back from loan](#Receiving-an-item-back-from loan)                                                 - [How to install dependencies for Windows](#How-to-install-dependencies-for-Windows)
-   - [MinGW & gcc compiler](#MinGW-&-gcc-compiler)
-   - [Dependencies](#Dependencies)
-   - [Dependencies](#Dependencies)
-   - [Dependencies](#Dependencies)
- 
+   - [Receiving an item back from loan](#receiving-an-item-back-from loan)                                                 - [How to install dependencies for Windows] 
 
 
   
