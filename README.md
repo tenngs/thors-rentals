@@ -2,7 +2,7 @@
 Arctic Equipment Rental Management System
 
 ## Background
-(** fictional backstory start ** - please DO NOT read if you just want info about the repo**)<br>
+(** fictional backstory start ** - For entertainment ONLY - please DO NOT read if you just want info about the repo**)<br>
 <br>
 Thor held a high-flying job at a Magic Circle law firm in London for the best part of the past two decades. It made him incredibly wealthy on the outside, however, somewhat hollow on the inside due to the job-related pressure he experienced daily. Hence, he decided to quit his job, liquidate all his stock market positions and sell his home to move to somewhere where air is fresh and life-induced stress is minimal. After a brief search, Thor settled in Zermatt, Switzerland.<br>
 Having enjoyed for a while everything that beautiful Switzerland has to offer, Thor decided once again to enter the working world by the virtue of opening a business. Naturally, the nature of Thor's business should have something to do with the quirks of his new-found surroundings. Thus, he decided to open an arctic equipment rental business and name it imaginatively "Thor's Arctic Equipment Rentals".<br>After purchasing a plethora of new equipment, he thought to himself: "How on Earth am I going to keep track of all this gear with customers renting and returning things all the time?" <br>
