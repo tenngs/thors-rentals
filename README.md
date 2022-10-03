@@ -62,7 +62,7 @@ Apart from the provided C++ and ASCII Art files, this project requires the follo
 1) Download precompiled binaries for Windows (32 or 64 bit) from https://www.sqlite.org/download.html
 2) Place binaries into a directory. For example: C:\sqlite3
 3) Add the directory where binaries were placed in step 2) to PATH (please check out https://www.youtube.com/watch?v=gb9e3m98avk if not familiar)
-4) Download "sqlite amalgation" C source code from  https://www.sqlite.org/download.html
+4) Download "sqlite amalgation" C source code from  https://www.sqlite.org/download.html (at the time of writing, first link from top to bottom)
 5) Place sqlite3.c and sqlite3.h from "sqlite amalgation" download into a C++ project directory
 6) Compile using: gcc sqlite3.c -c to produce sqlite3.o file
 ### Notes
