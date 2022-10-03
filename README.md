@@ -23,7 +23,7 @@
 - [Let's have a look-see, shall we?](#lets-have-a-look-see-shall-we)
    - [Main Menu](#main-menu-)
    - [Statistics Menu](#statistics-menu-)
-   - [Initiating ATV rental](#initiating-ATV-rental)
+   - [Initiating ATV rental](#initiating-atv-rental)
    - [Receiving an item back from loan](#receiving-an-item-back-from-loan)
 -[Dependencies](#dependencies)
 -[How to install dependencies for Windows](#how-to-install-dependencies-for-windows)
