@@ -21,10 +21,18 @@
 - [What does it do?](#what-does-it-do)
 - [OK, but why?](#ok-but-why)
 - [Let's have a look-see, shall we?](#lets-have-a-look-see-shall-we)
-   -  [Main Menu](main-menu)
+   - [Main Menu](main-menu)
    - [Statistics Menu](#statistic-enu)
-- [Heading](#how-does-it-do-it)
-- [Heading](#how-does-it-do-it)
+   - [Initiating ATV rental](#initiating-ATV-rental)
+   - [Receiving an item back from loan](#Receiving-an-item-back-from loan)                                                 - [How to install dependencies for Windows](#How-to-install-dependencies-for-Windows)
+   - [MinGW & gcc compiler](#MinGW-&-gcc-compiler)
+   - [Dependencies](#Dependencies)
+   - [Dependencies](#Dependencies)
+   - [Dependencies](#Dependencies)
+ 
+
+
+  
  
  
 
