@@ -73,6 +73,7 @@ Apart from the provided C++ and ASCII Art files, this project requires the follo
 6) Compile using: gcc sqlite3.c -c to produce sqlite3.o file
 ### Notes
 1) I have provided the required sqlite3.o and sqlite3.h files in the repo. However, it is not guaranteed that they will work on your computer just because they work on mine. If in doubt, please follow the installation steps above to create your own.
+2) Sadly, I am unable to provide build and dependency details for Mac OS / Linux
 ## Compiling
 Please compile the project using g++ *.cpp sqlite3.o -LC:\sqlite3<br>
 (where: C:\sqlite3 is the directory for sqlite that
