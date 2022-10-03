@@ -1,5 +1,9 @@
 ![](Images/Thor's_Arctic_Equipment_Rentals.png)
- <div align="center">### Arctic Equipment Rental Management System</div><br>
+ <div align="center">
+
+ <h3> Arctic Equipment Rental Management System<br>
+ 
+ </div>
  
  <div align="center">
  
