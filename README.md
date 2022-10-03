@@ -46,8 +46,18 @@ I have a passion for C++ language. Whilst contemplating a project idea, I came a
 ### Receiving an item back from loan - again, error checking for invalid user input<br>
 ![](Images/thors-receive-item.gif)<br><br>
 
-## Dependency installation
-This project was built utilising Windows 10 64-bit architecture and compiled using MinGW and gcc. The version that was utilised is: gcc version 8.1.0 (x86_64-win32-sjlj-rev0, Built by MinGW-W64 project).<br>
+## Dependencies
+Apart from the provided C++ and ASCII Art files, this project requires the following:
+1) MinGW
+2) gcc compiler (built with MinGW)
+3) MinGW threads
+4) Sqlite3
+ 
+
+ 
+ 
+ 
+ This project was built utilising Windows 10 64-bit architecture and compiled using MinGW and gcc. The version that was utilised is: gcc version 8.1.0 (x86_64-win32-sjlj-rev0, Built by MinGW-W64 project).<br>
 Please find below steps to install MinGW (used to build gcc compiler), sqlite3 database and mingw threads on Windows. Sadly, I can not provide instructions on how to do this on Mac OS or Linux. <br>   
 
 ## Installation steps for Windows<br>
