@@ -40,18 +40,6 @@
 - [Compiling](#compiling)
 - [Possible additions](#future-work)
 
- 
- 
- 
-
-
-
-
-
-  
- 
- 
-
 
 ## Background
 (** fictional backstory start ** - For entertainment ONLY - please DO NOT read if you just want info about the repo**)<br>
@@ -86,7 +74,7 @@ TL;DR C++ rocks and I wanted use it to make something.
 ### Initiating ATV rental<br>
 ![](Images/thors-init-rental.gif)
 
-### Receiving an item back from loan<br>
+### Receiving ATV back from loan<br>
 ![](Images/thors-receive-item.gif)<br><br>
 
 ## Dependencies
