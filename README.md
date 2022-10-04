@@ -66,16 +66,42 @@ TL;DR C++ rocks and I wanted use it to make something.
 
 ## Let's have a look-see, shall we?
 
-### Main menu<br><br> ![](Images/thors-main-menu.jpg)<br>
+<div align="center">
 
-### Statistics menu<br><br> ![](Images/thors-stats.jpg)<br>
+### Main menu<br>
+
+
+
+![](Images/thors-main-menu.jpg)<br>
+
+
+
+
+
+### Statistics menu<br>
+
+
+![](Images/thors-stats.jpg)<br>
+
+
 
 
 ### Initiating ATV rental<br>
+
+
+
 ![](Images/thors-init-rental.gif)
 
+
+
 ### Receiving ATV back from loan<br>
+
+
+
+
 ![](Images/thors-receive-item.gif)<br><br>
+
+</div>
 
 ## Dependencies
 Apart from the provided C++ and ASCII Art files, this project requires the following:
