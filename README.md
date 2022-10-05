@@ -52,7 +52,7 @@ Luckily for Thor, he had just the right person in mind to help him. Thor could n
 (**fictional backstory end **)
 
 ## What does it do?
-Thor's Rentals provides an arctic rental equipment management system which is aimed to be utilised by a rental shop staff member. Currently, Thor's stocks skis, snowboards and ATVs. It allows for adding customers, granting system access for existing staff members, adding rental items, managing outgoing and incoming rental equipment and providing inventory and business-related statistics. The system further provides moderate to high user input validation and a login facility.<br><br>
+Thor's Rentals provides an arctic rental equipment management system which is aimed to be utilised by a rental shop staff member. Currently, Thor's stocks skis, snowboards and All Terrain Vehicles (ATVs). It allows for adding customers, granting system access for existing staff members, adding rental items, managing outgoing and incoming rental equipment and providing inventory and business-related statistics. The system further provides moderate to high user input validation and a login facility.<br><br>
 TL;DR add customers, system access staff, equipment, provide statisctics, calculate when equipment is due back and update inventory.
 
 ## How does it do it?
