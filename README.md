@@ -27,10 +27,10 @@
 - [How does it do it?](#How-does-it-do-it)
 - [OK, but why?](#ok-but-why)
 - [Let's have a look-see, shall we?](#lets-have-a-look-see-shall-we)
-   - [Main menu](#main-menu-)
-   - [Statistics menu](#statistics-menu-)
+   - [Main menu](#main-menu)
+   - [Statistics menu](#statistics-menu)
    - [Initiating ATV rental](#initiating-atv-rental)
-   - [Receiving an item back from loan](#receiving-an-item-back-from-loan)
+   - [Receiving ATV back from loan](#receiving-atv-back-from-loan)
 - [Dependencies](#dependencies)
 - [How to install dependencies for Windows](#how-to-install-dependencies-for-windows)
    - [MinGW & gcc compiler](#mingw--gcc-compiler)
@@ -38,7 +38,7 @@
    - [Sqlite3](#sqlite3)
    - [Notes](#notes)
 - [Compiling](#compiling)
-- [Possible additions](#future-work)
+- [Possible additions](#possible-additions)
 
 
 ## Background
