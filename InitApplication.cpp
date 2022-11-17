@@ -10,7 +10,6 @@
     and calls another function to drop, initialise
     and populate system's tables and to display
     a "loading" text and login ASCII art banner.
-
 */
 InitApplication::InitApplication(std::string name_val)
     : name{name_val} { initApp(); };
